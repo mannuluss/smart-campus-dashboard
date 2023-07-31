@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "dashboard-iot": {
+    "smart-campus-dashboard": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/dashboard-iot",
+            "outputPath": "dist/smart-campus-dashboard",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -48,7 +48,13 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -59,16 +65,16 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dashboard-iot:build:production"
+              "browserTarget": "smart-campus-dashboard:build:production"
             },
             "development": {
-              "browserTarget": "dashboard-iot:build:development"
+              "browserTarget": "smart-campus-dashboard:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dashboard-iot:build"
+            "browserTarget": "smart-campus-dashboard:build"
           }
         },
         "test": {
