@@ -1,0 +1,80 @@
+.drawer-container {
+  height: 100vh;
+  .drawer {
+    visibility: visible !important;
+    transform: translate3d(0%, 0, 0) !important;
+  }
+  .drawer:not(.mat-drawer-opened) {
+    width: 60px;
+    display: block !important;
+    .menus-section {
+      .menu-list {
+        width: 50px;
+        .item-label {
+          display: none;
+        }
+      }
+    }
+  }
+  .smart-campus-body-section{
+    padding: 16px;
+  }
+  ::ng-deep .mat-drawer-inner-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0px 0px 0px;
+    box-sizing: border-box;
+  }
+  .menus-section {
+    padding: 0px 4px;
+    .menu-list {
+      width: 192px;
+      flex-direction: column;
+      .item-menu {
+        width: 100%;
+      }
+    }
+  }
+}
+:host ::ng-deep .mat-drawer-content {
+  margin-left: 60px;
+}
+
+.title {
+  font-size: 30px;
+}
+
+.mat-drawer.drawer,
+.mat-toolbar.mat-toolbar-single-row {
+  background-color: var(--main-color);
+}
+
+.mat-toolbar.mat-toolbar-single-row {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0;
+}
+
+// AVATAR SECTION
+.avatar-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .img {
+    clip-path: circle(50%);
+    width: 80px;
+    height: 80px;
+  }
+  .img-close {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+//Toolbar
+.slide-theme{
+  ::ng-deep .mat-slide-toggle-thumb::after{
+    content: 'dark_mode';
+    font-family: "Material Icons";
+  }
+}
