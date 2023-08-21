@@ -3,5 +3,9 @@ export const environment = {
   adminService: 'http://localhost:8080',
   dataService: 'http://localhost:8091',
   brokerUrl: 'localhost',
-  brokerPort: 1883,
+  brokerPort: 61616,
+  //front de autenticacion
+  urlFrontAuth: 'http://localhost:4200',
+  //front de administracion
+  urlFrontAdmin: 'http://localhost:4300',
 };
