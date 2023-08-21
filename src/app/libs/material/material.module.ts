@@ -36,20 +36,76 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectCompleteComponent } from './mat-select-complete/mat-select-complete.component';
+import { SearchFilterPipe } from './pipes/search-filter.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'YYYY/MM/DD',
   },
   display: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'YYYY/MM/DD',
     monthYearLabel: 'YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'YYYY',
   },
 };
 @NgModule({
-  declarations: [],
+  declarations: [MatSelectCompleteComponent, SearchFilterPipe],
+  exports: [
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatBadgeModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatSidenavModule,
+    MatListModule,
+    MatGridListModule,
+    MatTabsModule,
+    MatMenuModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatStepperModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatSlideToggleModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
+    MatTreeModule,
+    MatButtonToggleModule,
+    MatTooltipModule,
+    MatSelectCompleteComponent,
+    SearchFilterPipe,
+  ],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -84,46 +140,6 @@ export const MY_FORMATS = {
     MatCheckboxModule,
     MatTreeModule,
     MatButtonToggleModule,
-  ],
-  exports: [
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatBadgeModule,
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatSidenavModule,
-    MatListModule,
-    MatGridListModule,
-    MatTabsModule,
-    MatMenuModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatStepperModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatExpansionModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatAutocompleteModule,
-    MatSlideToggleModule,
-    MatProgressBarModule,
-    MatCheckboxModule,
-    MatTreeModule,
-    MatButtonToggleModule,
-  ],
-  providers: [
-    {
-      provide: MatDialogRef,
-      useValue: {},
-    },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class MaterialModule {}
