@@ -145,11 +145,12 @@ export class DashbaordGridItemComponent implements OnInit {
   }
 
   modalDataTemplate(edit: boolean) {
+    console.log('modalDataTemplate', this.formTemplate);
     this.modalService
       .show({
         title: edit ? 'Editar Plantilla' : 'Agregar Plantilla',
         component: ModalGridTemplateComponent,
-        dataComponent: { editmode: edit, form: this.formTemplate },
+        dataComponent: { editMode: edit, form: this.formTemplate },
         maxWidth: '800px',
       })
       .subscribe((data) => {

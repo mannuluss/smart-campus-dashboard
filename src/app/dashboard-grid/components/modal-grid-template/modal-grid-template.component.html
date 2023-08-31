@@ -1,11 +1,12 @@
 <!--PLANTILLA ACTUAL-->
 <div class="container-form">
   <app-mat-select-complete
+    #matSelectTemplate
     label="Plantilla"
     placeholder="Nombre de la plantilla"
     [control]="form.controls.name"
     key="name"
-    keyValue="name"
+    keyValue="id"
     [list]="listTemplates$"
     (selectedChange)="selectTemplate($event)"
   >
@@ -13,9 +14,10 @@
 
   <!--DEVICE-->
   <app-mat-select-complete
+    #matSelectDevice
     label="Dispositivo"
     placeholder="Nombre del dispositivo"
-    [control]="form.controls.deviceId"
+    [control]="form.controls.idDevice"
     key="name"
     keyValue="id"
     [list]="listDevices$"

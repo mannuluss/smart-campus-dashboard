@@ -162,7 +162,8 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
    * actualiza la lista de datos.
    * en caso de que sea un observable se suscribe a el.
    */
-  updateDataList(newValueText?: string) {
+  updateDataList(newValueText?: any) {
+    this.subscritionList?.unsubscribe();
     if (this.list$ instanceof Observable) {
       this.searching = true;
       this.subscritionList = this.list$.subscribe(
@@ -171,8 +172,8 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
           this.subscritionList?.unsubscribe();
           this.searching = false;
 
-          let current = this.datos.find((x) => x[this.key] == newValueText);
-          console.log('current', current);
+          let current = this.datos.find((x) => x[this.keyValue] == newValueText);
+          console.log('current', current, newValueText, this.datos);
           if (current) {
             this.controlText.setValue(current[this.key], { emitEvent: false });
             this.selectedOption = current;

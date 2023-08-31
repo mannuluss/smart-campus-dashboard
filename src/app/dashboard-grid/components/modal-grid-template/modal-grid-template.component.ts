@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DeviceService } from 'src/app/core/services/device.service';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { FormGridTemplate } from '../../models/form-grid-template';
+import { MatSelectCompleteComponent } from 'src/app/libs/material/mat-select-complete/mat-select-complete.component';
 
 @Component({
   selector: 'app-modal-grid-template',
@@ -24,6 +25,10 @@ export class ModalGridTemplateComponent implements OnInit {
 
   listTemplates$: Observable<TemplateDTO[]> = of([]);
   listDevices$: Observable<any[]> = of([]);
+
+  @ViewChild('matSelectTemplate') matSelectTemplate: MatSelectCompleteComponent;
+
+  @ViewChild('matSelectDevice') matSelectDevice: MatSelectCompleteComponent;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,15 +46,11 @@ export class ModalGridTemplateComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       idTemplate: new FormControl('', Validators.required),
-      //formChartOptions: new FormControl(''), //data del template
-      deviceId: new FormControl('', Validators.required),
+      idDevice: new FormControl('', Validators.required),
       realtime: new FormControl('0'),
       initialDate: new FormControl('', Validators.required),
       endDate: new FormControl('', Validators.required),
     });
-    if (this.data.editMode) {
-      this.form.patchValue(this.data.form);
-    }
 
     this.form.controls.realtime.valueChanges.subscribe((data) => {
       if (data == '1') {
@@ -67,6 +68,16 @@ export class ModalGridTemplateComponent implements OnInit {
 
     //lista de gateways
     this.listDevices$ = this.deviceService.getDevices();
+
+    //si se esta editando
+    if (this.data.editMode) {
+      this.form.patchValue(this.data.form);
+      console.log(this.data.form.name);
+      setTimeout(() => {
+        this.matSelectTemplate?.updateDataList(this.data.form.idTemplate);
+        this.matSelectDevice?.updateDataList(this.data.form.idDevice);
+      }, 1);
+    }
   }
 
   selectTemplate(template: TemplateDTO) {

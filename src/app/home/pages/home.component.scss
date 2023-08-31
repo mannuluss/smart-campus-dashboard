@@ -6,4 +6,14 @@
 :host {
   padding: 32px;
   box-sizing: border-box;
+  .gridster-item{
+    background-color: var(--accent-darker-color);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .img-hello-robot{
+    position: fixed;
+    top: 0;
+    right: 16px;
+  }
 }

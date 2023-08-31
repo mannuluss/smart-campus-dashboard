@@ -1,24 +1,18 @@
 <gridster [options]="options" class="gridster-container-home">
-  <gridster-item
-    [item]="dashboard[0]"
-    class="gridster-item"
-  >
-    <h1>Bienvenido al dashboard de Smart campus</h1>
-
+  <gridster-item [item]="dashboard[0]" class="gridster-item">
+    <h1 style="font-size: 45px">Bienvenido al dashboard de Smart campus</h1>
+    <span
+      >Administra los datos de los dispositivos conectados a la arquitectura de
+      manera facil y personalizada.</span
+    >
+    <img src="assets/home/robot-hello.svg" class="img-hello-robot" />
   </gridster-item>
 
-  <gridster-item
-    [item]="dashboard[1]"
-    class="gridster-item"
-  >
+  <gridster-item [item]="dashboard[1]" class="gridster-item">
     el segundo
   </gridster-item>
 
-
-  <gridster-item
-    [item]="dashboard[2]"
-    class="gridster-item"
-  >
+  <gridster-item [item]="dashboard[2]" class="gridster-item">
     el tutorial
     <a routerLink="/dashboard/home/tutorial">Iniciar tutorial</a>
   </gridster-item>
