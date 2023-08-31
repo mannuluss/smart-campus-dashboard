@@ -1,0 +1,35 @@
+$anim-delete: removeingitem 1s ease-in-out;
+
+$gridster-background: transparent;
+
+gridster {
+  background: $gridster-background;
+}
+.section-option-data-show {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  .btn-add-grid {
+    position: relative;
+  }
+}
+
+.gridster-container {
+  height: 74vh;
+}
+.gridster-item {
+  padding: 16px;
+  background: var(--accent-darker-color);
+}
+.gridster-container,
+.gridster-item {
+  border-radius: 16px;
+}

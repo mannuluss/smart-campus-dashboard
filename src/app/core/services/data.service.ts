@@ -11,47 +11,48 @@ import { DataStatistic } from '../models/data-statistic';
 import { AdminStatistics } from '../models/admin-statistics';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: CoreModule,
 })
 export class DataService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  public getData(filterType: string, filterValue: string | number, startDate: Date, endDate: Date): Observable<Data[]> {
-    let query = '';
-    switch (filterType) {
-      case 'APPLICATION':
-        query += 'applicationId='; break;
-      case 'GATEWAY':
-        query += 'gatewayId='; break;
-      case 'PROCESS':
-        query += 'processId='; break;
-      case 'TOPIC':
-        query += 'topic='; break;
-    }
-    query += filterValue;
-    if (startDate) {
-      query += '&initialDate=' + Util.formatDate(startDate);
-    }
-    if (endDate) {
-      query += '&endDate=' + Util.formatDate(endDate);
-    }
-    return this.http
-      .get<Data[]>(`${ environment.dataService }/data/historic?${ query }`, Util.options());
+  getDataByUUID(uuid: string): Observable<Data> {
+    return this.http.get<Data>(`${environment.dataService}/device/message/${uuid}`);
   }
+  // public getData(filterType: string, filterValue: string | number, startDate: Date, endDate: Date): Observable<Data[]> {
+  //   let query = '';
+  //   switch (filterType) {
+  //     case 'APPLICATION':
+  //       query += 'applicationId='; break;
+  //     case 'GATEWAY':
+  //       query += 'gatewayId='; break;
+  //     case 'PROCESS':
+  //       query += 'processId='; break;
+  //     case 'TOPIC':
+  //       query += 'topic='; break;
+  //   }
+  //   query += filterValue;
+  //   if (startDate) {
+  //     query += '&initialDate=' + Util.formatDate(startDate);
+  //   }
+  //   if (endDate) {
+  //     query += '&endDate=' + Util.formatDate(endDate);
+  //   }
+  //   return this.http
+  //     .get<Data[]>(`${ environment.dataService }/data/historic?${ query }`, Util.options());
+  // }
 
-  /**
-   * Returns the statistics calculated in the backend.
-   */
-  public getStatistics(userId: number): Observable<DataStatistic[]> {
-    return this.http.get<DataStatistic[]>(`${environment.dataService}/data/statistics/${userId}`, Util.options());
-  }
+  // /**
+  //  * Returns the statistics calculated in the backend.
+  //  */
+  // public getStatistics(userId: number): Observable<DataStatistic[]> {
+  //   return this.http.get<DataStatistic[]>(`${environment.dataService}/data/statistics/${userId}`, Util.options());
+  // }
 
-  /**
-   * Returns the administration statistics calculated in the backend.
-   */
-  public getAdminStatistics(userId: number): Observable<AdminStatistics> {
-    return this.http.get<AdminStatistics>(`${ environment.adminService }/statistics/${ userId }`, Util.options());
-  }
-
+  // /**
+  //  * Returns the administration statistics calculated in the backend.
+  //  */
+  // public getAdminStatistics(userId: number): Observable<AdminStatistics> {
+  //   return this.http.get<AdminStatistics>(`${ environment.adminService }/statistics/${ userId }`, Util.options());
+  // }
 }

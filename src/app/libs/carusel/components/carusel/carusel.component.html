@@ -1,0 +1,17 @@
+<div class="container-carusel">
+  <mat-button-toggle-group
+    class="container-items"
+    [ngClass]="direction"
+    (valueChange)="changeValue($event)"
+    [formControl]="formControltoogle"
+  >
+    <mat-button-toggle
+      class="carusel-item"
+      *ngFor="let item of items"
+      [value]="item.type"
+      [matTooltip]="item.name"
+    >
+      <img [src]="item.img" />
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardLayoutComponent } from './libs/components/dashboard-layout/dashboard-layout.component';
-import { TemplateComponent } from './libs/graficas/template/template.component';
+import { LayoutComponent } from './libs/layout/layout.component';
+import { TemplateGeneratorComponent } from './libs/graficas/components/template-generator.component';
 const routes: Routes = [
   // {
   //   path: '**',
@@ -10,17 +10,32 @@ const routes: Routes = [
   // },
   {
     path: 'dashboard',
-    component: DashboardLayoutComponent,
+    component: LayoutComponent,
     children: [
       {
         path: 'template',
-        component: TemplateComponent,
+        title: 'Crear Plantilla',
+        component: TemplateGeneratorComponent,
+        data: { state: 'template' },
       },
       {
         path: 'home',
         loadChildren: () =>
           import('./home/home.module').then((m) => m.HomeModule),
-      }
+        data: { state: 'home' },
+      },
+      {
+        path: 'panel-control',
+        loadChildren: () =>
+          import('./dashboard-grid/dashboard-grid.module').then(
+            (m) => m.DashboardGridModule
+          ),
+        data: { state: 'panel-control' },
+      },
+      {
+        path: '**',
+        redirectTo: 'home',
+      },
     ],
   },
 ];

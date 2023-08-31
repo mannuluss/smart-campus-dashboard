@@ -1,0 +1,52 @@
+@use "@angular/material" as mat;
+
+::ng-deep .mat-dialog-container {
+  padding: 0%;
+  border-radius: 25px;
+  @include mat.elevation(0);
+}
+
+.modal {
+  .actions {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .content-modal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    .body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px 8px 16px 16px;
+      .content {
+        padding: 8px 0 8px 0;
+        .header {
+          display: inline-flex;
+          flex-direction: row;
+          justify-content: center;
+          width: 100%;
+          padding-left: 16px;
+          box-sizing: border-box;
+          font-family: "Roboto", sans-serif;
+        }
+      }
+    }
+    .images {
+      width: 450px;
+      background: url("/assets/default-graficos-img.png");
+      background-position-x: 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .actions-h {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}

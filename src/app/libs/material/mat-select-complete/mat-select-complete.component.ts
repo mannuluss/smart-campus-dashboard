@@ -7,8 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormControlDirective } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { SearchFilterPipe } from '../pipes/search-filter.pipe';
 
@@ -50,16 +49,43 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
   @Input()
   control: FormControl;
 
+  @Input()
+  required: boolean = false;
+
   /**
    * indica si al buscar en el input se debe recargar la lista.
    */
   @Input()
   reloadOnTyping: boolean = false;
 
+  @Input()
+  set disabled(value: boolean) {
+    if (value) {
+      this.controlText.disable();
+    } else {
+      this.controlText.enable();
+    }
+  }
+
+  @Input()
+  set value(value: any) {
+    // if (value && value[this.key]) {
+    //   this.datos.push(value);
+    //   this.selectedOption = value;
+    //   this.controlText.setValue(Object.assign(value[this.key]));
+    // }
+  }
+
+  @Input()
+  clearButton: boolean = false;
+
   @Output() selectedChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() focus: EventEmitter<any> = new EventEmitter<any>();
 
+  /**
+   * emite el valor del input.
+   */
   @Output() busquedaChange: EventEmitter<any> = new EventEmitter<any>();
 
   /**
@@ -83,46 +109,60 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
   doneTypingInterval: number = 250; // Tiempo en milisegundos para considerar que el usuario ha terminado de escribir
 
   ngOnInit() {
-    this.doneTyping();
+    this.updateDataList();
     this.controlText.valueChanges.subscribe((value) => {
       this.busquedaChange.emit(value);
     });
   }
 
+  /**
+   * se ejecuta cada vez que se escribe en el input.
+   */
   handleInput() {
-    let dato = this.datos.find((x) => x[this.key] == this.controlText.value);
-    if (dato) {
-      this.selectedOption = dato;
-      this.selectedChange.emit(dato);
-    } else {
-      this.selectedOption = null;
-    }
+    // let dato = this.datos.find((x) => x[this.key] == this.controlText.value);
+    // if (dato) {
+    //   this.selectedOption = dato;
+    //   this.selectedChange.emit(dato);
+    // } else {
+    //   //this.selectedOption = null;
+    // }
 
     if (this.reloadOnTyping) {
       clearTimeout(this.typingTimer); // Limpiar el temporizador previo
       this.typingTimer = setTimeout(
-        () => this.doneTyping(),
+        () => this.updateDataList(),
         this.doneTypingInterval
       );
     }
   }
 
   handleBlur() {
-    setTimeout(() => {
-      if (this.selectedOption) {
-        this.controlText.setErrors(null);
-      } else {
-        this.controlText.setErrors({ required: true });
-      }
-    }, 100);
+    if (this.required) {
+      setTimeout(() => {
+        if (this.selectedOption) {
+          this.controlText.setErrors(null);
+        } else {
+          this.controlText.setErrors({ required: true });
+        }
+      }, 100);
+    }
+    if (
+      this.selectedOption &&
+      this.controlText.value !== this.selectedOption[this.key]
+    ) {
+      this.controlText.setValue(this.selectedOption[this.key]);
+    }
   }
 
   handleFocus() {
     this.focus.emit();
   }
 
-  // acción que necesites después de que el usuario ha dejado de escribir
-  doneTyping() {
+  /**
+   * actualiza la lista de datos.
+   * en caso de que sea un observable se suscribe a el.
+   */
+  updateDataList(newValueText?: string) {
     if (this.list$ instanceof Observable) {
       this.searching = true;
       this.subscritionList = this.list$.subscribe(
@@ -130,6 +170,13 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
           this.datos = data;
           this.subscritionList?.unsubscribe();
           this.searching = false;
+
+          let current = this.datos.find((x) => x[this.key] == newValueText);
+          console.log('current', current);
+          if (current) {
+            this.controlText.setValue(current[this.key], { emitEvent: false });
+            this.selectedOption = current;
+          }
         },
         (error) => {
           this.searching = false;
@@ -143,7 +190,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
   selecItem(option: any) {
     console.log('select');
     this.selectedOption = option;
-    //se selecciono un item que no se habia escrito todo en el input.
+    //se selecciono un item segun al input
     if (option[this.key] != this.controlText.value) {
       this.controlText.setValue(option[this.key]);
       this.controlText.setErrors(null);
@@ -151,7 +198,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
     if (this.keyValue) {
       this.control.setValue(option[this.keyValue]);
     }
-    this.selectedChange.emit(option);
+    this.selectedChange?.emit(option);
   }
 
   /**
@@ -159,6 +206,14 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
    */
   filterList(value: string) {
     return this.pipeFilter.transform(this.datos, value, this.key);
+  }
+
+  limpiar(event: Event) {
+    event?.stopImmediatePropagation();
+    this.controlText.setValue('');
+    this.selectedOption = null;
+    this.control.setValue(null);
+    this.selectedChange?.emit(null);
   }
 
   ngOnDestroy(): void {

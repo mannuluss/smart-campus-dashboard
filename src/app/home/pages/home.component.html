@@ -1,3 +1,25 @@
-<h1>Bienvenido al dashboard de Smart campus</h1>
+<gridster [options]="options" class="gridster-container-home">
+  <gridster-item
+    [item]="dashboard[0]"
+    class="gridster-item"
+  >
+    <h1>Bienvenido al dashboard de Smart campus</h1>
 
-<a routerLink="/dashboard/home/tutorial">Iniciar tutorial</a>
+  </gridster-item>
+
+  <gridster-item
+    [item]="dashboard[1]"
+    class="gridster-item"
+  >
+    el segundo
+  </gridster-item>
+
+
+  <gridster-item
+    [item]="dashboard[2]"
+    class="gridster-item"
+  >
+    el tutorial
+    <a routerLink="/dashboard/home/tutorial">Iniciar tutorial</a>
+  </gridster-item>
+</gridster>

@@ -1,5 +1,4 @@
 :root {
-  --main-color: #3f51b5;
   --color-tenue: #484848;
 }
 
@@ -26,6 +25,11 @@
 }
 
 /* ===== Styles material angular ===== */
+//estilo flat material angular
+button.mat-icon-button:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+  // background-color: transparent;
+}
 
 .mat-mini-fab.mat-button-base {
   line-height: 30px;
@@ -33,4 +37,18 @@
 
 .mat-drawer-container {
   background: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+p,
+div,
+a,
+* {
+  font-family: "Roboto", sans-serif;
 }

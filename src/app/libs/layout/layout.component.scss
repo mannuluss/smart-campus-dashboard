@@ -1,0 +1,139 @@
+$width-menu-closed: 76px;
+
+:host button.mat-icon-button {
+  color: var(--text-primary-color);
+}
+
+:host button.mat-icon-button:hover {
+  color: var(--primary-color);
+  background-color: var(--primary-lighter-color);
+}
+
+.drawer-container {
+  height: 100vh;
+  .drawer {
+    visibility: visible !important;
+    transform: none;
+    border-right: none;
+    ::ng-deep .mat-drawer-inner-container {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 0px 16px 0px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      justify-content: space-between;
+    }
+    .drawer-top {
+      display: grid;
+      gap: 8px;
+    }
+    .drawer-bottom {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  .drawer:not(.mat-drawer-opened) {
+    width: $width-menu-closed;
+    display: block !important;
+    .menus-section {
+      .menu-list {
+        width: 50px;
+        .item-label {
+          display: none;
+        }
+      }
+    }
+  }
+  .smart-campus-container-section {
+    padding: 0px 16px 16px 0px;
+    .body-section {
+      padding: 16px;
+      background-color: var(--accent-color);
+      // background-color: var(--text-primary-color);
+      border-radius: 25px;
+      min-height: 84vh;
+      position: relative;
+    }
+  }
+
+  .menus-section {
+    display: grid;
+    gap: 8px;
+    padding: 0px 4px;
+    .menu-list {
+      width: 192px;
+      flex-direction: column;
+      .item-menu {
+        text-align: left;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.toolbar-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  .title {
+    text-decoration: none;
+    color: var(--primary-lighter-color);
+  }
+}
+
+// margin del drawer cuando el sidebar esta cerrado
+:host ::ng-deep .mat-drawer-content {
+  margin-left: $width-menu-closed;
+}
+
+.title {
+  font-size: 30px;
+}
+
+.mat-drawer.drawer,
+.mat-toolbar.mat-toolbar-single-row {
+  background: transparent;
+}
+
+.mat-toolbar.mat-toolbar-single-row {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 16px;
+}
+
+// AVATAR SECTION
+.avatar-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  .img {
+    clip-path: circle(50%);
+    width: 80px;
+    height: 80px;
+  }
+  .img-close {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+//Toolbar
+.slide-theme {
+  transform: scale(1.3);
+  ::ng-deep {
+    .mat-slide-toggle-thumb::after {
+      content: "light_mode";
+      font-family: "Material Icons";
+      top: -1px;
+      position: absolute;
+    }
+  }
+}
+
+.slide-theme.mat-checked ::ng-deep .mat-slide-toggle-thumb::after {
+  content: "dark_mode";
+  font-family: "Material Icons";
+}

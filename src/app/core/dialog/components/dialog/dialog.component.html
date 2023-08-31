@@ -1,0 +1,95 @@
+<div class="modal">
+  <section class="content-modal">
+    <!--HEADER BUTTONS-->
+    <div class="actions-h">
+      <button
+        mat-icon-button
+        (click)="cerrar()"
+        matTooltipClass="tooltip-uis"
+        [matTooltip]="'Cerrar'"
+        *ngIf="!data.hideCloseButtonInTopBar"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+    <!--CONTENT OF COMPONENTS-->
+    <div class="body">
+      <div class="content">
+        <!--TITLE-->
+        <div class="header" [ngStyle]="data.stylesTopBar" #header cdkDragHandle>
+          <h2 class="title">
+            {{ data.title ? data.title : data.title }}
+          </h2>
+        </div>
+
+        <ng-template adHost></ng-template>
+      </div>
+      <!--ACCIONES DEL MODAL-->
+      <div
+        class="actions"
+        [ngStyle]="{
+          display:
+            !(otherButtons?.length > 0) && data?.dataComponent?.viewMode
+              ? 'none'
+              : 'flex'
+        }"
+      >
+        <button
+          class="secondary-modal-uis"
+          mat-stroked-button
+          (click)="cancelar()"
+          *ngIf="!data?.dataComponent?.viewMode"
+          [title]="
+            data.dataComponent?.editMode || data.dataComponent?.deleteMode
+              ? 'Cancelar'
+              : data.actions?.secondary
+              ? data.actions.secondary
+              : 'Limpiar formulario'
+          "
+        >
+          {{
+            data.dataComponent?.editMode || data.dataComponent?.deleteMode
+              ? "Cancelar"
+              : data.actions?.secondary
+              ? data.actions.secondary
+              : "Limpiar formulario"
+          }}
+        </button>
+
+        <button
+          mat-raised-button
+          (click)="aceptar()"
+          color="primary"
+          *ngIf="!data?.dataComponent?.viewMode"
+          [title]="data.actions?.primary ? data.actions.primary : 'Aceptar'"
+        >
+          {{ data.actions?.primary ? data.actions.primary : "Aceptar" }}
+        </button>
+
+        <ng-container *ngFor="let button of otherButtons">
+          <button
+            mat-raised-button
+            (click)="button.action ? button.action(dialogRef) : ''"
+            color="primary"
+            *ngIf="button.type === 'primary'"
+            [title]="button.nombre"
+          >
+            {{ button.nombre }}
+          </button>
+
+          <button
+            class="secondary-modal-uis"
+            mat-stroked-button
+            (click)="button.action ? button.action(dialogRef) : ''"
+            color="primary"
+            *ngIf="button.type === 'secondary'"
+            [title]="button.nombre"
+          >
+            {{ button.nombre }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+    <div class="images" *ngIf="!data.hideImg"></div>
+  </section>
+</div>

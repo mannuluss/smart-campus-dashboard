@@ -1,0 +1,64 @@
+.container-list-colors {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 16px;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid #c9c9c9;
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  position: relative;
+  .label{
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: transparent;
+  }
+  .section-pickers-colors{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .container-color-picker {
+    position: relative;
+    border-radius: 15px;
+    border: 1px solid #e0e0e0;
+
+    .btn-remove {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+    }
+    .btn-remove:hover {
+      cursor: pointer;
+      color: #f44336;
+    }
+  }
+  .actions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.btn-remove ::ng-deep .mat-button-wrapper {
+  line-height: 30px;
+}
+
+:host ::ng-deep .mat-mini-fab {
+  width: 32px;
+  height: 32px;
+  .mat-button-wrapper {
+    padding: 0;
+  }
+}

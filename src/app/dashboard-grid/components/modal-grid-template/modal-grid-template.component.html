@@ -1,0 +1,67 @@
+<!--PLANTILLA ACTUAL-->
+<div class="container-form">
+  <app-mat-select-complete
+    label="Plantilla"
+    placeholder="Nombre de la plantilla"
+    [control]="form.controls.name"
+    key="name"
+    keyValue="name"
+    [list]="listTemplates$"
+    (selectedChange)="selectTemplate($event)"
+  >
+  </app-mat-select-complete>
+
+  <!--DEVICE-->
+  <app-mat-select-complete
+    label="Dispositivo"
+    placeholder="Nombre del dispositivo"
+    [control]="form.controls.deviceId"
+    key="name"
+    keyValue="id"
+    [list]="listDevices$"
+    reloadOnTyping="true"
+  >
+  </app-mat-select-complete>
+
+  <form [formGroup]="form">
+    <mat-button-toggle-group
+      [formControl]="form.controls.realtime"
+      name="realtime"
+      aria-label="Realtime"
+    >
+      <mat-button-toggle value="0">
+        <mat-icon>date_range</mat-icon>
+        <mat-label>Historico</mat-label>
+      </mat-button-toggle>
+      <mat-button-toggle value="1">
+        <mat-icon>date_range</mat-icon>
+        <mat-label>Tiempo real</mat-label>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-form-field>
+      <mat-label>Fecha inicio</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="YYYY/MM/DD"
+        formControlName="initialDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Fecha hasta</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        placeholder="YYYY/MM/DD"
+        formControlName="endDate"
+        [min]="form.controls.initialDate.value"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </form>
+</div>

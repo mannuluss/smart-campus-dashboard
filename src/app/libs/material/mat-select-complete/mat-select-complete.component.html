@@ -10,6 +10,14 @@
     (input)="handleInput()"
     (focus)="handleFocus()"
   />
+  <button
+    mat-icon-button
+    (click)="limpiar($event)"
+    *ngIf="clearButton && selectedOption"
+  >
+    <mat-icon matSuffix>close</mat-icon>
+  </button>
+  <ng-content select="[matSuffix]"></ng-content>
   <mat-autocomplete #auto="matAutocomplete" (closed)="handleBlur()">
     <mat-option *ngIf="searching" [disabled]="true"> Buscando... </mat-option>
     <mat-option
@@ -26,7 +34,7 @@
     <mat-option
       *ngFor="let option of datos | searchFilter : controlText.value : key"
       [value]="option[key]"
-      (click)="selecItem(option)"
+      (onSelectionChange)="selecItem(option)"
     >
       {{ option.name }}
     </mat-option>

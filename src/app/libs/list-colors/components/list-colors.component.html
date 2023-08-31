@@ -1,0 +1,57 @@
+<div class="container-list-colors" *ngIf="control">
+  <div class="label">
+    <span>{{ label }}</span>
+  </div>
+  <section class="section-pickers-colors" *ngIf="draw">
+    <div
+      *ngFor="let item of control.controls; let i = index"
+      class="container-color-picker"
+    >
+      <!--LIST COLOR PICKER-->
+      <ngx-colors
+        ngx-colors-trigger
+        [ngModel]="item.value"
+        (open)="onOpenColorPicker($event, i)"
+        (close)="onChangeColor($event, i)"
+        [disabled]="isDelete"
+      ></ngx-colors>
+      <!--DELETE COLOR-->
+      <button
+        mat-icon-button
+        *ngIf="isDelete"
+        (click)="deleteColor(i)"
+        class="btn-remove"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </section>
+
+  <!--BUTTON ACTIONS-->
+  <div class="actions-container">
+    <!--ADD COLOR-->
+    <button
+      mat-mini-fab
+      color="primary"
+      (click)="addColor()"
+      [disabled]="isDelete"
+      [matTooltip]="'Agregar color'"
+      matTooltipPosition="right"
+      [matTooltipShowDelay]="500"
+    >
+      <mat-icon>add_circle</mat-icon>
+    </button>
+    <!--DELETE MODE-->
+    <button
+      mat-mini-fab
+      color="warn"
+      (click)="deleteMode()"
+      matTooltip="Eliminar color"
+      matTooltipPosition="right"
+      [matTooltipShowDelay]="500"
+    >
+      <mat-icon *ngIf="!isDelete">delete</mat-icon>
+      <mat-icon *ngIf="isDelete">close</mat-icon>
+    </button>
+  </div>
+</div>

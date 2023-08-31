@@ -1,0 +1,148 @@
+<section class="container-personality-data">
+  <!--FORMULARIO DE PERSONALIZACION-->
+  <form [formGroup]="form" class="container-form">
+    <app-carusel
+      [formControltoogle]="form.controls['chart.type']"
+      [items]="listTypeGraphics"
+      direction="row"
+      (valueChange)="onChangeTypeGraphic($event)"
+    >
+    </app-carusel>
+
+    <mat-form-field>
+      <mat-label>Titulo</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="title.text"
+        (blur)="updateGraphic()"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Titulo eje X</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="xaxis.title.text"
+        (blur)="updateGraphic()"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Titulo eje Y</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="yaxis.title.text"
+        (blur)="updateGraphic()"
+      />
+    </mat-form-field>
+
+    <!-- <mat-form-field>
+      <textarea
+        matInput
+        [value]="chartOptions | json"
+        class="data-json"
+      ></textarea>
+    </mat-form-field> -->
+
+    <!--Example data-->
+    <!-- <mat-form-field>
+      <mat-select
+        (valueChange)="changeExampleData($event)"
+        formControlName="typeExampleData"
+      >
+        <mat-option *ngFor="let item of listTypeGraphics" [value]="item.name">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <!--COLORES DE LA GRAFICA-->
+    <app-list-colors
+      [control]="form.controls['colors']"
+      label="Colores"
+    ></app-list-colors>
+  </form>
+
+  <!--GRAFICA-->
+  <div class="container-graph">
+    <form class="btn-actions" [formGroup]="formPlantilla">
+      <!--BUTTON RECARGAR-->
+      <!-- <button mat-raised-button (click)="updateGraphic()">
+        Recargar
+        <mat-icon matSuffix>autorenew</mat-icon>
+      </button> -->
+
+      <!--PLANTILLA ACTUAL-->
+      <app-mat-select-complete
+        #matSelectComplete
+        label="Plantilla"
+        placeholder="Nombre de la plantilla"
+        key="name"
+        keyValue="name"
+        [control]="formPlantilla.controls.name"
+        [list]="listTemplates$"
+        reloadOnTyping="true"
+        [disabled]="
+          isCreateMode &&
+          formPlantilla.controls.name.value != '' &&
+            formPlantilla.controls.name.value != null
+        "
+        [clearButton]="true"
+        (selectedChange)="selectTemplate($event)"
+        (busquedaChange)="searchTemplate($event)"
+      >
+      </app-mat-select-complete>
+
+      <mat-form-field>
+        <mat-label>Nombre de la plantilla</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          (input)="typingNameTemplate($event)"
+        />
+      </mat-form-field>
+
+      <!--TEMPLATE FORM-->
+      <div matSuffix>
+        <button
+          mat-raised-button
+          (click)="saveTemplate()"
+          [disabled]="
+            formPlantilla.controls.name.value == '' ||
+            formPlantilla.controls.name.value == null
+          "
+        >
+          <mat-icon matPrefix>save</mat-icon>
+          Guardar
+        </button>
+        <button
+          mat-raised-button
+          (click)="deleteTemplate()"
+          [disabled]="isCreateMode"
+        >
+          <mat-icon matPrefix>delete</mat-icon>
+          Eliminar
+        </button>
+      </div>
+    </form>
+
+    <apx-chart
+      #chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [stroke]="chartOptions.stroke"
+      [colors]="chartOptions.colors"
+      [dataLabels]="chartOptions.dataLabels"
+      [legend]="chartOptions.legend"
+      [markers]="chartOptions.markers"
+      [grid]="chartOptions.grid"
+      [yaxis]="chartOptions.yaxis"
+      [title]="chartOptions.title"
+    ></apx-chart>
+  </div>
+</section>

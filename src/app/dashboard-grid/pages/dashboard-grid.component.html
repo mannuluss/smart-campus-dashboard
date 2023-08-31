@@ -1,0 +1,37 @@
+<section class="status-bar">
+  <!--AGREGAR GRILLA-->
+  <button
+    mat-icon-button
+    (click)="addGridItem()"
+    class="btn-add-grid"
+    matTooltip="Agregar grilla"
+    matTooltipPosition="below"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <!--GUARDAR-->
+  <button
+    mat-icon-button
+    class=""
+    (click)="saveOptions()"
+    matTooltip="Guardar"
+    matTooltipPosition="below"
+  >
+    <mat-icon class="saving-ico">save</mat-icon>
+  </button>
+</section>
+
+<gridster [options]="options" class="gridster-container">
+  <ng-container *ngFor="let item of dashboard; let i = index">
+    <gridster-item [item]="item" class="gridster-item">
+      <app-dashbaord-grid-item
+        [item]="item"
+        [index]="i"
+        [formTemplate]="templates[i]"
+        [gridsterItem]="getParentComponent(i)"
+        (save)="saveTemplate($event)"
+        (remove)="removeItem($event)"
+      ></app-dashbaord-grid-item>
+    </gridster-item>
+  </ng-container>
+</gridster>

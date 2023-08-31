@@ -1,35 +1,40 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        data: [65, 59, 80, 81, 56, 55, 40],
-        label: 'Series A',
-        fill: true,
-        tension: 0.5,
-        borderColor: 'black',
-        backgroundColor: 'rgba(255,0,0,0.3)',
-      },
-      {
-        data: [80, 88, 30, 25, 50],
-        label: 'dato 2',
-        fill: true,
-        borderColor: 'rgb(255,0,255)',
-        backgroundColor: '#454545',
-        hoverBackgroundColor: '#252525',
-      },
-    ],
-  };
+export class HomeComponent implements OnInit {
+  // OPTIONS FOR GRIDSTER
+  options: GridsterConfig;
+  dashboard: Array<GridsterItem>;
 
-  public chartOptions: ChartOptions<'line'> = {
-    responsive: false,
-  };
+  constructor() {}
+
+  ngOnInit(): void {
+    this.options = {
+      itemChangeCallback: (v) => {
+        console.log('change', v);
+      },
+      itemResizeCallback: (v) => {
+        console.log('resize', v);
+      },
+      resizable: {
+        enabled: false,
+      },
+      draggable: {
+        delayStart: 0,
+        enabled: false,
+      },
+      pushItems: true,
+    };
+    this.dashboard = [
+      { cols: 3, rows: 1, y: 0, x: 0 },
+      { cols: 2, rows: 2, y: 1, x: 0 },
+      { cols: 1, rows: 2, y: 1, x: 1 },
+    ];
+  }
 }

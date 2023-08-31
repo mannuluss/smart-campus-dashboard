@@ -9,10 +9,9 @@ import { environment } from 'src/environments/environment';
 import { Util } from '../utils/util';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: CoreModule,
 })
 export class DeviceService {
-
   /**
    * Stores the devices of the logged user.
    */
@@ -23,7 +22,11 @@ export class DeviceService {
    *
    * @param http - Angular's HTTP client.
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  public getDevices(): Observable<Device[]> {
+    return this.http.get<Device[]>(`${environment.adminService}/device`);
+  }
 
   /**
    * Retrieves the devices for the given user idenfitied by its id.
@@ -33,7 +36,10 @@ export class DeviceService {
    * @returns an Array of Devices.
    */
   public getDevicesByUserId(userId: number): Observable<Device[]> {
-    return this.http.get<Device[]>(`${ environment.adminService }/devices/user/${ userId }`, Util.options());
+    return this.http.get<Device[]>(
+      `${environment.adminService}/devices/user/${userId}`,
+      Util.options()
+    );
   }
 
   /**
@@ -44,7 +50,10 @@ export class DeviceService {
    * @returns the Device.
    */
   public getDeviceById(deviceId: number): Observable<Device> {
-    return this.http.get<Device>(`${ environment.adminService }/devices/device/${ deviceId }`, Util.options());
+    return this.http.get<Device>(
+      `${environment.adminService}/devices/device/${deviceId}`,
+      Util.options()
+    );
   }
 
   /**
@@ -55,7 +64,10 @@ export class DeviceService {
    * @returns an ApiResponse indicating if the operation succeeded or not.
    */
   public deleteDeviceById(deviceId: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${ environment.adminService }/devices/device/${ deviceId }`, Util.options());
+    return this.http.delete<ApiResponse>(
+      `${environment.adminService}/devices/device/${deviceId}`,
+      Util.options()
+    );
   }
 
   /**
@@ -66,7 +78,11 @@ export class DeviceService {
    * @returns the Device with its id after creation.
    */
   public createDevice(device: Device): Observable<Device> {
-    return this.http.post<Device>(`${ environment.adminService }/devices/device`, device, Util.options());
+    return this.http.post<Device>(
+      `${environment.adminService}/devices/device`,
+      device,
+      Util.options()
+    );
   }
 
   /**
@@ -77,7 +93,10 @@ export class DeviceService {
    * @returns the Device with the information as it was saved.
    */
   public updateDevice(device: Device): Observable<Device> {
-    return this.http.put<Device>(`${ environment.adminService }/devices/device/${ device.id }`,
-      device, Util.options());
+    return this.http.put<Device>(
+      `${environment.adminService}/devices/device/${device.id}`,
+      device,
+      Util.options()
+    );
   }
 }
