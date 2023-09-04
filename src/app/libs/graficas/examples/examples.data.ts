@@ -1,9 +1,10 @@
 import { ApexAxisChartSeries } from 'ng-apexcharts';
 import { ExampleDataTemplate } from '../models/example-template.dto';
+import { faker } from '@faker-js/faker';
 
 export const ExampleArray: ApexAxisChartSeries = [
   {
-    name: 'example data for lines',
+    name: 'first data',
     data: [28, 29, 33, 36, 32, 32, 33],
   },
 ];
@@ -49,3 +50,31 @@ export const ExampleGroupMultidata: ApexAxisChartSeries = [
   },
 ];
 
+/**
+ * data de ejemplo para graficas de tipo array con nombres.
+ * @returns
+ */
+export const GenerateExampleArrayData = () => {
+  let example = [];
+  for (let index = 0; index < 3; index++) {
+    let data = [];
+    for (let index = 0; index < 7; index++) {
+      data.push(faker.number.int({ min: -5, max: 20 }));
+    }
+    example.push({
+      name: faker.word.sample({
+        strategy: 'shortest',
+      }),
+      data: data,
+    });
+  }
+  return example;
+};
+
+export const GenerateExampleSimpleArray = () => {
+  let example = [];
+  for (let index = 0; index < 7; index++) {
+    example.push(faker.number.int({ min: -5, max: 20 }));
+  }
+  return example;
+};

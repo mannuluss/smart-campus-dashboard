@@ -1,33 +1,32 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   Input,
   OnInit,
   Output,
-  QueryList,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
+import {
+  GridsterItem,
+  GridsterItemComponentInterface,
+} from 'angular-gridster2';
+import { ChartComponent } from 'ng-apexcharts';
+import { DialogService } from 'src/app/core/dialog/services/dialog.service';
+import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
+import { DataService } from 'src/app/core/services/data-device.service';
+import { ChartOptions } from 'src/app/libs/graficas/config/apexchart.type';
+import { TemplateService } from 'src/app/libs/graficas/services/template.service';
+import _ from 'underscore';
 import {
   EventGridRemoveItem,
   EventGridSaveItem,
 } from '../../models/events.model';
-import {
-  GridsterItem,
-  GridsterItemComponent,
-  GridsterItemComponentInterface,
-} from 'angular-gridster2';
-import { ChangeDetectionStrategy } from '@angular/compiler';
-import { DialogService } from 'src/app/core/dialog/services/dialog.service';
-import { ModalGridTemplateComponent } from '../modal-grid-template/modal-grid-template.component';
-import { ChartOptions } from 'src/app/libs/graficas/config/apexchart.type';
-import { ChartComponent } from 'ng-apexcharts';
-import { TemplateService } from 'src/app/libs/graficas/services/template.service';
-import _ from 'underscore';
 import { FormGridTemplate } from '../../models/form-grid-template';
+import { ModalGridTemplateComponent } from '../modal-grid-template/modal-grid-template.component';
+import { forkJoin } from 'rxjs';
+import { BrokerService } from 'src/app/core/services/broker.service';
 
 @Component({
   selector: 'app-dashbaord-grid-item',
@@ -40,16 +39,23 @@ export class DashbaordGridItemComponent implements OnInit {
   @Input() index: number;
 
   @Input()
-  set gridsterItem(value: GridsterItemComponentInterface) {
-    if (value) {
-      this._gridsterItem = value;
-      this.heightParent = value?.height;
+  set gridsterItem(item: GridsterItemComponentInterface) {
+    if (item) {
+      this._gridsterItem = item;
+      this.heightParent = item?.height;
+      //this.widthParent = value?.width;
       this.updateHeightForChart();
-      value.itemChanged = () => {
+      item.itemChanged = () => {
         // console.log('itemChanged', this._gridsterItem?.height, this.item);
+        // this.heightParent = this._gridsterItem?.height;
         this.heightParent = this._gridsterItem?.height;
         this.updateHeightForChart();
       };
+      // value.checkItemChanges = () => {
+      //   // console.log('checkItemChanges', this._gridsterItem?.height, this.item);
+      //   this.heightParent = this._gridsterItem?.height;
+      //   this.updateHeightForChart();
+      // };
     }
   }
 
@@ -91,10 +97,10 @@ export class DashbaordGridItemComponent implements OnInit {
   heightParent: number = 0;
 
   get heightChild() {
-    return String(this.heightParent - 32) + 'px';
+    return String(this.heightParent - this.offsetY * 2) + 'px';
   }
 
-  offsetY: number = 32;
+  offsetY: number = 8;
 
   //========================================== ANIMATIONS =====================================================
 
@@ -106,42 +112,64 @@ export class DashbaordGridItemComponent implements OnInit {
   isLoading: boolean = false;
 
   constructor(
-    private el: ElementRef,
     private cdr: ChangeDetectorRef,
     private modalService: DialogService,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private dataService: DataService,
+    private confirmService: ModalConfirmService,
+    private brokerService: BrokerService
   ) {}
+
+  resizeTimer: any;
+  resizeTimeout: number = 250;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log(event.target);
-    this.updateHeightForChart();
+    //APARENTEMENTE FUNCIONA
+    clearTimeout(this.resizeTimer); // Limpiar el temporizador previo
+    this.resizeTimer = setTimeout(
+      () => this.updateHeightForChart(),
+      this.resizeTimeout
+    );
   }
 
   ngOnInit(): void {}
 
-  ngAfterViewInit() {}
-
   updateHeightForChart() {
     if (this.chartOptions) {
       this.chartOptions.chart.height = this.heightChild;
-      if (this.chart) this.chart?.updateOptions(this.chartOptions);
+      if (this.chart) {
+        this.chart?.updateOptions(this.chartOptions, true);
+      }
     }
   }
 
   removeItem($event: Event) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.isRemoving = true;
-    this.cdr.detectChanges();
-    setTimeout(() => {
-      let event: EventGridRemoveItem = {
-        event$: $event,
-        item: this.item,
-        i: this.index,
-      };
-      this.remove.emit(event);
-    }, 250);
+    this.confirmService
+      .show({
+        title: 'Eliminar',
+        content: '¿Esta seguro que desea eliminar el elemento?',
+        actions: {
+          primary: 'Eliminar',
+          secondary: 'Cancelar',
+        },
+      })
+      .then((action) => {
+        if (action) {
+          this.isRemoving = true;
+          this.cdr.detectChanges();
+          setTimeout(() => {
+            let event: EventGridRemoveItem = {
+              event$: $event,
+              item: this.item,
+              i: this.index,
+            };
+            this.remove.emit(event);
+          }, 250);
+        }
+      });
   }
 
   modalDataTemplate(edit: boolean) {
@@ -172,28 +200,59 @@ export class DashbaordGridItemComponent implements OnInit {
    */
   loadTemplate(form: FormGridTemplate, emitSaveEvent: boolean) {
     this.isLoading = true;
-    this.templateService
-      .getTemplateById(form.idTemplate)
-      .subscribe((template) => {
-        this.chartOptions = this.templateService.formToChartOptions(
-          template.json
-        );
+    forkJoin([
+      this.templateService.getTemplateById(form.idTemplate),
+      this.dataService.getDataByUUID(
+        form.idDevice,
+        form.initialDate,
+        form.endDate
+      ),
+    ]).subscribe(([template, dataDevice]) => {
+      this.chartOptions = this.templateService.formToChartOptions(
+        template.json
+      );
+      //establece el alto de la grafica
+      this.chartOptions.chart.height = this.heightChild;
+      //asigna la data a la grafica
+      this.templateService.dataToSeries(
+        dataDevice,
+        this.chartOptions
+      );
+      //this.chartOptions.series = series;
+      //label para las graficas de pastel
+      // this.chartOptions.labels = categories;
+      //label para las graficas de barras y lineas
+      // this.chartOptions.xaxis.categories = categories;
 
-        this.chartOptions.chart.height = this.heightChild;
-        if (emitSaveEvent) {
-          this.save.emit({
-            index: this.index,
-            formTemplate: _.clone(form),
-          });
-        }
-        this.isLoading = false;
-      });
+      if (emitSaveEvent) {
+        this.save.emit({
+          index: this.index,
+          formTemplate: _.clone(form),
+        });
+      }
+      this.isLoading = false;
+      if (this.formTemplate.realtime == '1') {
+        this.getRealtimeData();
+      }
+    });
   }
 
-  /**
-   * busca la informacion en el servidor para la grafica.
-   */
-  searchDataForGraph(){
-
+  getRealtimeData() {
+    this.dataService
+      .subcribeToDataDevice(this.formTemplate.idDevice)
+      .subscribe((data) => {
+        console.info(`SUBCRIBE TO TOPIC ${data.topic}`);
+        //se conectar al broker en el topic que le indica el servidor
+        this.brokerService.subscribe(data.topic).subscribe((message) => {
+          let dato = JSON.parse(message.payload.toString());
+          console.log(dato);
+          this.templateService.dataToSeries(
+            [dato],
+            this.chartOptions,
+            true
+          );
+          this.chart.updateSeries(this.chartOptions.series, true);
+        });
+      });
   }
 }

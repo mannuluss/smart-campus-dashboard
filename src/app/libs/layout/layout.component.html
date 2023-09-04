@@ -21,26 +21,29 @@
 
       <!--MENUS-->
       <div class="menus-section">
-        <mat-button-toggle-group
+        <mat-list
           class="menu-list"
           name="button-navbar"
           aria-label="menu sidebar"
         >
-          <mat-button-toggle
+          <mat-list-item
             *ngFor="let itemMenu of menus"
-            [value]="itemMenu.label"
             class="item-menu"
+            [ngClass]="{
+              active: controlMenu.value === itemMenu.key ? true : false
+            }"
             (click)="changeMenu(itemMenu)"
             [matTooltip]="!opened ? itemMenu.label : ''"
             [matTooltipPosition]="!opened ? 'right' : 'below'"
             [matTooltipShowDelay]="500"
           >
-            <mat-icon>{{ itemMenu.icon }}</mat-icon>
-            <label class="item-label">
+            <div class="lateral"></div>
+            <mat-icon matListItemIcon>{{ itemMenu.icon }}</mat-icon>
+            <label class="item-label" matListItemTitle *ngIf="opened">
               {{ itemMenu.label }}
             </label>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
+          </mat-list-item>
+        </mat-list>
       </div>
     </section>
 

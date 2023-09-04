@@ -30,6 +30,29 @@
   animation: removeingitem 0.25s ease-in-out forwards;
 }
 
+.badge-realtime{
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 10px;
+  height: 10px;
+  background-color: #76ba1b;
+  border-radius: 50%;
+  font-size: 4px;
+  animation: realtimeBadgeAnim 2s infinite;
+}
+@keyframes realtimeBadgeAnim {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 ::ng-deep .gridster-item:has(.parent-grid-item.removing) {
   background-color: transparent;
 }

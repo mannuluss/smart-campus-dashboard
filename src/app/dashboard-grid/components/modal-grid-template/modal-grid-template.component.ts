@@ -8,23 +8,46 @@ import {
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { TemplateService } from 'src/app/libs/graficas/services/template.service';
-import { GatewayService } from 'src/app/core/services/gateway.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DeviceService } from 'src/app/core/services/device.service';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { FormGridTemplate } from '../../models/form-grid-template';
 import { MatSelectCompleteComponent } from 'src/app/libs/material/mat-select-complete/mat-select-complete.component';
+import * as moment from 'moment';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import { CUSTOM_NGX_DATE_TIME_FORMATS } from 'src/app/libs/material/providers/date-time-picker';
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import { NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
+import { DeviceDTO } from 'src/app/core/models/device';
+import { relationTypeGraph } from 'src/app/libs/graficas/config/apexchart.type';
 
 @Component({
   selector: 'app-modal-grid-template',
   templateUrl: './modal-grid-template.component.html',
   styleUrls: ['./modal-grid-template.component.scss'],
+  providers: [],
 })
 export class ModalGridTemplateComponent implements OnInit {
   form: FormGroup;
 
   listTemplates$: Observable<TemplateDTO[]> = of([]);
   listDevices$: Observable<any[]> = of([]);
+
+  today = moment().format('YYYY-MM-DD HH:mm:ss');
+
+  /**
+   * detalles del dispositivo que se escogio.
+   */
+  detailsDevice: any;
+
+  templateIco: string = null;
 
   @ViewChild('matSelectTemplate') matSelectTemplate: MatSelectCompleteComponent;
 
@@ -82,8 +105,14 @@ export class ModalGridTemplateComponent implements OnInit {
 
   selectTemplate(template: TemplateDTO) {
     this.form.controls.idTemplate.setValue(template.id);
-    //this.form.controls.formChartOptions.setValue(template.json);
+    console.log("select template", template)
+    this.templateIco = relationTypeGraph.find(t=> t.type === template.json['chart.type']).img;
   }
+
+  selectDevice(device: DeviceDTO) {
+    this.detailsDevice = device?.description;
+  }
+
 
   limpiarFormulario() {
     this.form.reset();

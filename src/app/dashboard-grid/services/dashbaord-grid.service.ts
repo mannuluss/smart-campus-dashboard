@@ -27,6 +27,10 @@ export class DashbaordGridService {
       .get<GridDasboardDTO>(`${environment.adminService}/dashboard/grid`)
       .pipe(
         catchError((err) => {
+          this.snackbarService.show({
+            mensaje: 'No se pudo obtener la configuracion del dashboard del usuario.',
+            tipo: 'error',
+          });
           return [null];
         }),
         map<GridDasboardDTO, GridDasboardDTO>((grid) => {

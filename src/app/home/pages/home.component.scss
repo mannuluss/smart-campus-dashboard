@@ -6,14 +6,21 @@
 :host {
   padding: 32px;
   box-sizing: border-box;
-  .gridster-item{
+  .gridster-item {
     background-color: var(--accent-darker-color);
     border-radius: 16px;
     padding: 16px;
-  }
-  .img-hello-robot{
-    position: fixed;
-    top: 0;
-    right: 16px;
+    .content-first{
+      display: flex;
+    }
+    .message {
+      margin-right: 50px;
+      h1{
+        margin: 0;
+      }
+    }
+    .img-hello-robot {
+      margin-right: 40px;
+    }
   }
 }

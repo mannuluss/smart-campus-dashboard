@@ -9,6 +9,7 @@ import { ModalGridTemplateComponent } from './components/modal-grid-template/mod
 import { GraficasModule } from '../libs/graficas/graficas.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -18,13 +19,14 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   ],
   imports: [
     CommonModule,
+    DashbaordGridRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    DashbaordGridRoutingModule,
     GridsterModule,
     MaterialModule,
     GraficasModule,
     NgApexchartsModule,
+    MomentDateModule
   ],
 })
 export class DashboardGridModule {}

@@ -19,12 +19,12 @@ import {
 } from '@angular/forms';
 import { TemplateService } from '../services/template.service';
 import { DialogService } from 'src/app/core/dialog/services/dialog.service';
-import { ExampleDataTemplate } from '../models/example-template.dto';
 import { Observable, of } from 'rxjs';
-import { ExampleArray } from '../examples/examples.data';
+import { ExampleArray, GenerateExampleArrayData, GenerateExampleSimpleArray } from '../examples/examples.data';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
 import { MatSelectCompleteComponent } from '../../material/mat-select-complete/mat-select-complete.component';
+import _ from 'underscore';
 
 @Component({
   selector: 'app-template',
@@ -32,8 +32,6 @@ import { MatSelectCompleteComponent } from '../../material/mat-select-complete/m
   styleUrls: ['./template-generator.component.scss'],
 })
 export class TemplateGeneratorComponent implements OnInit {
-  @Input() type: ChartType = 'line';
-
   @ViewChild('chart') chart: ChartComponent;
 
   chartOptions: ChartOptions;
@@ -47,6 +45,8 @@ export class TemplateGeneratorComponent implements OnInit {
 
   //----------------------------------DATOS----------------------------------------------
   listTemplates$: Observable<TemplateDTO[]> = of([]);
+
+  listCategories: string[] = [];
 
   /**
    * formulario de la plantilla.
@@ -71,6 +71,8 @@ export class TemplateGeneratorComponent implements OnInit {
   @ViewChild('matSelectComplete')
   matSelectComplete: MatSelectCompleteComponent;
 
+  isMultiData = new FormControl(false);
+
   constructor(
     private cdr: ChangeDetectorRef,
     private formBuilder: FormBuilder,
@@ -78,43 +80,54 @@ export class TemplateGeneratorComponent implements OnInit {
     private modalDialog: DialogService,
     private modalConfirm: ModalConfirmService
   ) {
-    this.chartOptions = {
-      ...defaultChartConfig.base,
-      series: [...ExampleArray],
-      colors: ['#77B6EA', '#545454'],
+    this.chartOptions = defaultChartConfig.base;
+    // this.chartOptions = {
+    //   ...defaultChartConfig.base,
+    //   series: [...ExampleArray],
+    //   colors: ['#77B6EA', '#545454'],
+    //   title: {
+    //     text: '',
+    //     align: 'left',
+    //   },
+    //   xaxis: {
+    //     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    //     title: {
+    //       text: '',
+    //     },
+    //   },
+    //   yaxis: {
+    //     title: {
+    //       text: '',
+    //     },
+    //   },
+    // };
+    this.chartOptions.chart.type = 'line';
+    this.chartOptions.series = [...ExampleArray];
+    this.chartOptions.colors = ['#77B6EA', '#545454'];
+    this.chartOptions.title.text = '';
+    this.chartOptions.xaxis = {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
       title: {
         text: '',
-        align: 'center',
-      },
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-        title: {
-          text: '',
-        },
-      },
-      yaxis: {
-        title: {
-          text: '',
-        },
-        tooltip: {
-          enabled: true,
-        },
       },
     };
+    this.chartOptions.yaxis.title.text = '';
+
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      'chart.type': [this.type],
-      series: [...ExampleArray],
+      'chart.type': ['line'],
+      series: [[]],
+      'dataLabels.enabled': [false],
       colors: new FormArray([
         new FormControl('#77B6EA'),
         new FormControl('#545454'),
       ]),
-      'title.text': [this.chartOptions.title.text],
+      'title.text': [''],
       'xaxis.title.text': [''],
       'yaxis.title.text': [''],
-      'xaxis.categories': [this.chartOptions.xaxis.categories],
+      // 'xaxis.categories': [[]],
     });
 
     this.form.controls['chart.type'].valueChanges.subscribe((value) => {
@@ -126,12 +139,9 @@ export class TemplateGeneratorComponent implements OnInit {
       this.chartOptions.series = value;
     });
     this.form.controls['colors'].valueChanges.subscribe((value) => {
-      //aqui es el problema
-      console.log('change color', value.length);
       this.chartOptions.colors = value;
     });
     this.form.controls['title.text'].valueChanges.subscribe((value) => {
-      //this.setProperty('title.text', value);
       this.chartOptions.title.text = value;
     });
     this.form.controls['xaxis.title.text'].valueChanges.subscribe((value) => {
@@ -141,6 +151,11 @@ export class TemplateGeneratorComponent implements OnInit {
       this.fixBugYaxis();
       this.chartOptions.yaxis.title.text = value;
     });
+    this.form.controls['dataLabels.enabled'].valueChanges.subscribe((value) => {
+      this.chartOptions.dataLabels.enabled = value;
+    });
+
+    //this.chart.autoUpdateSeries = true;
 
     //formulario de la plantilla
     this.formPlantilla = new FormGroup({
@@ -157,6 +172,12 @@ export class TemplateGeneratorComponent implements OnInit {
       }
     });
     this.listTemplates$ = this.templateService.getAllTamplates();
+
+    //multiples datos para las graficas que lo permiten
+    this.isMultiData.valueChanges.subscribe((value) => {
+      this.changeExampleData(this.form.controls['chart.type'].value);
+      this.updateGraphic();
+    });
   }
 
   addColorGraph(color: string) {
@@ -174,23 +195,38 @@ export class TemplateGeneratorComponent implements OnInit {
     console.log('change type', typeGraphic);
     if (typeGraphic) {
       //se busca los datos de ejemplo para el tipo de grafico
-      let exampleData = this.listTypeGraphics.find(
-        (item) => item.type == typeGraphic
-      );
-      console.log('example data', exampleData);
-      if (exampleData) {
-        this.form.controls['series'].setValue(exampleData.example);
-      } else {
-        console.warn('no se encontro el Ejemplo para el tipo de grafico');
-      }
+      this.changeExampleData(typeGraphic);
       this.updateGraphic();
     }
   }
 
-  changeExampleData(nameTypeGraph: any) {
-    this.form.controls['series'].setValue(
-      this.listTypeGraphics.find((item) => item.type == nameTypeGraph).example
+  /**
+   * cambia los datos de ejemplo para el tipo de grafica.
+   * @param typeGraphic tipo de grafica.
+   */
+  changeExampleData(typeGraphic: ChartType) {
+    let exampleData = this.listTypeGraphics.find(
+      (item) => item.type == typeGraphic
     );
+    console.log('example data', exampleData, this.isMultiData.value);
+    if (exampleData) {
+      if (
+        (typeGraphic === 'line' ||
+          typeGraphic === 'area' ||
+          typeGraphic === 'bar') &&
+        this.isMultiData.value
+      ) {
+        this.form.controls['series'].setValue(GenerateExampleArrayData());
+        return;
+      }
+      if(typeGraphic === 'radialBar' && this.isMultiData.value){
+        this.form.controls['series'].setValue(GenerateExampleSimpleArray());
+        return;
+      }
+      this.form.controls['series'].setValue(exampleData.example);
+    } else {
+      console.warn('no se encontro el Ejemplo para el tipo de grafico');
+    }
   }
 
   /**
@@ -208,29 +244,15 @@ export class TemplateGeneratorComponent implements OnInit {
     this.chart?.updateSeries(this.chartOptions.series, true);
   }
 
-  typingNameTemplate($event: Event) {
-    let currentValue = $event.target['value'];
-    if (this.plantillaMode == 'create' && currentValue.length > 0) {
-    } else {
-      //if (!this.formPlantilla.value['id']) this.isCreateMode = false;
-    }
-    console.log('typing name template', currentValue);
-  }
-  /**
-   * cambia el valor del nombre de la plantilla.
-   * @param value
-   */
-  searchTemplate(value) {
-    //this.formPlantilla.controls['name'].setValue(value);
-  }
-
   /**
    * se selecciona un template entonces se remplaza los datos del formulario
    * @param template
    */
   selectTemplate(template: TemplateDTO) {
+    console.log('select template', template)
     if (!template) {
       this.formPlantilla.reset();
+      console.log('reset');
       return;
     }
     this.formPlantilla.patchValue(template);
@@ -240,22 +262,7 @@ export class TemplateGeneratorComponent implements OnInit {
     this.changeFormArray('colors', this.chartOptions.colors);
     //se cambia el formulario al template
     this.form.patchValue(Object.assign({}, template.json));
-
-    // this.form.setValue(
-    //   //this.templateService.chartOptionsToForm(template.data),
-    //   template.data,
-    //   //this.templateService.formToChartOptions(template.data),
-    //   { emitEvent: true }
-    // );
-    //this.chartOptions = Object.assign({}, template.data);
-    //this.chartOptions.colors = Object.assign([], template.data.colors);
-    //solucionar el bug que los colores no se actualizan
-    //se actuliza el form de las plantillas
     this.updateGraphic();
-  }
-
-  editarNameTemplate() {
-    //this.formPlantilla.controls['name'].setValue(template.name);
   }
 
   saveTemplate() {
@@ -309,18 +316,16 @@ export class TemplateGeneratorComponent implements OnInit {
 
   changeFormArray(field: string, array: any[]) {
     let count = (this.form.controls[field] as FormArray).length;
-    // let newcolors = new FormArray(
-    //   array.map((color, i) => new FormControl(color))
-    // );
-    // console.log('new colors', newcolors);
-    // this.form.setControl(field, newcolors);
+
+    console.log("reset colors");
+    (this.form.controls[field] as FormArray).clear();
     array.forEach((color, i) => {
-      if (i >= count) {
-        console.log('add color', color);
+      // if (i >= count) {
+        // console.log('add color', color);
         (this.form.controls[field] as FormArray).push(new FormControl(color));
-      } else {
-        (this.form.controls[field] as FormArray).at(i).setValue(color);
-      }
+      // } else {
+      //   (this.form.controls[field] as FormArray).at(i).setValue(color);
+      // }
     });
   }
 

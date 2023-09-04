@@ -10,6 +10,7 @@
     [list]="listTemplates$"
     (selectedChange)="selectTemplate($event)"
   >
+  <img matSuffix width="25" height="25" *ngIf="templateIco" [src]="templateIco">
   </app-mat-select-complete>
 
   <!--DEVICE-->
@@ -22,10 +23,19 @@
     keyValue="id"
     [list]="listDevices$"
     reloadOnTyping="true"
+    (selectedChange)="selectDevice($event)"
   >
+  <span hint *ngIf="detailsDevice">{{detailsDevice}}</span>
   </app-mat-select-complete>
 
-  <form [formGroup]="form">
+  <!--DETALLES DEL DISPOSITIVO-->
+  <!-- <mat-form-field *ngIf="detailsDevice">
+    <mat-label>Descripcion del dispositivo</mat-label>
+    <textarea matInput [value]="detailsDevice" disabled="true"></textarea>
+  </mat-form-field> -->
+
+
+  <form [formGroup]="form" class="form-dates">
     <mat-button-toggle-group
       [formControl]="form.controls.realtime"
       name="realtime"
@@ -41,29 +51,37 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
 
-    <mat-form-field>
-      <mat-label>Fecha inicio</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        placeholder="YYYY/MM/DD"
-        formControlName="initialDate"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <div class="container-dates">
+      <!--fecha desde-->
+      <mat-form-field>
+        <mat-label>Fecha inicio</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="picker"
+          placeholder="YYYY-MM-DD HH:mm:ss"
+          formControlName="initialDate"
+          [max]="today"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Fecha hasta</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker2"
-        placeholder="YYYY/MM/DD"
-        formControlName="endDate"
-        [min]="form.controls.initialDate.value"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
+      <!--FECHA HASTA-->
+      <mat-form-field>
+        <mat-label>Fecha hasta</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="picker2"
+          placeholder="YYYY-MM-DD HH:mm:ss"
+          formControlName="endDate"
+          [min]="form.controls.initialDate.value"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker2></ngx-mat-datetime-picker>
+      </mat-form-field>
+    </div>
   </form>
 </div>

@@ -23,7 +23,6 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    console.log('interceptor');
     // Se asigna el id del usuario al encabezado de la petición.
     if (!request.headers.has('PUBLIC-REQUEST')) {
       const modifiedRequest = request.clone({

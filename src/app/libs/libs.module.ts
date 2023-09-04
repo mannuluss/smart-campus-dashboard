@@ -11,12 +11,14 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CaruselModule } from "./carusel/carusel.module";
 import { ListColorsModule } from "./list-colors/list-colors.module";
+import { CoreModule } from "../core/core.module";
 
 @NgModule({
     declarations: [LayoutComponent],
     imports: [
         CommonModule,
         LibsRoutingModule,
+        CoreModule,
         MaterialModule,
         MatIconModule,
         RouterModule,

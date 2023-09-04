@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { LoadingInterceptor } from "./loader/interceptor/loading.interceptor";
-import { AuthInterceptor } from "./auth/services/auth.interceptor";
+import { LoadingInterceptor } from "../loader/interceptor/loading.interceptor";
+import { AuthInterceptor } from "../auth/services/auth.interceptor";
 
 /**
  * Interceptores principales basados en http.

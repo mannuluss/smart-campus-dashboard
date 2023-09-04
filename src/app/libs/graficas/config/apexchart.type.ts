@@ -9,7 +9,9 @@ import {
   ApexGrid,
   ApexTitleSubtitle,
   ApexLegend,
-  ChartType,
+  ApexTooltip,
+  ApexOptions,
+  ApexNoData,
 } from 'ng-apexcharts';
 import {
   ExampleArray,
@@ -17,6 +19,7 @@ import {
   ExampleSimpleArray,
 } from '../examples/examples.data';
 import { TypeGraphConfig } from '../models/typeGraphConfig.model';
+import { faker } from '@faker-js/faker';
 
 /**
  * estructura que contiene las opciones de configuracion de la grafica.
@@ -33,6 +36,9 @@ export type ChartOptions = {
   legend?: ApexLegend;
   xaxis?: ApexXAxis;
   yaxis?: ApexYAxis;
+  tooltip?: ApexTooltip;
+  labels?: string[];
+  noData?: ApexNoData;
 };
 
 /**
@@ -54,7 +60,7 @@ export const relationTypeGraph: TypeGraphConfig[] = [
   {
     name: 'Barras',
     type: 'bar',
-    img: 'https://cdn-icons-png.flaticon.com/512/4435/4435836.png',
+    img: '/assets/graph/bar-chart.png',
     example: ExampleArray,
   },
   {
@@ -73,7 +79,7 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     name: 'Barra Radial',
     type: 'radialBar',
     img: 'https://cdn-icons-png.flaticon.com/512/7849/7849266.png',
-    example: ExampleSimpleArray
+    example: [faker.number.int({ min: 0, max: 100 })],
   },
   {
     name: 'Dispersión',

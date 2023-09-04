@@ -4,7 +4,7 @@
     mat-icon-button
     (click)="addGridItem()"
     class="btn-add-grid"
-    matTooltip="Agregar grilla"
+    matTooltip="Añadir bloque"
     matTooltipPosition="below"
   >
     <mat-icon>add</mat-icon>
@@ -18,6 +18,16 @@
     matTooltipPosition="below"
   >
     <mat-icon class="saving-ico">save</mat-icon>
+  </button>
+  <!--DESCARTAR-->
+  <button
+    mat-icon-button
+    (click)="discardChanges()"
+    matTooltip="Descartar"
+    matTooltipPosition="below"
+    [disabled]="!isChanged"
+  >
+    <mat-icon class="saving-ico">settings_backup_restore</mat-icon>
   </button>
 </section>
 

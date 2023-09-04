@@ -1,8 +1,8 @@
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 
-import { AppService } from 'src/app/app.service';
 import { CoreModule } from 'src/app/core/core.module';
+import { AuthService } from '../services/auth.service';
 
 /**
  * Guard to control the navigation over authentication pages (login, signin, password-recovery).
@@ -21,14 +21,14 @@ export class AuthenticationGuard implements CanActivate {
    * @param appService - Main Application Service.
    * @param router - Angular's main router.
    */
-  constructor(private appService: AppService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (!this.appService.isUserAuthenticated()) {
+    if (!this.authService.isUserAuthenticated()) {
       return true;
     }
 
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/login']);
     return false;
   }
 

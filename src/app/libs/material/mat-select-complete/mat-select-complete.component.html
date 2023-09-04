@@ -34,9 +34,14 @@
     <mat-option
       *ngFor="let option of datos | searchFilter : controlText.value : key"
       [value]="option[key]"
-      (onSelectionChange)="selecItem(option)"
+      (click)="selecItem(option)"
+
     >
       {{ option.name }}
     </mat-option>
   </mat-autocomplete>
+  <ng-content select="[matSuffix]"></ng-content>
+  <mat-hint>
+    <ng-content select="[hint]"></ng-content>
+  </mat-hint>
 </mat-form-field>

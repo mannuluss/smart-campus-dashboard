@@ -11,6 +11,7 @@ $width-menu-closed: 76px;
 
 .drawer-container {
   height: 100vh;
+  transition: all 0.3s ease-in-out;
   .drawer {
     visibility: visible !important;
     transform: none;
@@ -39,11 +40,14 @@ $width-menu-closed: 76px;
     display: block !important;
     .menus-section {
       .menu-list {
-        width: 50px;
+        width: 78px;
         .item-label {
           display: none;
         }
       }
+    }
+    &::ng-deep .mat-list-item-content{
+      justify-content: center;
     }
   }
   .smart-campus-container-section {
@@ -61,7 +65,7 @@ $width-menu-closed: 76px;
   .menus-section {
     display: grid;
     gap: 8px;
-    padding: 0px 4px;
+    padding: 0px;
     .menu-list {
       width: 192px;
       flex-direction: column;
@@ -70,6 +74,28 @@ $width-menu-closed: 76px;
         width: 100%;
       }
     }
+  }
+}
+
+:host ::ng-deep .mat-list-item.item-menu {
+  cursor: pointer;
+  .lateral {
+    position: absolute;
+    left: 0;
+    width: 8px;
+    height: 100%;
+  }
+  &.active {
+    background: var(--accent-color);
+    .lateral {
+      background-color: var(--primary-lighter-color);
+    }
+  }
+  :hover {
+    background: var(--accent-darker-color);
+  }
+  .mat-list-item-content {
+    gap: 16px;
   }
 }
 

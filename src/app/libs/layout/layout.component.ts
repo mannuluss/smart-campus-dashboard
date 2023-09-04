@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { LayoutService } from './services/layout.service';
 import { FormControl } from '@angular/forms';
+import { BrokerService } from 'src/app/core/services/broker.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -31,16 +32,19 @@ export class LayoutComponent implements OnInit {
 
   menus: menu[] = [
     {
+      key: 'home',
       label: 'Inicio',
       icon: 'home',
       route: 'dashboard/home',
     },
     {
+      key: 'panel-control',
       label: 'Panel de control',
       icon: 'dashboard_customize',
       route: 'dashboard/panel-control',
     },
     {
+      key: 'template',
       label: 'Crear Plantilla',
       icon: 'design_services',
       route: 'dashboard/template',
@@ -50,7 +54,7 @@ export class LayoutComponent implements OnInit {
   /**
    * controla el menu seleccionado.
    */
-  controlMenu: FormControl = new FormControl('Inicio');
+  controlMenu: FormControl = new FormControl('home');
 
   user: any = {
     username: 'admin',
@@ -80,6 +84,7 @@ export class LayoutComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private layoutService: LayoutService,
+    private brokerService: BrokerService,
     private route: ActivatedRoute
   ) {}
 
@@ -103,9 +108,15 @@ export class LayoutComponent implements OnInit {
       this.preventChange = prevent;
     });
 
-    this.route.data.subscribe((data) => {
-      console.log('DATA OF ROUTE', data);
+
+    this.route.url.subscribe((url) => {
+
+    // .data.subscribe((data) => {
+      console.log('CHANGE URL', url);
     });
+
+    // INICIA EL SERVICIO DEL BROKER
+    this.brokerService.connect();
   }
 
   changeMenu(itemMenu: menu) {
@@ -114,7 +125,7 @@ export class LayoutComponent implements OnInit {
     if (this.preventChange) {
       return;
     }
-    this.controlMenu.setValue(itemMenu.label);
+    this.controlMenu.setValue(itemMenu.key);
     this.router.navigate([itemMenu.route]);
   }
 

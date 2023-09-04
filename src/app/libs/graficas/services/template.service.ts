@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { ChartOptions } from '../config/apexchart.type';
 import { SnackbarService } from 'src/app/core/snackbar/services/snackbar.service';
 import { Observable, catchError, map, tap } from 'rxjs';
-import { ChartType } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ChartType } from 'ng-apexcharts';
 import { defaultChartConfig } from '../config/default.chart.config';
 import { HttpClient } from '@angular/common/http';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { FormChartOptions } from '../models/form-chart-options';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { DataMessageDTO } from 'src/app/core/models/data.dto';
+import * as moment from 'moment';
+import { APP_DATE_TIME_FORMAT } from '../../material/providers/date-time-picker';
 
 @Injectable({
   providedIn: 'root',
@@ -165,33 +168,139 @@ export class TemplateService {
   chartOptionsToForm(chartOptions: ChartOptions) {
     let formulario: FormChartOptions = {};
     formulario['chart.type'] = chartOptions.chart.type;
-    formulario['series'] = chartOptions.series;
+    formulario['dataLabels.enabled'] = chartOptions.dataLabels.enabled;
     formulario['colors'] = chartOptions.colors;
     formulario['title.text'] = chartOptions.title.text;
     formulario['xaxis.title.text'] = chartOptions.xaxis?.title?.text;
     formulario['yaxis.title.text'] = chartOptions.yaxis?.title?.text;
-    formulario['xaxis.categories'] = chartOptions.xaxis?.categories;
 
     return formulario;
   }
 
+  /**
+   * mapper que convierte los valores del formulario de la grafica, en la configuracion de la grafica.
+   * @param form valores del fomulario de la plantilla y la configuracion de la grafica.
+   * @param chartOptions opciones de la grafica, en caso de no enviar se crea una nueva.
+   * @returns
+   */
   formToChartOptions(form: FormChartOptions, chartOptions?: ChartOptions) {
     if (!chartOptions) {
       chartOptions = defaultChartConfig.base;
     }
     chartOptions.chart.type = form['chart.type'] as ChartType;
-    chartOptions.series = form['series'];
+    chartOptions.dataLabels.enabled = form['dataLabels.enabled'];
     chartOptions.colors = form['colors'];
-    chartOptions.title = {};
     chartOptions.title.text = form['title.text'];
-    chartOptions.xaxis = {};
-    chartOptions.xaxis.title = {};
     chartOptions.xaxis.title.text = form['xaxis.title.text'];
-    chartOptions.yaxis = {};
-    chartOptions.yaxis.title = {};
+    //solucionar bug de y que se vuelve un arreglo
+    chartOptions.yaxis = { title: {} };
     chartOptions.yaxis.title.text = form['yaxis.title.text'];
-    chartOptions.xaxis.categories = form['xaxis.categories'];
-    console.log('chartOptions', chartOptions);
     return chartOptions;
+  }
+
+  /**
+   *
+   * @param data datos de la grafica
+   * @param typeGraph tipo de la grafica
+   * @param series en caso de agregar la informacion a una serie existente.
+   * @param categories en caso de agregar la informacion a una serie existente.
+   * @param realtime si se debe eliminar el primer elemento de la serie y las categorias. (utilizado en realtime)
+   * @returns
+   */
+  dataToSeries(
+    data: DataMessageDTO[],
+    chartOptions: ChartOptions,
+    realtime?: boolean
+  ) {
+    if (data.length == 0) {
+      chartOptions.series = [];
+      return; //return { series: chartOptions.series, categories: chartOptions.xaxis.categories };
+    }
+
+    //revisa si ya existia la serie
+    if (!chartOptions.series) {
+      chartOptions.series = [];
+    } else {
+      if (realtime) {
+        //esto ocurre porque las series de "radialBar" son un arreglo de numeros.
+        if (chartOptions.chart.type != 'radialBar') {
+          chartOptions.series.forEach((item) => item.data.shift());
+        }
+      }
+    }
+    if (!chartOptions.xaxis.categories) {
+      chartOptions.xaxis.categories = [];
+    } else {
+      if (realtime) {
+        chartOptions.xaxis.categories.shift();
+      }
+    }
+
+    if (
+      chartOptions.chart.type == 'line' ||
+      chartOptions.chart.type == 'area' ||
+      chartOptions.chart.type == 'bar'
+    ) {
+      console.log("datos", data)
+      chartOptions.series = [{data:[]}];
+      data.forEach((item, i) => {
+        let keys = Object.keys(item.values);
+        keys.forEach((key) => {
+          // let serie = chartOptions.series.find((serie) => serie.name == key);
+          // if (serie) {
+          //   serie.data.push([new Date(item.timeStamp).getTime(), item.values[key]]as any)
+          //   // serie.data.push(item.values[key]);
+          // } else {
+          //   chartOptions.series.push({
+          //     name: key,
+          //     data: [item.values[key]],
+          //   });
+          // }
+          let dato:[number,number] = [new Date(item.timeStamp).getTime(),item.values[key]]
+          chartOptions.series[0].data.push(dato as any);
+        });
+      });
+      console.log('series for data', chartOptions.series);
+      // chartOptions.xaxis.categories.push(
+      //   ...data.map((item) => {
+      //     return moment(item.timeStamp).toDate().getTime();//TODO REVISAR PORQUE SOLO PERMITE PARA HORAS Y NO EL RESTO DE TIEMPOS
+      //   })
+      // );
+      //asigna el tipo datetime a las categorias
+      chartOptions.xaxis.type = 'datetime';
+      //chartOptions.xaxis.tickAmount = 12;
+      chartOptions.xaxis.labels = {
+        format: 'yyyy-dd-MM HH:mm:ss',
+        // formatter: function (value, timestamp, opts) {
+        //   console.log('value', value)
+        //   return moment(new Date(value)).format(APP_DATE_TIME_FORMAT);
+        // },
+      }
+    } else if (
+      chartOptions.chart.type == 'pie' ||
+      chartOptions.chart.type == 'donut' ||
+      chartOptions.chart.type == 'radialBar'
+    ) {
+      let allData = {};
+      data.forEach((item, i) => {
+        let keys = Object.keys(item.values);
+        keys.forEach((key) => {
+          if (!allData[key]) {
+            allData[key] = [];
+          }
+          allData[key].push(item.values[key]);
+        });
+      });
+      //se obtiene el promedio de los datos para cada key
+      chartOptions.xaxis.categories = Object.keys(allData);
+      chartOptions.labels = Object.keys(allData);
+      //saca el promedio de los datos
+      chartOptions.xaxis.categories.forEach((key, i) => {
+        let sum = allData[key].reduce((a, b) => a + b, 0);
+        let avg = sum / allData[key].length || 0;
+        chartOptions.series[i] = avg as any;
+      });
+      console.log('allData', allData);
+    }
   }
 }

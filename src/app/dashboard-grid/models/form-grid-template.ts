@@ -5,7 +5,7 @@ export interface FormGridTemplate {
   name: string;
   idTemplate: number;
   idDevice: number;
-  realtime: boolean;
+  realtime: string;
   initialDate: Date;
   endDate: Date;
 }

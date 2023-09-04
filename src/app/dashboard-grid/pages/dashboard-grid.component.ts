@@ -33,16 +33,12 @@ import { RelationGristerTemplate } from '../models/data-grid-template';
   styleUrls: ['./dashboard-grid.component.scss'],
 })
 export class DashboardGridComponent implements OnInit {
-  form: FormControl = new FormControl('almacenado');
-
   // OPTIONS FOR GRIDSTER
   options: GridsterConfig;
-  dashboard: Array<GridsterItem>;
-
   /**
-   * informacion del grid sin cambiar.
+   * lista de gridster items de la grilla.
    */
-  initialDashboard: Array<GridsterItem>;
+  dashboard: Array<GridsterItem>;
 
   /**
    * id del grid almacenado en la base de datos.
@@ -55,7 +51,27 @@ export class DashboardGridComponent implements OnInit {
    */
   templates: RelationGristerTemplate = {};
 
+  /**
+   * lista de componentes hijos del gridster (ya renderizada).
+   */
   gridItemsComponent: { [index: string]: GridsterItemComponentInterface } = {};
+
+  /**
+   * informacion del grid sin cambiar.
+   */
+  initialDashboard: Array<GridsterItem>;
+
+  /**
+   * informacion de los templates sin cambiar.
+   */
+  initialTemplates: RelationGristerTemplate = {};
+
+  get isChanged(): boolean {
+    return (
+      !_.isEqual(this.dashboard, this.initialDashboard) ||
+      !_.isEqual(this.templates, this.initialTemplates)
+    );
+  }
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -131,12 +147,12 @@ export class DashboardGridComponent implements OnInit {
       draggable: {
         delayStart: 0,
         enabled: true,
-        ignoreContentClass: 'gridster-item-content',
+        ignoreContentClass: 'parent-grid-item',
         ignoreContent: false,
         dragHandleClass: 'drag-handler',
+        dropOverItems: false,
         // stop: DashboardGridComponent.eventStop,
         // start: DashboardGridComponent.eventStart,
-        dropOverItems: false,
         // dropOverItemsCallback: DashboardGridComponent.overlapEvent,
       },
       pushItems: true,
@@ -145,7 +161,7 @@ export class DashboardGridComponent implements OnInit {
     this.initGridLayout();
     //se subcribe a los cambios del navbar
     this.layoutService.getChangeNav().subscribe((data) => {
-      if (!_.isEqual(this.dashboard, this.initialDashboard)) {
+      if (this.isChanged) {
         this.saveGridsterOptions();
       } else {
         this.preventChangeNavbarAndShowSave(false);
@@ -177,7 +193,9 @@ export class DashboardGridComponent implements OnInit {
             this.dashboard.push(data.grid);
             if (data.formTemplate) this.templates[index] = data.formTemplate;
           });
+          //se crea una copia de la informacion inicial (backup).
           this.initialDashboard = _.clone(this.dashboard);
+          this.initialTemplates = _.clone(this.templates);
         }
       });
     this.initialDashboard = _.clone(this.dashboard);
@@ -243,18 +261,16 @@ export class DashboardGridComponent implements OnInit {
     this.layoutService.setPrevent(true);
     this.modalConfirmService
       .show({
-        title: 'Guardar',
-        content: '¿Desea guardar los cambios?',
+        title: 'Cambios sin guardar',
+        content: 'Hay cambios sin guardar, ¿Desea guardar los cambios?',
         actions: {
           primary: 'Guardar',
-          secondary: 'Descartar',
+          secondary: 'Cancelar',
         },
       })
       .then((data) => {
         if (data) {
           this.saveOptions();
-        } else {
-          this.preventChangeNavbarAndShowSave(false);
         }
       });
   }
@@ -269,8 +285,29 @@ export class DashboardGridComponent implements OnInit {
       .subscribe((data) => {
         this.idGrid = data.id;
         this.initialDashboard = _.clone(this.dashboard);
+        this.initialTemplates = _.clone(this.templates);
         this.preventChangeNavbarAndShowSave(false);
         console.log(data);
+      });
+  }
+
+  /**
+   * descarta los cambios realizados en el grid.
+   */
+  discardChanges() {
+    this.modalConfirmService
+      .show({
+        title: 'Descartar',
+        content: '¿Desea descartar los cambios?',
+        actions: {
+          primary: 'Descartar',
+          secondary: 'Cancelar',
+        },
+      })
+      .then((data) => {
+        this.dashboard = _.clone(this.initialDashboard);
+        this.templates = _.clone(this.initialTemplates);
+        this.preventChangeNavbarAndShowSave(false);
       });
   }
 }

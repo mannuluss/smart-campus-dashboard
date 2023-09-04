@@ -43,19 +43,28 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MomentDateModule,
+  MAT_MOMENT_DATE_FORMATS,
 } from '@angular/material-moment-adapter';
+import {
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+  NgxMatDatetimePickerModule,
+  NGX_MAT_DATE_FORMATS,
+} from '@angular-material-components/datetime-picker';
+import { CUSTOM_NGX_DATE_TIME_FORMATS } from './providers/date-time-picker';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'YYYY-MM-DD',
-  },
-  display: {
-    dateInput: 'YYYY-MM-DD',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY',
-  },
-};
+// export const MY_FORMATS = {
+//   parse: {
+//     dateInput: 'YYYY-MM-DD',
+//   },
+//   display: {
+//     dateInput: 'YYYY-MM-DD',
+//     monthYearLabel: 'YYYY',
+//     dateA11yLabel: 'LL',
+//     monthYearA11yLabel: 'YYYY',
+//   },
+// };
 @NgModule({
   declarations: [MatSelectCompleteComponent, SearchFilterPipe],
   exports: [
@@ -92,19 +101,22 @@ export const MY_FORMATS = {
     MatTooltipModule,
     MatSelectCompleteComponent,
     SearchFilterPipe,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
   ],
   providers: [
     {
       provide: MatDialogRef,
       useValue: {},
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_NGX_DATE_TIME_FORMATS },
   ],
   imports: [
     CommonModule,

@@ -1,60 +1,74 @@
+import { ApexOptions, ApexResponsive } from 'ng-apexcharts';
 import { ChartOptions } from './apexchart.type';
 
 export class defaultChartConfig {
   static get base(): ChartOptions {
     return {
       dataLabels: {
-        enabled: true,
+        enabled: false,
       },
       chart: {
         type: 'line',
-        height: '500px',
+        height: '450px',
+        toolbar: {
+          offsetX: -80,
+        },
       },
       title: {
-        align: 'center',
+        align: 'left',
+        floating: false,
       },
       stroke: {
         curve: 'smooth',
         lineCap: 'butt',
+        width: 3,
       },
       legend: {
         show: true,
-        position: 'top',
         horizontalAlign: 'right',
         floating: true,
-        offsetY: -25,
-        // offsetX: -5,
+        formatter: function (val, opts) {
+          if (opts.w.config.chart.type == 'radialBar') {
+            return (
+              val +
+              ' - ' +
+              Number(opts.w.globals.series[opts.seriesIndex]).toFixed(2) +
+              '%'
+            );
+          } else {
+            return val;
+          }
+        },
       },
       grid: {
         show: true,
-        borderColor: '#e7e7e7',
-        row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5,
+        borderColor: '#535a6c22',
+        padding: {
+          bottom: 8,
+        },
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       markers: {
-        size: 5,
+        size: 0,
       },
-    };
-  }
-
-  /**
-   * configuracion por defecto para graficas de tipo barra.
-   */
-  static get bar(): ChartOptions {
-    return {
-      chart: {
-        type: 'bar',
-        height: 400,
-        toolbar: {
-          show: true,
-          // tools:{
-          //   customIcons
-          // }
-        },
+      tooltip: { theme: 'dark' },
+      xaxis: {
+        title: {},
       },
-      ...this.base,
+      yaxis: { title: {} },
+      noData: {
+        text: 'No hay datos disponibles',
+        align: 'center',
+      },
     };
   }
 }

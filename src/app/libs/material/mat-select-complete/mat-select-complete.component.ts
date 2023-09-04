@@ -106,7 +106,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
   datos: any[] = [];
 
   typingTimer: any;
-  doneTypingInterval: number = 250; // Tiempo en milisegundos para considerar que el usuario ha terminado de escribir
+  doneTypingInterval: number = 350; // Tiempo en milisegundos para considerar que el usuario ha terminado de escribir
 
   ngOnInit() {
     this.updateDataList();
@@ -177,6 +177,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
           if (current) {
             this.controlText.setValue(current[this.key], { emitEvent: false });
             this.selectedOption = current;
+            this.selectedChange?.emit(current);
           }
         },
         (error) => {
@@ -189,7 +190,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
   }
 
   selecItem(option: any) {
-    console.log('select');
+    console.log('MAT Select', option);
     this.selectedOption = option;
     //se selecciono un item segun al input
     if (option[this.key] != this.controlText.value) {
