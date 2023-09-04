@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^8.0.0",
     "@angular/animations": "^16.2.0",
     "@angular/cdk": "^16.1.6",
     "@angular/common": "^16.1.7",
@@ -22,6 +23,7 @@
     "@angular/platform-browser": "^16.1.7",
     "@angular/platform-browser-dynamic": "^16.1.7",
     "@angular/router": "^16.1.7",
+    "@faker-js/faker": "^8.0.2",
     "angular-gridster2": "^16.0.0",
     "apexcharts": "^3.41.1",
     "chart.js": "^4.3.2",
@@ -29,6 +31,7 @@
     "ng-apexcharts": "^1.8.0",
     "ng2-charts": "^5.0.1",
     "ngx-colors": "^3.5.2",
+    "ngx-mqtt": "^16.1.0",
     "rxjs": "~7.8.1",
     "swiper": "^8.4.7",
     "tslib": "^2.6.1",

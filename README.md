@@ -30,3 +30,8 @@ https://www.npmjs.com/package/ng-apexcharts
 libreria que se usa para la grilla dinamica donde se agregan las plantillas de las graficas.
 
 https://automatica-core.github.io/ngx-gridster/
+
+## NgxMatDatetimePickerModule
+libreria para los datetime picker.
+
+https://www.npmjs.com/package/@angular-material-components/datetime-picker
