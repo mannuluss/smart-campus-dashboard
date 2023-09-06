@@ -9,6 +9,11 @@ const routes: Routes = [
   //   pathMatch: 'full',
   // },
   {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
     path: 'dashboard',
     component: LayoutComponent,
     children: [

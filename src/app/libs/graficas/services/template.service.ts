@@ -214,7 +214,7 @@ export class TemplateService {
   ) {
     if (data.length == 0) {
       chartOptions.series = [];
-      return; //return { series: chartOptions.series, categories: chartOptions.xaxis.categories };
+      return;
     }
 
     //revisa si ya existia la serie
@@ -238,44 +238,63 @@ export class TemplateService {
 
     if (
       chartOptions.chart.type == 'line' ||
-      chartOptions.chart.type == 'area' ||
-      chartOptions.chart.type == 'bar'
+      chartOptions.chart.type == 'area'
     ) {
-      console.log("datos", data)
-      chartOptions.series = [{data:[]}];
+      if (!chartOptions.series || chartOptions.series.length == 0) {
+        chartOptions.series = [{ data: [] }];
+      }
       data.forEach((item, i) => {
         let keys = Object.keys(item.values);
         keys.forEach((key) => {
-          // let serie = chartOptions.series.find((serie) => serie.name == key);
-          // if (serie) {
-          //   serie.data.push([new Date(item.timeStamp).getTime(), item.values[key]]as any)
-          //   // serie.data.push(item.values[key]);
-          // } else {
-          //   chartOptions.series.push({
-          //     name: key,
-          //     data: [item.values[key]],
-          //   });
-          // }
-          let dato:[number,number] = [new Date(item.timeStamp).getTime(),item.values[key]]
-          chartOptions.series[0].data.push(dato as any);
+          let dato: [number, number] = [
+            new Date(item.timeStamp).getTime(),
+            item.values[key],
+          ];
+          let serie = chartOptions.series.find((serie) => serie.name == key);
+          if (serie) {
+            serie.data.push(dato as any);
+          } else {
+            chartOptions.series.push({
+              name: key,
+              data: [dato as any],
+            });
+          }
         });
       });
-      console.log('series for data', chartOptions.series);
-      // chartOptions.xaxis.categories.push(
-      //   ...data.map((item) => {
-      //     return moment(item.timeStamp).toDate().getTime();//TODO REVISAR PORQUE SOLO PERMITE PARA HORAS Y NO EL RESTO DE TIEMPOS
-      //   })
-      // );
-      //asigna el tipo datetime a las categorias
       chartOptions.xaxis.type = 'datetime';
-      //chartOptions.xaxis.tickAmount = 12;
       chartOptions.xaxis.labels = {
-        format: 'yyyy-dd-MM HH:mm:ss',
-        // formatter: function (value, timestamp, opts) {
-        //   console.log('value', value)
-        //   return moment(new Date(value)).format(APP_DATE_TIME_FORMAT);
-        // },
+        //format: 'HH:mm:ss',
+        datetimeUTC: false,
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: "MMM 'yy",
+          day: 'dd MMM',
+          hour: 'HH:mm',
+          minute: 'HH:mm',
+          second: 'mm:ss',
+        },
+      };
+    } else if (chartOptions.chart.type == 'bar') {
+      if (!chartOptions.series || chartOptions.series.length == 0) {
+        chartOptions.series = [];
       }
+      data.forEach((item, i) => {
+        let keys = Object.keys(item.values);
+        keys.forEach((key) => {
+          let serie = chartOptions.series.find((serie) => serie.name == key);
+          if (serie) {
+            serie.data.push(item.values[key]);
+          } else {
+            chartOptions.series.push({
+              name: key,
+              data: [item.values[key]],
+            });
+          }
+        });
+      });
+      chartOptions.labels =
+        // chartOptions.xaxis.categories
+        data.map((item) => moment(item.timeStamp).format('DD-MM'));
     } else if (
       chartOptions.chart.type == 'pie' ||
       chartOptions.chart.type == 'donut' ||

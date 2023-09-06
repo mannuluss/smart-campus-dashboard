@@ -12,6 +12,7 @@ export class defaultChartConfig {
         height: '450px',
         toolbar: {
           offsetX: -80,
+          show: true
         },
       },
       title: {

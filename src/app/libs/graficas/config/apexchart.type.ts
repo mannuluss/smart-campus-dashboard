@@ -81,12 +81,12 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     img: 'https://cdn-icons-png.flaticon.com/512/7849/7849266.png',
     example: [faker.number.int({ min: 0, max: 100 })],
   },
-  {
-    name: 'Dispersión',
-    type: 'scatter',
-    img: 'https://cdn-icons-png.flaticon.com/512/2364/2364639.png',
-    example: ExampleGroupMultidata
-  },
+  // {
+  //   name: 'Dispersión',
+  //   type: 'scatter',
+  //   img: 'https://cdn-icons-png.flaticon.com/512/2364/2364639.png',
+  //   example: ExampleGroupMultidata
+  // },
   // { name: 'Burbujas', type: 'bubble' },
   // { name: 'Mapa de Calor', type: 'heatmap' },
   // { name: 'Vela', type: 'candlestick' },

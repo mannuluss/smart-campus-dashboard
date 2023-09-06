@@ -4,4 +4,6 @@ export class DeviceDTO {
   description: string;
   is_gateway?: boolean;
   device_parent?: number;
+  //mapeado en el backend
+  name_deviceId: string;
 }

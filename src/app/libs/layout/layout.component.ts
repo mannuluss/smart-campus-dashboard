@@ -6,11 +6,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { menu } from './models/menu.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { LayoutService } from './services/layout.service';
 import { FormControl } from '@angular/forms';
 import { BrokerService } from 'src/app/core/services/broker.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -80,6 +81,8 @@ export class LayoutComponent implements OnInit {
 
   @HostBinding('class') className = '';
 
+  subscriberRoute: any;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -108,19 +111,21 @@ export class LayoutComponent implements OnInit {
       this.preventChange = prevent;
     });
 
-
-    this.route.url.subscribe((url) => {
-
-    // .data.subscribe((data) => {
-      console.log('CHANGE URL', url);
-    });
+    //selecciona el menu que fue seleccionado por la url
+    this.initialUrlChange();
 
     // INICIA EL SERVICIO DEL BROKER
     this.brokerService.connect();
   }
 
+  initialUrlChange() {
+    const currentUrl = this.router.url;
+    let menu = this.menus.find((m) => '/' + m.route == currentUrl);
+    this.changeMenu(menu);
+  }
+
   changeMenu(itemMenu: menu) {
-    console.log('changeMenu', itemMenu)
+    console.log('changeMenu', itemMenu);
     this.layoutService.changeNav$.next(itemMenu);
     if (this.preventChange) {
       return;
