@@ -56,7 +56,6 @@ export class LoaderService {
    * Muestra un loader GET
    */
   public show(): void {
-    // Hack avoiding `ExpressionChangedAfterItHasBeenCheckedError` error
     Promise.resolve(null).then(() => {
       this.overlayRef = this.overlay.create({
         minWidth: 100,
@@ -79,8 +78,6 @@ export class LoaderService {
       });
       const componentPortal = new ComponentPortal(BloqueadorComponent);
       const attachedComp = this.overlayRef.attach(componentPortal);
-      //agrega un blur al componente principal
-      //document.getElementsByTagName('app-root')[0].setAttribute('style', 'filter: blur(10px);');
     });
   }
   /**
@@ -91,7 +88,5 @@ export class LoaderService {
       this.overlayRef.detach();
     }
     this.overlayRef = undefined;
-    //elimina un blur al componente principal
-    //document.getElementsByTagName('app-root')[0].setAttribute('style', '');
   }
 }
