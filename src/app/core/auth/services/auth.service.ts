@@ -23,14 +23,7 @@ export class AuthService {
    * User logged in, null if no user is logged in yet.
    *
    */
-  public user: User = {
-    admin: true,
-    email: '',
-    id: 1,
-    name: 'felipe rojas',
-    password: '',
-    username: 'mannulus',
-  };//TODO: cambiar por null
+  public user: User; //TODO: cambiar por null
 
   /**
    * Subject emited any time it's necessary to subscribe to the notifications (after authentication succeedd).
@@ -48,7 +41,27 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private snackBar: SnackbarService
-  ) {}
+  ) {
+    this.user = this.getUser();
+  }
+
+  getUser(): User {
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      return user;
+    } else if (!environment.production) {
+      return {
+        id: 1,
+        name: 'felipe rojas',
+        username: 'mannulus',
+        email: '',
+        password: '',
+        admin: true,
+      };
+    } else {
+      return null;
+    }
+  }
 
   /**
    * Verifies if the user is authenticated or not, checking first in the user stored in memory,
@@ -58,7 +71,7 @@ export class AuthService {
    * @date 2019-04-09
    * @returns true if the user is authenticated, false otherwise.
    */
-  public isUserAuthenticated(): boolean {
+  isUserAuthenticated(): boolean {
     if (this.user) {
       return true;
     }
@@ -91,12 +104,11 @@ export class AuthService {
    * @param user - user to be authenticated.
    * @returns an Observable wrapping the User object containing the information about the logged in user.
    */
-  public login(user: User): Observable<User> {
+  login(user: User): Observable<User> {
     return this.http
       .post<User>(
         `${environment.adminService}/users/authentication`,
         user,
-        Util.options()
       )
       .pipe(
         catchError((error: any) => {
@@ -114,7 +126,7 @@ export class AuthService {
    */
   logout() {
     this.user = null;
-    sessionStorage.clear();
+    sessionStorage.removeItem('user');
     this.router.navigate(['/auth/login']);
   }
 

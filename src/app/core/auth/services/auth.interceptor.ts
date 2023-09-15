@@ -27,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (!request.headers.has('PUBLIC-REQUEST')) {
       const modifiedRequest = request.clone({
         setHeaders: {
-          idUser: this.authService.user?.id.toString(),
+          idUser: this.authService.user?.id?.toString(),
         },
       });
 

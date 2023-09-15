@@ -63,11 +63,6 @@ export class DialogComponent implements OnInit {
   otherButtons: Button[] = [];
 
   /**
-   * Si está minimizado el modal.
-   */
-  minimized = false;
-
-  /**
    * Posición del modal.
    */
   dragPosition: Point = null;
