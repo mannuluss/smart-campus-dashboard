@@ -30,3 +30,12 @@ gridster {
 .gridster-item {
   border-radius: 16px;
 }
+
+.no-content-gridster {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}

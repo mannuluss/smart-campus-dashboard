@@ -1,6 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LayoutService } from './libs/layout/services/layout.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,10 @@ export class AppComponent {
 
   isDarkTheme: Observable<boolean>;
 
-  constructor(private themeService: LayoutService) {}
+  constructor(
+    private themeService: LayoutService,
+    private _overlayContainer: OverlayContainer
+  ) {}
 
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
@@ -22,9 +26,15 @@ export class AppComponent {
       if (value) {
         setTimeout(() => {
           this.className = 'dark-mode';
+          this._overlayContainer
+            .getContainerElement()
+            .classList.add('dark-mode');
         }, 250);
       } else {
         this.className = '';
+        this._overlayContainer
+          .getContainerElement()
+          .classList.remove('dark-mode');
       }
     });
   }

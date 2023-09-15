@@ -35,7 +35,8 @@ button.mat-icon-button:not([class*="mat-elevation-z"]) {
   line-height: 30px;
 }
 
-.mat-drawer-container {
+.mat-drawer-container,
+.dark-mode .mat-drawer-container {
   background: none;
 }
 

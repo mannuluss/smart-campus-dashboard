@@ -1,8 +1,8 @@
 $width-menu-closed: 76px;
 
-:host button.mat-icon-button {
-  color: var(--text-primary-color);
-}
+// :host button.mat-icon-button {
+//   color: var(--text-primary-color);
+// }
 
 :host button.mat-icon-button:hover {
   color: var(--primary-color);
@@ -46,7 +46,7 @@ $width-menu-closed: 76px;
         }
       }
     }
-    &::ng-deep .mat-list-item-content{
+    &::ng-deep .mat-list-item-content {
       justify-content: center;
     }
   }
@@ -54,8 +54,6 @@ $width-menu-closed: 76px;
     padding: 0px 16px 16px 0px;
     .body-section {
       padding: 16px;
-      background-color: var(--accent-color);
-      // background-color: var(--text-primary-color);
       border-radius: 25px;
       min-height: 84vh;
       position: relative;
@@ -79,20 +77,14 @@ $width-menu-closed: 76px;
 
 :host ::ng-deep .mat-list-item.item-menu {
   cursor: pointer;
+  .item-label{
+    cursor: pointer;
+  }
   .lateral {
     position: absolute;
     left: 0;
     width: 8px;
     height: 100%;
-  }
-  &.active {
-    background: var(--accent-color);
-    .lateral {
-      background-color: var(--primary-lighter-color);
-    }
-  }
-  :hover {
-    background: var(--accent-darker-color);
   }
   .mat-list-item-content {
     gap: 16px;
@@ -103,10 +95,6 @@ $width-menu-closed: 76px;
   display: flex;
   align-items: center;
   gap: 16px;
-  .title {
-    text-decoration: none;
-    color: var(--primary-lighter-color);
-  }
 }
 
 // margin del drawer cuando el sidebar esta cerrado
@@ -114,7 +102,7 @@ $width-menu-closed: 76px;
   margin-left: $width-menu-closed;
 }
 
-.title {
+.app-bar-title {
   font-size: 30px;
 }
 

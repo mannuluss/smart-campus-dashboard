@@ -44,4 +44,9 @@
       ></app-dashbaord-grid-item>
     </gridster-item>
   </ng-container>
+  <div class="no-content-gridster" *ngIf="dashboard?.length == 0">
+    <strong>Ups... no hay bloques en donde crear las graficas.</strong>
+    <br>
+    <span>Para los bloques, presione el boton de "+"</span>
+  </div>
 </gridster>

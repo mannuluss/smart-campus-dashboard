@@ -13,11 +13,18 @@
   </gridster-item>
 
   <gridster-item [item]="dashboard[1]" class="gridster-item">
-    el segundo
+    <img src="assets/home/avatar-info.svg" class="img-informativo" />
   </gridster-item>
 
   <gridster-item [item]="dashboard[2]" class="gridster-item">
-    el tutorial
-    <a routerLink="/dashboard/home/tutorial">Iniciar tutorial</a>
+    <div class="grid-container-tutorial">
+      <span>¿Perdido?</span>
+      <img src="assets/home/avatar-ask.svg" class="img-tutorial" />
+      <span>¡No te preocupes!</span>
+      <span>Te ayudaremos a configurar tu panel de control</span>
+      <button mat-stroked-button>
+        <a routerLink="/dashboard/home/tutorial">Iniciar tutorial</a>
+      </button>
+    </div>
   </gridster-item>
 </gridster>

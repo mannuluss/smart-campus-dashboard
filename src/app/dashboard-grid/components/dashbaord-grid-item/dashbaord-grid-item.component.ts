@@ -144,9 +144,18 @@ export class DashbaordGridItemComponent implements OnInit {
     }
   }
 
+  /**
+   * accion al presionar el boton de eliminar.
+   * En caso de ser una grilla que no tiene plantilla, se elimina directamente.
+   * @param $event
+   */
   removeItem($event: Event) {
     $event.preventDefault();
     $event.stopPropagation();
+    if (this.formTemplate == null) {
+      this.actionEliminar($event);
+      return;
+    }
     this.confirmService
       .show({
         title: 'Eliminar',
@@ -158,18 +167,26 @@ export class DashbaordGridItemComponent implements OnInit {
       })
       .then((action) => {
         if (action) {
-          this.isRemoving = true;
-          this.cdr.detectChanges();
-          setTimeout(() => {
-            let event: EventGridRemoveItem = {
-              event$: $event,
-              item: this.item,
-              i: this.index,
-            };
-            this.remove.emit(event);
-          }, 250);
+          this.actionEliminar($event);
         }
       });
+  }
+
+  /**
+   * accion de eliminar el elemento.
+   * @param $event
+   */
+  actionEliminar($event) {
+    this.isRemoving = true;
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      let event: EventGridRemoveItem = {
+        event$: $event,
+        item: this.item,
+        i: this.index,
+      };
+      this.remove.emit(event);
+    }, 250);
   }
 
   modalDataTemplate(edit: boolean) {
@@ -214,10 +231,7 @@ export class DashbaordGridItemComponent implements OnInit {
       //establece el alto de la grafica
       this.chartOptions.chart.height = this.heightChild;
       //asigna la data a la grafica
-      this.templateService.dataToSeries(
-        dataDevice,
-        this.chartOptions
-      );
+      this.templateService.dataToSeries(dataDevice, this.chartOptions);
       //this.chartOptions.series = series;
       //label para las graficas de pastel
       // this.chartOptions.labels = categories;
@@ -246,11 +260,7 @@ export class DashbaordGridItemComponent implements OnInit {
         this.brokerService.subscribe(data.topic).subscribe((message) => {
           let dato = JSON.parse(message.payload.toString());
           console.log(dato);
-          this.templateService.dataToSeries(
-            [dato],
-            this.chartOptions,
-            true
-          );
+          this.templateService.dataToSeries([dato], this.chartOptions, true);
           this.chart.updateSeries(this.chartOptions.series, true);
         });
       });

@@ -31,7 +31,7 @@ export class DashbaordGridService {
             mensaje: 'No se pudo obtener la configuracion del dashboard del usuario.',
             tipo: 'error',
           });
-          return [null];
+          throw err;
         }),
         map<GridDasboardDTO, GridDasboardDTO>((grid) => {
           if (grid?.data) {

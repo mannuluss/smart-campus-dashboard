@@ -3,11 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './libs/layout/layout.component';
 import { TemplateGeneratorComponent } from './libs/graficas/components/template-generator.component';
 const routes: Routes = [
-  // {
-  //   path: '**',
-  //   redirectTo: 'dashboard',
-  //   pathMatch: 'full',
-  // },
   {
     path: '',
     redirectTo: 'dashboard',
