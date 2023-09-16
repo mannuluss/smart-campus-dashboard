@@ -4,7 +4,7 @@
 }
 
 :host {
-  padding: 32px;
+  //padding: 32px;
   box-sizing: border-box;
   .gridster-item {
     border-radius: 16px;
@@ -31,5 +31,70 @@
         max-height: 220px;
       }
     }
+  }
+}
+
+.home-card {
+  position: relative;
+  border-radius: 8px;
+  margin-top: 16px;
+  margin-left: 16px;
+  width: calc(100% - 64px);
+  min-height: calc(84vh - 64px);
+
+  .title-container {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    .small-title {
+      font-size: 30px;
+      margin: 0;
+      text-align: center;
+      letter-spacing: 10px;
+      font-family: "Inter";
+    }
+    .fat-title {
+      margin: 0;
+      font-size: 90px;
+      font-family: "Nerko One";
+    }
+    .uis-text {
+      font-family: "Jost";
+      font-weight: 800;
+      font-size: 36px;
+      margin-left: 90%;
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+    .uis-block {
+      position: absolute;
+      top: 1px;
+      left: -24px;
+      z-index: -1;
+      width: 100px;
+      height: 45px;
+      border-radius: 16px;
+      background-color: var(--color-uis);
+    }
+  }
+  .btn-tutorial {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+  }
+  .img-hello-robot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+  }
+  .describe {
+    position: absolute;
+    left: 15%;
+    bottom: calc(50% - 100px);
+    font-size: 25px;
+    width: 550px;
+    text-align: center;
   }
 }

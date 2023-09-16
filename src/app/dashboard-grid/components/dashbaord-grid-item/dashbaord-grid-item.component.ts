@@ -12,7 +12,7 @@ import {
   GridsterItem,
   GridsterItemComponentInterface,
 } from 'angular-gridster2';
-import { ChartComponent } from 'ng-apexcharts';
+import { ApexTheme, ChartComponent } from 'ng-apexcharts';
 import { DialogService } from 'src/app/core/dialog/services/dialog.service';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
 import { DataService } from 'src/app/core/services/data-device.service';
@@ -27,6 +27,7 @@ import { FormGridTemplate } from '../../models/form-grid-template';
 import { ModalGridTemplateComponent } from '../modal-grid-template/modal-grid-template.component';
 import { forkJoin } from 'rxjs';
 import { BrokerService } from 'src/app/core/services/broker.service';
+import { LayoutService } from 'src/app/libs/layout/services/layout.service';
 
 @Component({
   selector: 'app-dashbaord-grid-item',
@@ -111,13 +112,16 @@ export class DashbaordGridItemComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  _isDarkTheme: boolean = false;
+
   constructor(
     private cdr: ChangeDetectorRef,
     private modalService: DialogService,
     private templateService: TemplateService,
     private dataService: DataService,
     private confirmService: ModalConfirmService,
-    private brokerService: BrokerService
+    private brokerService: BrokerService,
+    private layoutService: LayoutService
   ) {}
 
   resizeTimer: any;
@@ -133,7 +137,16 @@ export class DashbaordGridItemComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.layoutService.isDarkTheme.subscribe(this.setThemeChart);
+  }
+
+  async setThemeChart(dark: boolean) {
+    console.log('setThemeChart', this.chartOptions);
+    this.chartOptions.theme.mode = dark ? 'dark' : 'light';
+    this.chart?.updateOptions(this.chartOptions, false);
+    this._isDarkTheme = dark;
+  }
 
   updateHeightForChart() {
     if (this.chartOptions) {
@@ -232,11 +245,8 @@ export class DashbaordGridItemComponent implements OnInit {
       this.chartOptions.chart.height = this.heightChild;
       //asigna la data a la grafica
       this.templateService.dataToSeries(dataDevice, this.chartOptions);
-      //this.chartOptions.series = series;
-      //label para las graficas de pastel
-      // this.chartOptions.labels = categories;
-      //label para las graficas de barras y lineas
-      // this.chartOptions.xaxis.categories = categories;
+      //tema de la grafica
+      this.setThemeChart(this._isDarkTheme);
 
       if (emitSaveEvent) {
         this.save.emit({

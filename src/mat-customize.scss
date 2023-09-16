@@ -58,4 +58,10 @@
     background-color: $dark-bg-lighter-5;
   }
   @include layout-theme($theme);
+
+
+  .apexcharts-menu.apexcharts-menu-open {
+    background-color: map-get($background, background);
+    color: map-get($foreground, text);
+  }
 }

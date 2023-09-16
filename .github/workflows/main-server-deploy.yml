@@ -54,22 +54,22 @@ jobs:
             tar -xzf dist-${{ github.sha }}.tgz --strip-components=1
             rm dist-${{ github.sha }}.tgz
 
-  deployAltern:
-    runs-on: ubuntu-latest
+  # deployAltern:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v2
 
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
+  #     - uses: oven-sh/setup-bun@v1
+  #       with:
+  #         bun-version: latest
 
-      - name: Install Dependencies
-        run: bun install
+  #     - name: Install Dependencies
+  #       run: bun install
 
-      - name: Build Angular App
-        run: |
-          bun run build --configuration=production --base-href=/${{ env.baseHref }}/
-          echo "Comprimiendo archivos..."
-          tar -czf dist-${{ github.sha }}.tgz dist/
+  #     - name: Build Angular App
+  #       run: |
+  #         bun run build --configuration=production --base-href=/${{ env.baseHref }}/
+  #         echo "Comprimiendo archivos..."
+  #         tar -czf dist-${{ github.sha }}.tgz dist/

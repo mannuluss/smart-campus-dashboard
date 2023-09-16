@@ -6,9 +6,20 @@ import { HomeComponent } from './pages/home.component';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { GridsterModule } from 'angular-gridster2';
 import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [HomeComponent, TutorialComponent],
-  imports: [CommonModule, HomeRoutingModule, GridsterModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    GridsterModule,
+    MatIconModule,
+    MatButtonModule,
+    MatStepperModule,
+    MatCardModule,
+  ],
 })
 export class HomeModule {}

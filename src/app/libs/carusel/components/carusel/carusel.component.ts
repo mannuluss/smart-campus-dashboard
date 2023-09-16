@@ -8,6 +8,8 @@ import { FormArray, FormControl } from '@angular/forms';
   styleUrls: ['./carusel.component.scss'],
 })
 export class CaruselComponent {
+  @Input() label: string;
+
   @Input() formControltoogle: FormControl;
 
   @Input() items: any[] = [];

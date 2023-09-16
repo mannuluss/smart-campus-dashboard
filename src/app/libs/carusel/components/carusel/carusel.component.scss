@@ -9,7 +9,7 @@ $size-item: 70px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     &.row {
       flex-direction: row;
     }
@@ -19,9 +19,10 @@ $size-item: 70px;
     ::ng-deep .carusel-item {
       width: $size-item;
       height: $size-item;
-      border-radius: 5px;
-      border-color: #4545;
-      border-style: solid;
+      border-radius: 4px;
+      // border-color: #4545;
+      // border-style: solid;
+      border: solid 1px #e0e0e0;
       display: flex;
       align-content: center;
       justify-content: center;

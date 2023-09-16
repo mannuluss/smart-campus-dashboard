@@ -12,6 +12,7 @@ import {
   ApexTooltip,
   ApexOptions,
   ApexNoData,
+  ApexTheme,
 } from 'ng-apexcharts';
 import {
   ExampleArray,
@@ -39,6 +40,7 @@ export type ChartOptions = {
   tooltip?: ApexTooltip;
   labels?: string[];
   noData?: ApexNoData;
+  theme?: ApexTheme;
 };
 
 /**
@@ -48,43 +50,57 @@ export const relationTypeGraph: TypeGraphConfig[] = [
   {
     name: 'Lineal',
     type: 'line',
-    img: 'https://cdn-icons-png.flaticon.com/512/9798/9798933.png',
+    ico: 'https://cdn-icons-png.flaticon.com/512/9798/9798933.png',
+    img: '/assets/graph/line-chart.svg',
     example: ExampleArray,
+    description: 'Una grafica de puntos y lineas donde se muestra el valor de cada punto.'
   },
   {
     name: 'Área',
     type: 'area',
-    img: 'https://cdn-icons-png.flaticon.com/512/6439/6439196.png',
+    ico: 'https://cdn-icons-png.flaticon.com/512/6439/6439196.png',
+    img: '/assets/graph/area-chart.svg',
     example: ExampleArray,
+    description:
+      'Una grafica de puntos y lineas donde se muestra un area sombreada debajo de la linea de un color degradado.',
   },
   {
     name: 'Barras',
     type: 'bar',
-    img: '/assets/graph/bar-chart.png',
+    ico: '/assets/icons/bar-chart.png',
+    img: '/assets/graph/bar-chart.svg',
     example: ExampleArray,
+    description:
+      'Una grafica de barras donde el valor se muestra como una barra vertical. se periten multiples series de datos.',
   },
   {
     name: 'Circular',
     type: 'pie',
-    img: 'https://cdn-icons-png.flaticon.com/512/3687/3687086.png',
+    ico: 'https://cdn-icons-png.flaticon.com/512/3687/3687086.png',
+    img: '/assets/graph/circular-chart.svg',
     example: ExampleSimpleArray,
+    description: '',
   },
   {
     name: 'Dona',
     type: 'donut',
-    img: 'https://cdn-icons-png.flaticon.com/512/5446/5446224.png',
+    ico: 'https://cdn-icons-png.flaticon.com/512/5446/5446224.png',
+    img: '/assets/graph/donut-chart.svg',
     example: ExampleSimpleArray,
+    description: '',
   },
   {
     name: 'Barra Radial',
     type: 'radialBar',
-    img: 'https://cdn-icons-png.flaticon.com/512/7849/7849266.png',
+    ico: 'https://cdn-icons-png.flaticon.com/512/7849/7849266.png',
+    img: '/assets/graph/radial-chart.svg',
     example: [faker.number.int({ min: 0, max: 100 })],
+    description: 'Muestra el porcentaje de un valor en relación al 100%',
   },
   // {
   //   name: 'Dispersión',
   //   type: 'scatter',
-  //   img: 'https://cdn-icons-png.flaticon.com/512/2364/2364639.png',
+  //   ico: 'https://cdn-icons-png.flaticon.com/512/2364/2364639.png',
   //   example: ExampleGroupMultidata
   // },
   // { name: 'Burbujas', type: 'bubble' },

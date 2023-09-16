@@ -1,1 +1,52 @@
-<h1>Aqui inicia el tutorial</h1>
+<section class="gridster-item container-tutorial">
+  <button mat-stroked-button routerLink=".." style="margin-left: 16px">
+    <mat-icon>arrow_back</mat-icon>
+    <a>Regresar</a>
+  </button>
+
+  <mat-stepper [linear]="true" #stepper>
+    <mat-step label="Que podemos hacer">
+      <div class="center">
+        <h1>Empecemos por lo básico</h1>
+        <span>
+          Los dispositivos que estén o sean conectados a Smart Campus UIS
+          <br />
+          entregan información que podremos observar en diferentes tipos de
+          graficas.
+        </span>
+        <div class="container-graph">
+          <mat-card class="card-graph" *ngFor="let item of graphList">
+            <mat-card-header>
+              <div
+                mat-card-avatar
+                class="header-avatar"
+                [style]="{
+                  'background-image': 'url(' + item.ico + ')'
+                }"
+              ></div>
+              <mat-card-title>{{ item.name }}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-image [src]="item.img" [alt]="item.name" />
+            <mat-card-content>{{ item.description }} </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <button mat-stroked-button matStepperPrevious>Anterior</button>
+      <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+    </mat-step>
+
+    <mat-step label="Plantillas">
+      <div class="step 2">
+        <h1>Como funciona</h1>
+      </div>
+      <button mat-stroked-button matStepperPrevious>Anterior</button>
+      <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+    </mat-step>
+
+    <mat-step label="Panel de control">
+      <div class="step 2">
+        <h1>Como funciona</h1>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</section>

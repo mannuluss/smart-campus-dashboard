@@ -122,6 +122,7 @@ body {
   --text-primary-color: #{$light-primary-text};
   --text-primary-lighter-color: #{$dark-primary-text};
   --text-primary-darker-color: #{$light-primary-text};
+  --color-uis: #43BB41;
 }
 $mat-primary: (
   main: var(--primary-color),

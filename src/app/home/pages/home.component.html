@@ -1,4 +1,4 @@
-<gridster [options]="options" class="gridster-container-home">
+<!-- <gridster [options]="options" class="gridster-container-home">
   <gridster-item [item]="dashboard[0]" class="gridster-item">
     <div class="content-first">
       <div class="message">
@@ -8,7 +8,7 @@
           de manera facil y personalizada.
         </span>
       </div>
-      <img src="assets/home/robot-hello.svg" class="img-hello-robot" />
+
     </div>
   </gridster-item>
 
@@ -27,4 +27,27 @@
       </button>
     </div>
   </gridster-item>
-</gridster>
+</gridster> -->
+<section class="home-card gridster-item">
+  <div class="title-container">
+    <h3 class="small-title">panel de control</h3>
+    <h1 class="fat-title">Smart Campus</h1>
+    <span class="uis-text">
+      <div class="uis-block"></div>
+      UIS
+    </span>
+  </div>
+  <img src="assets/home/robot-hello.svg" class="img-hello-robot" />
+  <span class="describe">
+    Aquí podrás visualizar los datos de los dispositivos IoT de manera fácil y
+    personalizada.
+  </span>
+  <button
+    mat-raised-button
+    color="primary"
+    class="btn-tutorial"
+    routerLink="/dashboard/home/tutorial"
+  >
+    Iniciar tutorial
+  </button>
+</section>

@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home.component';
-import { homeGuard } from './guards/home.guard';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    children: [],
-    //canActivate: [homeGuard],
   },
   {
     path: 'tutorial',

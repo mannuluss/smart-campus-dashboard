@@ -98,7 +98,7 @@ export class ModalGridTemplateComponent implements OnInit, IDialogModal {
     console.log('select template', template);
     this.templateIco = relationTypeGraph.find(
       (t) => t.type === template.json['chart.type']
-    ).img;
+    ).ico;
   }
 
   selectDevice(device: DeviceDTO) {

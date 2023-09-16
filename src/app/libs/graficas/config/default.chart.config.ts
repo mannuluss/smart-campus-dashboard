@@ -12,7 +12,7 @@ export class defaultChartConfig {
         height: '450px',
         toolbar: {
           offsetX: -80,
-          show: true
+          show: true,
         },
       },
       title: {
@@ -61,7 +61,7 @@ export class defaultChartConfig {
       markers: {
         size: 0,
       },
-      tooltip: { theme: 'dark' },
+      tooltip: { theme: 'dark', enabled: true },
       xaxis: {
         title: {},
       },
@@ -69,6 +69,9 @@ export class defaultChartConfig {
       noData: {
         text: 'No hay datos disponibles',
         align: 'center',
+      },
+      theme: {
+        mode: 'dark',
       },
     };
   }

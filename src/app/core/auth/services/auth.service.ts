@@ -59,7 +59,14 @@ export class AuthService {
         admin: true,
       };
     } else {
-      return null;
+      return {
+        id: 0,
+        name: 'invitado',
+        username: 'invitado',
+        email: '',
+        password: '',
+        admin: false,
+      };
     }
   }
 
@@ -76,7 +83,7 @@ export class AuthService {
       return true;
     }
     try {
-      this.user = JSON.parse(sessionStorage.getItem('user'));
+      this.user = this.getUser();
       return this.user !== null;
     } catch (error) {
       return false;
