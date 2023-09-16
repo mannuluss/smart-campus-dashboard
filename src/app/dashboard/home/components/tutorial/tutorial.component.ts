@@ -1,6 +1,6 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, ViewChild } from '@angular/core';
-import { relationTypeGraph } from 'src/app/libs/graficas/config/apexchart.type';
+import { relationTypeGraph } from '@shared/graficas/config/apexchart.type';
 
 @Component({
   selector: 'app-tutorial',

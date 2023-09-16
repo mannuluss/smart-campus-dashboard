@@ -7,8 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ChartComponent, ChartType } from 'ng-apexcharts';
-import { ChartOptions, relationTypeGraph } from '../config/apexchart.type';
-import { defaultChartConfig } from '../config/default.chart.config';
+import { ChartOptions, relationTypeGraph } from '../../../shared/graficas/config/apexchart.type';
+import { defaultChartConfig } from '../../../shared/graficas/config/default.chart.config';
 import {
   FormArray,
   FormBuilder,
@@ -17,13 +17,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { TemplateService } from '../services/template.service';
+import { TemplateService } from '../../../shared/graficas/services/template.service';
 import { DialogService } from 'src/app/core/dialog/services/dialog.service';
 import { Observable, of } from 'rxjs';
-import { ExampleArray, GenerateExampleArrayData, GenerateExampleSimpleArray } from '../examples/examples.data';
+import { ExampleArray, GenerateExampleArrayData, GenerateExampleSimpleArray } from '../../../shared/graficas/examples/examples.data';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
-import { MatSelectCompleteComponent } from '../../material/mat-select-complete/mat-select-complete.component';
+import { MatSelectCompleteComponent } from '../../../shared/material/mat-select-complete/mat-select-complete.component';
 import _ from 'underscore';
 
 @Component({

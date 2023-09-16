@@ -1,4 +1,4 @@
-import { ChartOptions } from 'src/app/libs/graficas/config/apexchart.type';
+import { ChartOptions } from '@shared/graficas/config/apexchart.type';
 
 export interface FormGridTemplate {
   /**nombre del template */

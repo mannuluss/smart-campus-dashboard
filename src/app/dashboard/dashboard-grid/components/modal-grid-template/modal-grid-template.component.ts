@@ -7,15 +7,15 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
-import { TemplateService } from 'src/app/libs/graficas/services/template.service';
+import { TemplateService } from '@shared/graficas/services/template.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DeviceService } from 'src/app/core/services/device.service';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { FormGridTemplate } from '../../models/form-grid-template';
-import { MatSelectCompleteComponent } from 'src/app/libs/material/mat-select-complete/mat-select-complete.component';
+import { MatSelectCompleteComponent } from 'src/app/shared/material/mat-select-complete/mat-select-complete.component';
 import * as moment from 'moment';
 import { DeviceDTO } from 'src/app/core/models/device';
-import { relationTypeGraph } from 'src/app/libs/graficas/config/apexchart.type';
+import { relationTypeGraph } from '@shared/graficas/config/apexchart.type';
 import { IDialogModal } from 'src/app/core/dialog/interfaces/dialog.modal.interface';
 
 @Component({

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TemplateGeneratorComponent } from './components/template-generator.component';
+import { TemplateGeneratorComponent } from './pages/template-generator.component';
 
 const routes: Routes = [
   {
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LibsRoutingModule {}
+export class TemplateGeneratorRoutingModule {}

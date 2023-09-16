@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { BrokerService } from './broker.service';
 import { ResponseTopicDevice } from '../models/response-topic-device';
 import * as moment from 'moment';
-import { APP_DATE_TIME_FORMAT } from 'src/app/libs/material/providers/date-time-picker';
+import { APP_DATE_TIME_FORMAT } from 'src/app/shared/material/providers/date-time-picker';
 
 @Injectable({
   providedIn: CoreModule,

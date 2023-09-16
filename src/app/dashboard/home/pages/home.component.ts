@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
   templateUrl: './home.component.html',

@@ -16,8 +16,8 @@ import { ApexTheme, ChartComponent } from 'ng-apexcharts';
 import { DialogService } from 'src/app/core/dialog/services/dialog.service';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
 import { DataService } from 'src/app/core/services/data-device.service';
-import { ChartOptions } from 'src/app/libs/graficas/config/apexchart.type';
-import { TemplateService } from 'src/app/libs/graficas/services/template.service';
+import { ChartOptions } from '@shared/graficas/config/apexchart.type';
+import { TemplateService } from '@shared/graficas/services/template.service';
 import _ from 'underscore';
 import {
   EventGridRemoveItem,
@@ -27,7 +27,7 @@ import { FormGridTemplate } from '../../models/form-grid-template';
 import { ModalGridTemplateComponent } from '../modal-grid-template/modal-grid-template.component';
 import { forkJoin } from 'rxjs';
 import { BrokerService } from 'src/app/core/services/broker.service';
-import { LayoutService } from 'src/app/libs/layout/services/layout.service';
+import { LayoutService } from 'src/app/shared/layout/services/layout.service';
 
 @Component({
   selector: 'app-dashbaord-grid-item',
@@ -121,7 +121,6 @@ export class DashbaordGridItemComponent implements OnInit {
     private dataService: DataService,
     private confirmService: ModalConfirmService,
     private brokerService: BrokerService,
-    private layoutService: LayoutService
   ) {}
 
   resizeTimer: any;
@@ -137,16 +136,7 @@ export class DashbaordGridItemComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.layoutService.isDarkTheme.subscribe(this.setThemeChart);
-  }
-
-  async setThemeChart(dark: boolean) {
-    console.log('setThemeChart', this.chartOptions);
-    this.chartOptions.theme.mode = dark ? 'dark' : 'light';
-    this.chart?.updateOptions(this.chartOptions, false);
-    this._isDarkTheme = dark;
-  }
+  ngOnInit(): void {}
 
   updateHeightForChart() {
     if (this.chartOptions) {
@@ -245,8 +235,6 @@ export class DashbaordGridItemComponent implements OnInit {
       this.chartOptions.chart.height = this.heightChild;
       //asigna la data a la grafica
       this.templateService.dataToSeries(dataDevice, this.chartOptions);
-      //tema de la grafica
-      this.setThemeChart(this._isDarkTheme);
 
       if (emitSaveEvent) {
         this.save.emit({

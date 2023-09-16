@@ -31,7 +31,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/app/libs/styles/styles.scss"
+              "src/app/shared/styles/styles.scss"
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"

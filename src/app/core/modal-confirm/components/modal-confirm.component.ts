@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MaterialModule } from 'src/app/libs/material/material.module';
+import { MaterialModule } from 'src/app/shared/material/material.module';
 
 @Component({
   selector: 'app-modal-confirm',

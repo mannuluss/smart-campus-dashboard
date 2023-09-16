@@ -1,6 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LayoutService } from './libs/layout/services/layout.service';
+import { LayoutService } from './shared/layout/services/layout.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({

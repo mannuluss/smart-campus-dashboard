@@ -8,10 +8,9 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LoaderModule } from './core/loader/loader.module';
 import { HTTP_INTERCEPTORS_APP_MODULE } from './core/providers/http-interceptors-ppal';
-import { GraficasModule } from './libs/graficas/graficas.module';
-import { LibsModule } from './libs/libs.module';
-import { MaterialProviders } from './libs/material/providers/mat-providers';
-import { MaterialModule } from './libs/material/material.module';
+import { MaterialProviders } from './shared/material/providers/mat-providers';
+import { MaterialModule } from './shared/material/material.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,8 +21,7 @@ import { MaterialModule } from './libs/material/material.module';
     AppRoutingModule,
     HttpClientModule,
     CoreModule,
-    LibsModule,
-    GraficasModule,
+    SharedModule,
     MaterialModule,
   ],
   providers: [...HTTP_INTERCEPTORS_APP_MODULE, ...MaterialProviders],

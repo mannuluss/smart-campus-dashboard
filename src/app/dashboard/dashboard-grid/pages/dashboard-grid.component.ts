@@ -22,7 +22,7 @@ import { EventGridRemoveItem, EventGridSaveItem } from '../models/events.model';
 import { FormControl } from '@angular/forms';
 import { DashbaordGridService } from '../services/dashbaord-grid.service';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
-import { LayoutService } from 'src/app/libs/layout/services/layout.service';
+import { LayoutService } from 'src/app/shared/layout/services/layout.service';
 import _ from 'underscore';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { RelationGristerTemplate } from '../models/data-grid-template';

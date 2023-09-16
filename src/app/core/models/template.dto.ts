@@ -1,4 +1,4 @@
-import { FormChartOptions } from "src/app/libs/graficas/models/form-chart-options";
+import { FormChartOptions } from "src/app/shared/graficas/models/form-chart-options";
 
 export interface TemplateDTO {
   id?: number;
