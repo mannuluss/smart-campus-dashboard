@@ -70,6 +70,6 @@ jobs:
 
       - name: Build Angular App
         run: |
-          bun build --configuration=production --base-href=/${{ env.baseHref }}/
+          bun run build --configuration=production --base-href=/${{ env.baseHref }}/
           echo "Comprimiendo archivos..."
           tar -czf dist-${{ github.sha }}.tgz dist/
