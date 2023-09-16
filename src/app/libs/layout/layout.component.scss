@@ -53,10 +53,11 @@ $width-menu-closed: 76px;
   .smart-campus-container-section {
     padding: 0px 16px 16px 0px;
     .body-section {
+      position: relative;
       padding: 16px;
       border-radius: 16px;
-      min-height: 84vh;
-      position: relative;
+      height: calc(100vh - 64px - 32px - 16px);
+      overflow: auto;
     }
   }
 

@@ -20,7 +20,7 @@ gridster {
 }
 
 .gridster-container {
-  height: 74vh;
+  height: calc(100% - 40px);
 }
 .gridster-item {
   padding: 4px;

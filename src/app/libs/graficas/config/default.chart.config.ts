@@ -9,7 +9,7 @@ export class defaultChartConfig {
       },
       chart: {
         type: 'line',
-        height: '450px',
+        height: '350px',
         toolbar: {
           offsetX: -80,
           show: true,
@@ -69,9 +69,6 @@ export class defaultChartConfig {
       noData: {
         text: 'No hay datos disponibles',
         align: 'center',
-      },
-      theme: {
-        mode: 'dark',
       },
     };
   }

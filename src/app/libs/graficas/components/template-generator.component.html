@@ -114,6 +114,9 @@
     </mat-card>
 
     <mat-card>
+      <mat-card-title>
+        Grafica
+      </mat-card-title>
       <!--MULTIPLES DATOS-->
       <mat-slide-toggle [formControl]="isMultiData">
         Multiples datos
@@ -133,7 +136,6 @@
         [yaxis]="chartOptions.yaxis"
         [title]="chartOptions.title"
         [tooltip]="chartOptions.tooltip"
-        [theme]="chartOptions.theme"
       ></apx-chart>
     </mat-card>
   </div>

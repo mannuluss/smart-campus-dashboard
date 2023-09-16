@@ -42,6 +42,7 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
   $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
 
   .gridster-item {
     background-color: map-get($background, card);
@@ -59,6 +60,14 @@
   }
   @include layout-theme($theme);
 
+  @if $is-dark {
+    apx-chart {
+      text, .apexcharts-legend-text {
+        fill: white;
+        color: white !important;
+      }
+    }
+  }
 
   .apexcharts-menu.apexcharts-menu-open {
     background-color: map-get($background, background);
