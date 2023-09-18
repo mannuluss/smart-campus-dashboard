@@ -1,10 +1,10 @@
 <section class="container-personality-data">
   <!--FORMULARIO DE PERSONALIZACION-->
   <mat-card>
-    <h2 style="margin-bottom: 0">Configuracion</h2>
+    <mat-card-title style="margin-bottom: 0">Configuración</mat-card-title>
     <form [formGroup]="form" class="container-form">
       <app-carusel
-        label="Tipo de grafica"
+        label="Tipo de gráfica"
         [formControltoogle]="form.controls['chart.type']"
         [items]="listTypeGraphics"
         direction="row"
@@ -91,6 +91,7 @@
         <!--TEMPLATE FORM-->
         <div class="btn-actions">
           <button
+            color="primary"
             mat-raised-button
             (click)="saveTemplate()"
             [disabled]="
@@ -114,9 +115,7 @@
     </mat-card>
 
     <mat-card>
-      <mat-card-title>
-        Grafica
-      </mat-card-title>
+      <mat-card-title> Gráfica </mat-card-title>
       <!--MULTIPLES DATOS-->
       <mat-slide-toggle [formControl]="isMultiData">
         Multiples datos

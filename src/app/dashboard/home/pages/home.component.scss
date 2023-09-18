@@ -62,10 +62,11 @@
       font-family: "Jost";
       font-weight: 800;
       font-size: 36px;
-      margin-left: 90%;
-      position: relative;
-      z-index: 1;
+      margin-left: calc(100% - 53px*2);
       color: white;
+      background: var(--color-uis);
+      padding: 0px 24px;
+      border-radius: 20px;
     }
     .uis-block {
       position: absolute;
@@ -80,8 +81,9 @@
   }
   .btn-tutorial {
     position: absolute;
-    bottom: 40px;
-    left: 50px;
+    bottom: 15%;
+    left: calc(30%);
+    scale: 1.2;
   }
   .img-hello-robot {
     position: absolute;
