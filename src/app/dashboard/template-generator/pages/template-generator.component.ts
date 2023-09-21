@@ -127,7 +127,6 @@ export class TemplateGeneratorComponent implements OnInit {
       'title.text': [''],
       'xaxis.title.text': [''],
       'yaxis.title.text': [''],
-      // 'xaxis.categories': [[]],
     });
 
     this.form.controls['chart.type'].valueChanges.subscribe((value) => {
@@ -205,11 +204,11 @@ export class TemplateGeneratorComponent implements OnInit {
    * @param typeGraphic tipo de grafica.
    */
   changeExampleData(typeGraphic: ChartType) {
-    let exampleData = this.listTypeGraphics.find(
+    let graphSettings = this.listTypeGraphics.find(
       (item) => item.type == typeGraphic
     );
-    console.log('example data', exampleData, this.isMultiData.value);
-    if (exampleData) {
+    console.log('example data', graphSettings, this.isMultiData.value);
+    if (graphSettings) {
       if (
         (typeGraphic === 'line' ||
           typeGraphic === 'area' ||
@@ -223,7 +222,10 @@ export class TemplateGeneratorComponent implements OnInit {
         this.form.controls['series'].setValue(GenerateExampleSimpleArray());
         return;
       }
-      this.form.controls['series'].setValue(exampleData.example);
+      if(graphSettings.example instanceof Function)
+        this.form.controls['series'].setValue(graphSettings.example());
+      else
+        this.form.controls['series'].setValue(graphSettings.example);
     } else {
       console.warn('no se encontro el Ejemplo para el tipo de grafico');
     }

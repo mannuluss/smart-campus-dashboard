@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
         console.log('change', v);
       },
       itemResizeCallback: (v) => {
-        console.log('resize', v);
+        //console.log('resize', v);
       },
       resizable: {
         enabled: false,

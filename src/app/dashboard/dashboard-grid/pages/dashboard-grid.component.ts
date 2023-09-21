@@ -128,7 +128,7 @@ export class DashboardGridComponent implements OnInit {
         // console.log('change item on PARENT', grid, itemComponent);
       },
       itemResizeCallback: (grid, itemComponent) => {
-        console.log('itemResizeCallback');
+        //console.log('itemResizeCallback');
         // console.log('itemResizeCallback', itemComponent);
         // let itemIndex = grid.
         // this.gridItemsComponent[itemIndex] = itemComponent;

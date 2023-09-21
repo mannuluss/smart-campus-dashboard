@@ -240,7 +240,7 @@ export class TemplateService {
       chartOptions.chart.type == 'area'
     ) {
       if (!chartOptions.series || chartOptions.series.length == 0) {
-        chartOptions.series = [{ data: [] }];
+        chartOptions.series = [];
       }
       data.forEach((item, i) => {
         let keys = Object.keys(item.values);
@@ -260,6 +260,7 @@ export class TemplateService {
           }
         });
       });
+      console.log('DATOS', data, chartOptions.series);
       chartOptions.xaxis.type = 'datetime';
       chartOptions.xaxis.labels = {
         //format: 'HH:mm:ss',
@@ -291,9 +292,10 @@ export class TemplateService {
           }
         });
       });
-      chartOptions.labels =
-        // chartOptions.xaxis.categories
-        data.map((item) => moment(item.timeStamp).format('DD-MM'));
+      chartOptions.labels = data.map((item) =>
+        moment(item.timeStamp).format('DD-MM')
+      );
+      console.log('DATOS barra', data, chartOptions.labels);
     } else if (
       chartOptions.chart.type == 'pie' ||
       chartOptions.chart.type == 'donut' ||

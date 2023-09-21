@@ -18,6 +18,8 @@ import {
   ExampleArray,
   ExampleGroupMultidata,
   ExampleSimpleArray,
+  generateExampleArray,
+  generateExampleRadial,
 } from '../examples/examples.data';
 import { TypeGraphConfig } from '../models/typeGraphConfig.model';
 import { faker } from '@faker-js/faker';
@@ -52,34 +54,34 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     type: 'line',
     ico: 'https://cdn-icons-png.flaticon.com/512/9798/9798933.png',
     img: './assets/graph/line-chart.svg',
-    example: ExampleArray,
-    description: 'Una grafica de puntos y lineas donde se muestra el valor de cada punto.'
+    example: generateExampleArray,
+    description: 'Muestra datos en una línea, permitiéndote ver cómo cambian con el tiempo. Es como seguir una línea que te muestra cómo algo ha crecido o disminuido.'
   },
   {
     name: 'Área',
     type: 'area',
     ico: 'https://cdn-icons-png.flaticon.com/512/6439/6439196.png',
     img: './assets/graph/area-chart.svg',
-    example: ExampleArray,
+    example: generateExampleArray,
     description:
-      'Una grafica de puntos y lineas donde se muestra un area sombreada debajo de la linea de un color degradado.',
+      'Una gráfica similar a la de líneas, pero con el área debajo de la línea sombreada, lo que facilita ver la distribución y tendencias de datos.',
   },
   {
     name: 'Barras',
     type: 'bar',
     ico: './assets/icons/bar-chart.png',
     img: './assets/graph/bar-chart.svg',
-    example: ExampleArray,
+    example: generateExampleArray,
     description:
-      'Una grafica de barras donde el valor se muestra como una barra vertical. se periten multiples series de datos.',
+      'Una gráfica de barras verticales que representa valores numéricos mediante columnas, ideal para comparar cantidades entre categorías.',
   },
   {
-    name: 'Circular',
+    name: 'Pastel',
     type: 'pie',
     ico: 'https://cdn-icons-png.flaticon.com/512/3687/3687086.png',
     img: './assets/graph/circular-chart.svg',
     example: ExampleSimpleArray,
-    description: '',
+    description: 'Una gráfica circular que muestra la proporción de cada valor en un conjunto de datos, útil para resaltar partes de un todo.',
   },
   {
     name: 'Dona',
@@ -87,15 +89,15 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     ico: 'https://cdn-icons-png.flaticon.com/512/5446/5446224.png',
     img: './assets/graph/donut-chart.svg',
     example: ExampleSimpleArray,
-    description: '',
+    description: 'Similar al gráfico de pastel, pero con un agujero en el centro.}',
   },
   {
     name: 'Barra Radial',
     type: 'radialBar',
     ico: 'https://cdn-icons-png.flaticon.com/512/7849/7849266.png',
     img: './assets/graph/radial-chart.svg',
-    example: [faker.number.int({ min: 0, max: 100 })],
-    description: 'Muestra el porcentaje de un valor en relación al 100%',
+    example: generateExampleRadial(),
+    description: 'Muestra el porcentaje de un valor en relación al 100%, util para valores que van de 0 a 100.',
   },
   // {
   //   name: 'Dispersión',

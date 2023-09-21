@@ -88,6 +88,9 @@ export class DashbaordGridItemComponent implements OnInit {
 
   chartOptions: ChartOptions = null;
 
+  /**
+   * si existe una grafica.
+   */
   get isChart(): boolean {
     return this.chartOptions != null;
   }
@@ -97,11 +100,16 @@ export class DashbaordGridItemComponent implements OnInit {
    */
   heightParent: number = 0;
 
+  /**
+   * altura del elemento hijo (chart)s
+   */
   get heightChild() {
     return String(this.heightParent - this.offsetY * 2) + 'px';
   }
-
-  offsetY: number = 8;
+  /**
+   * pixeles de margen superior e inferior del elemento hijo (chart)
+   */
+  offsetY: number = 16;
 
   //========================================== ANIMATIONS =====================================================
 
@@ -124,7 +132,7 @@ export class DashbaordGridItemComponent implements OnInit {
   ) {}
 
   resizeTimer: any;
-  resizeTimeout: number = 250;
+  resizeTimeout: number = 350;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {

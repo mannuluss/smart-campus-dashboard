@@ -31,21 +31,31 @@
           </mat-card>
         </div>
       </div>
-      <button mat-stroked-button matStepperPrevious>Anterior</button>
-      <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+      <div class="btn-bottom">
+        <button mat-stroked-button matStepperPrevious>Anterior</button>
+        <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+      </div>
     </mat-step>
 
     <mat-step label="Plantillas">
-      <div class="step 2">
-        <h1>Como funciona</h1>
+      <div class="center">
+        <h1>¿Como funciona?</h1>
       </div>
-      <button mat-stroked-button matStepperPrevious>Anterior</button>
-      <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+      <div class="btn-bottom">
+        <button mat-stroked-button matStepperPrevious>Anterior</button>
+        <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+      </div>
     </mat-step>
 
     <mat-step label="Panel de control">
       <div class="step 2">
         <h1>Como funciona</h1>
+      </div>
+      <div class="btn-bottom">
+        <button mat-stroked-button matStepperPrevious>Anterior</button>
+        <button color="accent" mat-flat-button (click)="finalizar()">
+          Finalizar
+        </button>
       </div>
     </mat-step>
   </mat-stepper>
