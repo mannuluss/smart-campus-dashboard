@@ -22,7 +22,6 @@ import {
   generateExampleRadial,
 } from '../examples/examples.data';
 import { TypeGraphConfig } from '../models/typeGraphConfig.model';
-import { faker } from '@faker-js/faker';
 
 /**
  * estructura que contiene las opciones de configuracion de la grafica.
@@ -89,7 +88,7 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     ico: 'https://cdn-icons-png.flaticon.com/512/5446/5446224.png',
     img: './assets/graph/donut-chart.svg',
     example: ExampleSimpleArray,
-    description: 'Similar al gráfico de pastel, pero con un agujero en el centro.}',
+    description: 'Similar al gráfico de pastel, pero con un agujero en el centro.',
   },
   {
     name: 'Barra Radial',

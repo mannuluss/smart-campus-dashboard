@@ -3,33 +3,16 @@ import { Entity } from './entity';
 /**
  * User of the application.
  *
- *
- * @export
  */
-export class User extends Entity {
+export interface User {
+  id: string,
+  name: string,
+  username: string,
+  email: string,
+  rol: string,
+  roles?: Roles[],
+}
 
-  public name: string;
-  public username: string;
-  public email: string;
-  public password: string;
-  public admin: boolean;
-
-  /**
-   * Creates an instance of User.
-   *
-   * @param id of the user.
-   * @param name of the user.
-   * @param username of the user.
-   * @param email of the user.
-   * @param admin indicates if the user is an administrator or not.
-   */
-  constructor(id?: number, name?: string, username?: string, email?: string, admin?: boolean) {
-    super();
-    this.id = id;
-    this.email = email;
-    this.name = name;
-    this.admin = admin;
-    this.username = username;
-  }
-
+export interface Roles {
+  'admin': boolean,
 }

@@ -1,13 +1,17 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, catchError, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject
+} from 'rxjs';
 
-import { SnackbarService } from '../../snackbar/services/snackbar.service';
-import { User } from '../../models/user';
-import { Util } from '../../utils/util';
+import { KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
-import { ApiResponse } from '../../models/api-response';
+import { User } from '../../models/user';
+import { SnackbarService } from '../../snackbar/services/snackbar.service';
+
 
 /**
  * Application glogal service, used to store general information and some utility methods required in a singleton class.
@@ -19,17 +23,15 @@ import { ApiResponse } from '../../models/api-response';
   providedIn: 'root',
 })
 export class AuthService {
+  private userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   /**
-   * User logged in, null if no user is logged in yet.
-   *
+   * Observable of the user logged in.
    */
-  public user: User; //TODO: cambiar por null
+  user$: Observable<User> = this.userSubject.asObservable();
 
-  /**
-   * Subject emited any time it's necessary to subscribe to the notifications (after authentication succeedd).
-   *
-   */
-  public subscribeToNotification: Subject<any> = new Subject<any>();
+  user: User = null;
+
+  authenticatedSubject: Subject<boolean> = new Subject<boolean>();
 
   /**
    * Creates an instance of AppService.
@@ -40,54 +42,83 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private snackBar: SnackbarService
+    private snackBar: SnackbarService,
+    private keycloak: KeycloakService
   ) {
-    this.user = this.getUser();
+    this.user$.subscribe((user) => {
+      console.log('user', user);
+      this.user = user;
+    });
+    this.initUserInfo();
+    //this.initUserInfo();
   }
 
-  getUser(): User {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      return user;
-    } else if (!environment.production) {
-      return {
-        id: 1,
-        name: 'felipe rojas',
-        username: 'mannulus',
-        email: '',
-        password: '',
-        admin: true,
-      };
-    } else {
-      return {
-        id: 0,
-        name: 'invitado',
-        username: 'invitado',
-        email: '',
-        password: '',
-        admin: false,
-      };
-    }
+  async login(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.keycloak
+        .login()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((errorData) => {
+          this.snackBar.showBackError(errorData);
+          reject(errorData);
+        });
+    });
   }
 
   /**
-   * Verifies if the user is authenticated or not, checking first in the user stored in memory,
-   * if the user is not found there then it checks if exists in the browser's session storage,
-   * if it's obtained from there is also set in the user variable.
-   *
-   * @date 2019-04-09
-   * @returns true if the user is authenticated, false otherwise.
+   * Determina si el usuario esta autenticado en el sistema.
+   * @returns retorna si o no.
    */
-  isUserAuthenticated(): boolean {
-    if (this.user) {
-      return true;
+  async isAuthenticated() {
+    return this.keycloak.isLoggedIn();
+  }
+
+  /**
+   * carga la informacion del usuario.
+   */
+  private initUserInfo() {
+    if (this.keycloak.getKeycloakInstance().authenticated) {
+      this.keycloak.loadUserProfile().then((profile) => {
+        //se asigna la informacion del usuario.
+        this.userSubject.next({
+          id: profile.id,
+          name: profile.firstName + ' ' + profile.lastName,
+          username: profile.username,
+          rol: this.keycloak.isUserInRole('admin') ? 'admin' : 'visitante',
+          email: profile.email,
+        });
+      });
+    } else {
+      //para pruebas en local, se utiliza el LocalStorage para almacenar la informacion del usuario.
+      if (!environment.production) {
+        let user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+          this.userSubject.next(user);
+        } else {
+          // this.userSubject.next({
+          //   id: '1',
+          //   name: 'Felipe Rojas',
+          //   username: 'mannulus',
+          //   email: '',
+          //   rol: 'admin',
+          // });
+        }
+      }
     }
-    try {
-      this.user = this.getUser();
-      return this.user !== null;
-    } catch (error) {
-      return false;
-    }
+    // let user = JSON.parse(localStorage.getItem('user'));
+    // if (user) {
+    //   return user;
+    // } else if (!environment.production) {
+    //   return {
+    //     id: '1',
+    //     name: 'Felipe Rojas',
+    //     username: 'mannulus',
+    //     email: '',
+    //     rol: 'admin',
+    //   };
+    // }
   }
 
   /**
@@ -96,73 +127,26 @@ export class AuthService {
    * @date 2019-04-09
    * @param user - user to be authenticated.
    */
-  private authenticate(user: User): void {
-    this.user = user;
-    sessionStorage.clear();
-    sessionStorage.setItem('user', JSON.stringify(user));
-    this.subscribeToNotification.next(null);
-    this.router.navigate(['/dashboard']);
-  }
-
-  /**
-   * Authenticates the user.
-   *
-   * @date 2019-04-04
-   * @param user - user to be authenticated.
-   * @returns an Observable wrapping the User object containing the information about the logged in user.
-   */
-  login(user: User): Observable<User> {
-    return this.http
-      .post<User>(
-        `${environment.adminService}/users/authentication`,
-        user,
-      )
-      .pipe(
-        catchError((error: any) => {
-          this.snackBar.showBackError(error);
-          return [];
-        }),
-        tap((user: User) => {
-          this.authenticate(user);
-        })
-      );
-  }
+  // authenticate(user: User): void {
+  //   this.user = user;
+  //   sessionStorage.clear();
+  //   sessionStorage.setItem('user', JSON.stringify(user));
+  //   this.router.navigate(['/dashboard']);
+  // }
 
   /**
    * se encarga de cerrar la sesion del usuario.
    */
   logout() {
-    this.user = null;
+    this.userSubject.next(null);
     sessionStorage.removeItem('user');
-    this.router.navigate(['/auth/login']);
+    this.keycloak.logout();
   }
 
   /**
    * Creates a new User.
-   *
-   * @date 2019-04-04
-   * @param user- user to be created.
-   * @returns an Observable wrapping the User object containing the information about the created in user.
    */
-  public signin(user: User): Observable<User> {
-    return this.http.post<User>(
-      `${environment.adminService}/users/user`,
-      user,
-      Util.options()
-    );
-  }
-
-  /**
-   * Recovers the password for a user with a given email address.
-   *
-   * @date 2019-04-04
-   * @param email - email of the user that desires to change its password.
-   * @returns an ApiResponse that indicates if the operation was successful or not.
-   */
-  public recoverPassword(email: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(
-      `${environment.adminService}/users/pass/${email}`,
-      Util.options()
-    );
+  public signin() {
+    console.log('NOT IMPLEMENT, use keycloak');
   }
 }

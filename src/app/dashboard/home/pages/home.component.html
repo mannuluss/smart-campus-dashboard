@@ -1,33 +1,3 @@
-<!-- <gridster [options]="options" class="gridster-container-home">
-  <gridster-item [item]="dashboard[0]" class="gridster-item">
-    <div class="content-first">
-      <div class="message">
-        <h1 style="font-size: 45px">Bienvenido al dashboard de Smart campus</h1>
-        <span>
-          visualiza los datos de los dispositivos conectados a la arquitectura
-          de manera facil y personalizada.
-        </span>
-      </div>
-
-    </div>
-  </gridster-item>
-
-  <gridster-item [item]="dashboard[1]" class="gridster-item">
-    <img src="assets/home/avatar-info.svg" class="img-informativo" />
-  </gridster-item>
-
-  <gridster-item [item]="dashboard[2]" class="gridster-item">
-    <div class="grid-container-tutorial">
-      <span>¿Perdido?</span>
-      <img src="assets/home/avatar-ask.svg" class="img-tutorial" />
-      <span>¡No te preocupes!</span>
-      <span>Te ayudaremos a configurar tu panel de control</span>
-      <button mat-stroked-button>
-        <a routerLink="/dashboard/home/tutorial">Iniciar tutorial</a>
-      </button>
-    </div>
-  </gridster-item>
-</gridster> -->
 <section class="home-card gridster-item">
   <div class="title-container">
     <h3 class="small-title">panel de control</h3>
@@ -41,12 +11,25 @@
     Aquí podrás visualizar los datos de los dispositivos IoT de manera fácil y
     personalizada.
   </span>
+  <span class="loggin" *ngIf="!authenticated">
+    Para usar la aplicacion debe iniciar sesión.
+  </span>
   <button
     mat-raised-button
     color="primary"
     class="btn-tutorial"
     routerLink="/dashboard/home/tutorial"
+    *ngIf="authenticated"
   >
     Iniciar tutorial
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    class="btn-tutorial"
+    *ngIf="!authenticated"
+    (click)="login()"
+  >
+    Iniciar Sesion
   </button>
 </section>

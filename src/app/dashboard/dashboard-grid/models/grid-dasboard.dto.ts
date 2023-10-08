@@ -4,7 +4,7 @@ import { FormGridTemplate } from './form-grid-template';
 
 export interface GridDasboardDTO {
   id?: number;
-  userId: number;
+  userId: string;
   data: string;
   //informacion llenada por un pipe de service.
   json?: DataGridDashboardDTO[];

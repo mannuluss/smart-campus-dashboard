@@ -11,12 +11,14 @@
       <!--USER-->
       <div class="avatar-user">
         <img
-          src="./assets/shiba1.jpg"
+          [src]="
+            user ? './assets/shiba1.jpg' : './assets/home/not-user-avatar.png'
+          "
           class="img"
           [ngClass]="{ 'img-close': !opened }"
         />
-        <mat-label>{{ user.username }}</mat-label>
-        <mat-label>{{ user.rol }}</mat-label>
+        <mat-label>{{ user?.username }}</mat-label>
+        <mat-label>{{ user?.rol }}</mat-label>
       </div>
 
       <!--MENUS-->
@@ -25,6 +27,7 @@
           class="menu-list"
           name="button-navbar"
           aria-label="menu sidebar"
+          [disabled]="user ? false : true"
         >
           <mat-list-item
             *ngFor="let itemMenu of menus"
@@ -84,7 +87,7 @@
         mat-icon-button
         aria-label="User"
         (click)="logout()"
-        matTooltip="Cerra sesion"
+        matTooltip="Cerrar sesion"
       >
         <mat-icon>logout</mat-icon>
       </button>

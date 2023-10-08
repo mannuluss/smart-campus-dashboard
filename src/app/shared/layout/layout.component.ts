@@ -12,6 +12,7 @@ import { LayoutService } from './services/layout.service';
 import { FormControl } from '@angular/forms';
 import { BrokerService } from 'src/app/core/services/broker.service';
 import { filter } from 'rxjs';
+import { User } from '@core/models/user';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -57,10 +58,10 @@ export class LayoutComponent implements OnInit {
    */
   controlMenu: FormControl = new FormControl('home');
 
-  user: any = {
-    username: 'admin',
-    rol: 'administrador',
-  };
+  /**
+   * informacion del usuario del sistema.
+   */
+  user: User = null;
 
   get darkMode(): boolean {
     return this._darkMode;
@@ -92,6 +93,9 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authService.isAuthenticated().then((isLoggedIn) => {
+      console.log('isLoggedIn', isLoggedIn);
+    });
     //sidebar abierto o cerrado
     let localopenedBar = localStorage.getItem('sideBarOpened');
     if (localopenedBar) {
@@ -104,10 +108,13 @@ export class LayoutComponent implements OnInit {
     }
     this.className = this.darkMode ? 'darkMode' : '';
 
-    this.user = this.authService.user;
+    this.authService.user$.subscribe((user) => {
+      console.log('user layout', user);
+      this.user = user;
+    }
+    );
 
     this.layoutService.getPrevent().subscribe((prevent) => {
-      console.log('prevent', prevent);
       this.preventChange = prevent;
     });
 
@@ -121,7 +128,9 @@ export class LayoutComponent implements OnInit {
   initialUrlChange() {
     const currentUrl = this.router.url;
     let menu = this.menus.find((m) => '/' + m.route == currentUrl);
-    this.changeMenu(menu);
+    if (menu) {
+      this.changeMenu(menu);
+    }
   }
 
   changeMenu(itemMenu: menu) {
@@ -132,6 +141,10 @@ export class LayoutComponent implements OnInit {
     }
     this.controlMenu.setValue(itemMenu.key);
     this.router.navigate([itemMenu.route]);
+  }
+
+  login(){
+    this.authService.login();
   }
 
   logout() {

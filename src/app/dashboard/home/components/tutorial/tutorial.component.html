@@ -9,10 +9,8 @@
       <div class="center">
         <h1>Empecemos por lo básico</h1>
         <span>
-          Los dispositivos que estén o sean conectados a Smart Campus UIS
-          <br />
-          entregan información que podremos observar en diferentes tipos de
-          graficas.
+          Los dispositivos conectados a Smart Campus UIS entregan información
+          que podremos observar en diferentes tipos de graficas.
         </span>
         <div class="container-graph">
           <mat-card class="card-graph" *ngFor="let item of graphList">
@@ -33,27 +31,66 @@
       </div>
       <div class="btn-bottom">
         <button mat-stroked-button matStepperPrevious>Anterior</button>
-        <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+        <button color="primary" mat-flat-button matStepperNext>
+          Siguiente
+        </button>
       </div>
     </mat-step>
 
     <mat-step label="Plantillas">
       <div class="center">
-        <h1>¿Como funciona?</h1>
+        <h1>¿Que son las plantillas?</h1>
+        <span>
+          Para poder visualizar la información de los dispositivos, se debe
+          crear una plantilla, la cual se encargara de mostrar la información de
+          los dispositivos.
+        </span>
+        <br />
+        <span
+          >Las plantillas son personalizables y sus campos son lo
+          siguientes:</span
+        >
+        <mat-divider
+          style="margin-top: 16px; margin-bottom: 16px"
+        ></mat-divider>
+        <img
+          src="./assets/home/tutorial/relacion-formulario-plantillas.png"
+          width="90%"
+        />
       </div>
       <div class="btn-bottom">
         <button mat-stroked-button matStepperPrevious>Anterior</button>
-        <button color="accent" mat-flat-button matStepperNext>Siguiente</button>
+        <button color="primary" mat-flat-button matStepperNext>
+          Siguiente
+        </button>
       </div>
     </mat-step>
 
     <mat-step label="Panel de control">
-      <div class="step 2">
-        <h1>Como funciona</h1>
+      <div class="center">
+        <h1>¿Como visualizo los datos en graficas?</h1>
+        <span>
+          Para visualizar los datos de los dispositivos, existe un panel de
+          control, el cual se encargara de mostrar la información de los
+          dispositivos.
+        </span>
+        <br />
+        <span>
+          El panel de control posee "bloques" que es donde se visualizara la
+          información de los dispositivos. En dar clic en el boton de
+          <mat-icon>add</mat-icon> o en <mat-icon>edit</mat-icon> se desplegara
+          una ventana emergente donde se podra seleccionar los dispositivos y la
+          plantilla donde se desea visualizar los datos.
+        </span>
+        <img
+          src="./assets/home/tutorial/tutorial_crear_grafica.png"
+          width="90%"
+        />
       </div>
+      <!--FINALIZAR BOTONES-->
       <div class="btn-bottom">
         <button mat-stroked-button matStepperPrevious>Anterior</button>
-        <button color="accent" mat-flat-button (click)="finalizar()">
+        <button color="primary" mat-flat-button (click)="finalizar()">
           Finalizar
         </button>
       </div>

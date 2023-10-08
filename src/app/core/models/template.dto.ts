@@ -2,7 +2,7 @@ import { FormChartOptions } from "src/app/shared/graficas/models/form-chart-opti
 
 export interface TemplateDTO {
   id?: number;
-  userId: number;
+  userId: string;
   name: string;
   data: string;
   /**

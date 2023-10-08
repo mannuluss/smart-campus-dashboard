@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@core/auth/services/auth.service';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 
 @Component({
@@ -6,33 +7,16 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  // OPTIONS FOR GRIDSTER
-  options: GridsterConfig;
-  dashboard: Array<GridsterItem>;
-
-  constructor() {}
+  authenticated = false;
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.options = {
-      itemChangeCallback: (v) => {
-        console.log('change', v);
-      },
-      itemResizeCallback: (v) => {
-        //console.log('resize', v);
-      },
-      resizable: {
-        enabled: false,
-      },
-      draggable: {
-        delayStart: 0,
-        enabled: false,
-      },
-      pushItems: true,
-    };
-    this.dashboard = [
-      { cols: 3, rows: 1, y: 0, x: 0 },
-      { cols: 2, rows: 2, y: 1, x: 0 },
-      { cols: 1, rows: 2, y: 1, x: 1 },
-    ];
+    this.authService.user$.subscribe((profile) => {
+      this.authenticated = profile ? true : false;
+    });
+  }
+
+  login() {
+    this.authService.login();
   }
 }
