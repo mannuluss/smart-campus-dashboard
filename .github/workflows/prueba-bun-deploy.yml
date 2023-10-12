@@ -50,5 +50,8 @@ jobs:
         with:
           name: dist
 
+      - name: prueba
+        run: ls -la
+
       - name: build Docker Image
         run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:latest "."
