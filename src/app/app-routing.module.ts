@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './shared/layout/layout.component';
-import { TemplateGeneratorComponent } from './dashboard/template-generator/pages/template-generator.component';
+import { AuthenticationGuard } from '@core/auth/guards/authentication.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -15,6 +16,7 @@ const routes: Routes = [
       {
         path: 'template',
         title: 'Creador Plantilla',
+        canActivate: [AuthenticationGuard],
         loadChildren: () =>
           import(
             './dashboard/template-generator/template-generator.module'
@@ -28,6 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'panel-control',
+        canActivate: [AuthenticationGuard],
         loadChildren: () =>
           import('./dashboard/dashboard-grid/dashboard-grid.module').then(
             (m) => m.DashboardGridModule
