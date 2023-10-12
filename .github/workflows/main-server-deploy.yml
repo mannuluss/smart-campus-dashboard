@@ -72,7 +72,7 @@ jobs:
           name: dist
 
       - name: build Docker Image
-        run: docker build -f "Dockerfile" -t smartcampusdashboard:latest "."
+        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:latest "."
 
   # deployAltern:
   #   runs-on: ubuntu-latest

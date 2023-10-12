@@ -1,0 +1,60 @@
+name: Deploy by bun and SHH to Server
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  outputPath: /smart-campus-dashboard
+  baseHref: smart-campus-dashboard
+  node-version: 18
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build Angular App
+        run: |
+          bun run build --configuration=production --base-href=/${{ env.baseHref }}/
+          echo "Comprimiendo archivos..."
+          tar -czf dist-${{ github.sha }}.tgz dist/
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-files
+          path: dist-${{ github.sha }}.tgz
+
+      - name: Archive Deployment
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+  docker_image:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Download Deployment Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+
+      - name: build Docker Image
+        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:latest "."
