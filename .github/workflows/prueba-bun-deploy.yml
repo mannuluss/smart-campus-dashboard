@@ -31,12 +31,6 @@ jobs:
           echo "Comprimiendo archivos..."
           tar -czf dist-${{ github.sha }}.tgz dist/
 
-      - name: Upload ZIP artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-files
-          path: dist-${{ github.sha }}.tgz
-
       - name: Archive Deployment
         uses: actions/upload-artifact@v2
         with:
