@@ -1,7 +1,14 @@
-name: Deploy by SHH to Server
+name: Deploy bun, SSH, docker
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
+    inputs:
+      docker-tag:
+        description: 'Docker image tag'
+        required: true
 
 env:
   outputPath: /smart-campus-dashboard
@@ -16,17 +23,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version: ${{ env.node-version }}
+          bun-version: latest
 
       - name: Install Dependencies
-        run: yarn install --force
+        run: bun install
 
       - name: Build Angular App
         run: |
-          yarn run build --configuration=production --base-href=/${{ env.baseHref }}/
+          bun run build --configuration=production --base-href=/${{ env.baseHref }}/
           echo "Comprimiendo archivos..."
           tar -czf dist-${{ github.sha }}.tgz dist/
 
@@ -58,6 +64,8 @@ jobs:
 
   docker_image:
     needs: deploy
+    #aqui se le debe agregar un protection rules de tipo "Required reviewers" para que solo se pueda publicar cuando se acepte manualmente
+    environment: docker
     runs-on: ubuntu-latest
 
     steps:
@@ -71,24 +79,10 @@ jobs:
           path: dist
 
       - name: build Docker Image
-        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:latest "."
+        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:${{ github.event.inputs.docker-tag }} "."
 
-  # deployAltern:
-  #   runs-on: ubuntu-latest
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v2
-
-  #     - uses: oven-sh/setup-bun@v1
-  #       with:
-  #         bun-version: latest
-
-  #     - name: Install Dependencies
-  #       run: bun install
-
-  #     - name: Build Angular App
-  #       run: |
-  #         bun run build --configuration=production --base-href=/${{ env.baseHref }}/
-  #         echo "Comprimiendo archivos..."
-  #         tar -czf dist-${{ github.sha }}.tgz dist/
+      - name: Push Docker Image
+        run: docker push smartcampusdashboard:${{ github.event.inputs.docker-tag }}
