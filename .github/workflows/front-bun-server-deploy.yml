@@ -65,6 +65,7 @@ jobs:
   docker_image:
     needs: deploy
     #aqui se le debe agregar un protection rules de tipo "Required reviewers" para que solo se pueda publicar cuando se acepte manualmente
+    # DOCKER_TAG es una variable de entorno que se debe crear en el repositorio, por defecto se puso como "latest"
     environment: docker
     runs-on: ubuntu-latest
 
@@ -79,10 +80,10 @@ jobs:
           path: dist
 
       - name: build Docker Image
-        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:${{ github.event.inputs.docker-tag }} "."
+        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:${{ vars.DOCKER_TAG }} "."
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push Docker Image
-        run: docker push smartcampusdashboard:${{ github.event.inputs.docker-tag }}
+        run: docker push smartcampusdashboard:${{ vars.DOCKER_TAG }}
