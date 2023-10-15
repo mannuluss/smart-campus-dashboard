@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { CoreModule } from 'src/app/core/core.module';
 import { DataMessageDTO } from '../models/data.dto';
@@ -15,12 +15,15 @@ import { APP_DATE_TIME_FORMAT } from 'src/app/shared/material/providers/date-tim
   providedIn: CoreModule,
 })
 export class DataService {
-  constructor(private http: HttpClient, private brokerService: BrokerService) {}
+  constructor(
+    private http: HttpClient,
+    private brokerService: BrokerService,
+  ) {}
 
   getDataByUUID(
     uuid: any,
     desde?: any,
-    hasta?: any
+    hasta?: any,
   ): Observable<DataMessageDTO[]> {
     let params = {
       uuid: uuid,
@@ -34,7 +37,7 @@ export class DataService {
       `${environment.dataService}/device/message`,
       {
         params: params,
-      }
+      },
     );
   }
 
@@ -50,7 +53,7 @@ export class DataService {
         params: {
           uuid: uuid,
         },
-      }
+      },
     );
   }
 }

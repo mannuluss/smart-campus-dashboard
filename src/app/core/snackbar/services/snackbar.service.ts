@@ -19,7 +19,10 @@ export class SnackbarService {
    *
    * @param {MatSnackBar} snackbar - Servicio de snackbar.
    */
-  constructor(private snackbar: MatSnackBar, private injector: Injector) {}
+  constructor(
+    private snackbar: MatSnackBar,
+    private injector: Injector,
+  ) {}
 
   /**
    * Permite mostrar un snackbar con los estándares de la uis.
@@ -59,7 +62,7 @@ export class SnackbarService {
         horizontalPosition: positionH,
         verticalPosition: positionV,
         panelClass: 'error',
-      }
+      },
     );
   }
 }

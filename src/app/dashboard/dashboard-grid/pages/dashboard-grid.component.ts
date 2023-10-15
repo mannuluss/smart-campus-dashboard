@@ -1,21 +1,7 @@
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
-import {
-  GridsterComponent,
-  GridsterComponentInterface,
   GridsterConfig,
   GridsterItem,
-  GridsterItemComponent,
   GridsterItemComponentInterface,
 } from 'angular-gridster2';
 import { EventGridRemoveItem, EventGridSaveItem } from '../models/events.model';
@@ -24,7 +10,6 @@ import { DashbaordGridService } from '../services/dashbaord-grid.service';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
 import { LayoutService } from 'src/app/shared/layout/services/layout.service';
 import _ from 'underscore';
-import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { RelationGristerTemplate } from '../models/data-grid-template';
 
 @Component({
@@ -87,21 +72,21 @@ export class DashboardGridComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dashbaordGridService: DashbaordGridService,
     private modalConfirmService: ModalConfirmService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
   ) {}
 
   ngOnInit() {
     this.options = {
       itemInitCallback: (grid, itemComponent) => {
         let indexChild = this.dashboard.findIndex(
-          (item) => item == itemComponent.item
+          (item) => item == itemComponent.item,
         );
         this.gridItemsComponent[indexChild] = itemComponent;
       },
       itemRemovedCallback: (grid, itemComponent) => {
         console.log('itemRemovedCallback', itemComponent);
         let indexChild = this.dashboard.findIndex(
-          (item) => item == itemComponent.item
+          (item) => item == itemComponent.item,
         );
         delete this.gridItemsComponent[indexChild];
       },
@@ -254,7 +239,12 @@ export class DashboardGridComponent implements OnInit {
    */
   saveOptions() {
     this.dashbaordGridService
-      .postGridsterOptions(this.idGrid,this.dashbaordName, this.dashboard, this.templates)
+      .postGridsterOptions(
+        this.idGrid,
+        this.dashbaordName,
+        this.dashboard,
+        this.templates,
+      )
       .subscribe((data) => {
         this.idGrid = data.id;
         this.initialDashboard = _.clone(this.dashboard);

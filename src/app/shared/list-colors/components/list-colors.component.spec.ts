@@ -8,7 +8,7 @@ describe('ListColorsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ListColorsComponent]
+      declarations: [ListColorsComponent],
     });
     fixture = TestBed.createComponent(ListColorsComponent);
     component = fixture.componentInstance;

@@ -35,7 +35,7 @@ export class ModalConfirmService {
         },
         (err) => {
           reject(err);
-        }
+        },
       );
     });
   }

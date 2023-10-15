@@ -1,6 +1,5 @@
-import { GridsterItem } from "angular-gridster2";
-import { TemplateDTO } from "src/app/core/models/template.dto";
-import { FormGridTemplate } from "./form-grid-template";
+import { GridsterItem } from 'angular-gridster2';
+import { FormGridTemplate } from './form-grid-template';
 
 export interface EventGridRemoveItem {
   /**
@@ -16,7 +15,6 @@ export interface EventGridRemoveItem {
    */
   i: number;
 }
-
 
 /**
  * evento que es emitido al selecionar o cambiar el template de una grafica en una grid.

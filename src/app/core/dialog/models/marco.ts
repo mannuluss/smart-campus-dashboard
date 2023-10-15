@@ -1,6 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Button } from './button';
-import { Point } from '@angular/cdk/drag-drop';
 /**
  * Interface que define la configuración que se le puede pasar a un crud dialog
  */

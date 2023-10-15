@@ -1,5 +1,4 @@
 export class AdminStatistics {
-
   public gatewaysAlive: number;
   public gatewaysDeath: number;
   public processesAlive: number;
@@ -15,7 +14,8 @@ export class AdminStatistics {
     processesDeath?: number,
     devices?: number,
     applications?: number,
-    changes: StatusChange[] = []) {
+    changes: StatusChange[] = [],
+  ) {
     this.gatewaysAlive = gatewaysAlive;
     this.gatewaysDeath = gatewaysDeath;
     this.processesAlive = processesAlive;
@@ -24,11 +24,9 @@ export class AdminStatistics {
     this.applications = applications;
     this.changes = changes;
   }
-
 }
 
 export class StatusChange {
-
   public sentDate: Date;
   public alive: number;
   public death: number;
@@ -38,5 +36,4 @@ export class StatusChange {
     this.alive = alive;
     this.death = death;
   }
-
 }

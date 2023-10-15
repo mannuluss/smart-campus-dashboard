@@ -1,5 +1,4 @@
 export class Password {
-
   public oldPass: string;
   public newPass: string;
 

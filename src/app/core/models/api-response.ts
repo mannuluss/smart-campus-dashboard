@@ -1,5 +1,4 @@
 export class ApiResponse {
-
   public sucessful: boolean;
   public message: string;
 
@@ -7,5 +6,4 @@ export class ApiResponse {
     this.sucessful = sucessful;
     this.message = message;
   }
-
 }

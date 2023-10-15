@@ -8,7 +8,7 @@ describe('ModalGridTemplateComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ModalGridTemplateComponent]
+      declarations: [ModalGridTemplateComponent],
     });
     fixture = TestBed.createComponent(ModalGridTemplateComponent);
     component = fixture.componentInstance;

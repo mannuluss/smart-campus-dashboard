@@ -7,7 +7,6 @@ import { HttpErrorResponse } from '@angular/common/http';
  * @export
  */
 export class ApiError {
-
   /**
    * Date when the error occurred.
    *
@@ -40,7 +39,12 @@ export class ApiError {
    * @param [timestamp] - Error's date.
    * @param [exception] - Exception class name.
    */
-  constructor(status?: string, message?: string, timestamp?: Date, exception?: string) {
+  constructor(
+    status?: string,
+    message?: string,
+    timestamp?: Date,
+    exception?: string,
+  ) {
     this.status = status;
     this.message = message;
     this.timestamp = timestamp;
@@ -55,7 +59,12 @@ export class ApiError {
    * @returns - The ApiError.
    */
   public static fromClientError(error: Error): ApiError {
-      return new ApiError('CLIENT_ERROR', error.message, new Date(), 'ClientError');
+    return new ApiError(
+      'CLIENT_ERROR',
+      error.message,
+      new Date(),
+      'ClientError',
+    );
   }
 
   /**
@@ -66,7 +75,12 @@ export class ApiError {
    * @returns - The ApiError.
    */
   public static fromGeneric(error: HttpErrorResponse): ApiError {
-    return new ApiError('INTERNAL_ERROR', error.message, new Date(), 'InternalError');
+    return new ApiError(
+      'INTERNAL_ERROR',
+      error.message,
+      new Date(),
+      'InternalError',
+    );
   }
 
   /**
@@ -77,7 +91,11 @@ export class ApiError {
    * @returns - The ApiError.
    */
   public static fromTimeout(error: ProgressEvent): ApiError {
-    return new ApiError('INTERNAL_ERROR', 'El servidor no se encuentra disponible.', new Date(error.timeStamp), 'TimeoutEror');
+    return new ApiError(
+      'INTERNAL_ERROR',
+      'El servidor no se encuentra disponible.',
+      new Date(error.timeStamp),
+      'TimeoutEror',
+    );
   }
-
 }

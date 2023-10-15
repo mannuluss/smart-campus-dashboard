@@ -33,7 +33,7 @@ export class DialogService {
    */
   constructor(
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<DialogComponent>
+    private dialogRef: MatDialogRef<DialogComponent>,
   ) {}
 
   /**
@@ -62,7 +62,7 @@ export class DialogService {
         },
         (err: any) => {
           observer.error(err);
-        }
+        },
       );
     });
   }

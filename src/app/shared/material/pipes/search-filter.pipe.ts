@@ -24,8 +24,8 @@ export class SearchFilterPipe implements PipeTransform {
     searchText = searchText.toLocaleLowerCase();
     return items.filter((it) => {
       if (Array.isArray(key)) {
-        return key.some((k) =>
-          String(it[k])?.toLocaleLowerCase().includes(searchText)
+        return key.some(
+          (k) => String(it[k])?.toLocaleLowerCase().includes(searchText),
         );
       } else {
         return it[key].toLocaleLowerCase().includes(searchText);

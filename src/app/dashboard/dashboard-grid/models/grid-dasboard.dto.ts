@@ -1,5 +1,4 @@
 import { GridsterItem } from 'angular-gridster2';
-import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { FormGridTemplate } from './form-grid-template';
 
 export interface GridDasboardDTO {

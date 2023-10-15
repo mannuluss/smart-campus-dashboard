@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ComponentRef,
@@ -11,19 +10,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Point } from 'chart.js';
 import { Marco } from '../../models/marco';
 import { Button } from '../../models/button';
 import { Respuesta } from '../../models/respuesta';
 import { AdDirective } from '../../directives/ad.directive';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog',
@@ -76,7 +68,7 @@ export class DialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Marco,
     public dialogRef: MatDialogRef<DialogComponent>,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   /**
@@ -179,7 +171,7 @@ export class DialogComponent implements OnInit {
       } else {
         console.error(
           'Method limpiarFormulario() not exits at:̣̣ ' +
-            this.componentRef.componentType.name
+            this.componentRef.componentType.name,
         );
       }
     }

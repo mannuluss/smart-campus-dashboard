@@ -1,4 +1,3 @@
-import { ApexOptions, ApexResponsive } from 'ng-apexcharts';
 import { ChartOptions } from './apexchart.type';
 
 export class defaultChartConfig {

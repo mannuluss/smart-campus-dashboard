@@ -1,5 +1,4 @@
 import { ApexAxisChartSeries } from 'ng-apexcharts';
-import { ExampleDataTemplate } from '../models/example-template.dto';
 import { faker } from '@faker-js/faker';
 
 export const ExampleArray: ApexAxisChartSeries = [

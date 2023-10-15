@@ -1,4 +1,9 @@
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { Injectable } from '@angular/core';
 
 import { CoreModule } from 'src/app/core/core.module';
@@ -11,19 +16,24 @@ import { AuthService } from '../services/auth.service';
  * @export
  */
 @Injectable({
-  providedIn: CoreModule
+  providedIn: CoreModule,
 })
 export class AuthenticationGuard implements CanActivate {
-
   /**
    * Creates an instance of AuthenticationGuard.
    *
    * @param appService - Main Application Service.
    * @param router - Angular's main router.
    */
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ): boolean {
     if (this.authService.user) {
       return true;
     }
@@ -31,5 +41,4 @@ export class AuthenticationGuard implements CanActivate {
     this.router.navigate(['/dashboard/home']);
     return false;
   }
-
 }

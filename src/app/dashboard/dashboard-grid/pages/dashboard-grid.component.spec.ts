@@ -8,7 +8,7 @@ describe('DashboardGridComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardGridComponent]
+      declarations: [DashboardGridComponent],
     });
     fixture = TestBed.createComponent(DashboardGridComponent);
     component = fixture.componentInstance;

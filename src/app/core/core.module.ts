@@ -23,8 +23,8 @@ import { keyCloakInitializer } from './auth/utils/keycloackInitializer';
       provide: APP_INITIALIZER,
       useFactory: keyCloakInitializer,
       multi: true,
-      deps: [KeycloakService]
-    }
+      deps: [KeycloakService],
+    },
   ],
   exports: [LoaderModule, ModalDialogModule, ModalConfirmModule],
 })

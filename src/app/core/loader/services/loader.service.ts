@@ -29,7 +29,7 @@ export class LoaderService {
     return NEVER.pipe(
       finalize(() => {
         this.hide();
-      })
+      }),
     );
   }).pipe(share());
   /**
@@ -40,7 +40,7 @@ export class LoaderService {
     return NEVER.pipe(
       finalize(() => {
         this.hide();
-      })
+      }),
     );
   }).pipe(share());
   /**

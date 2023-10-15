@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { relationTypeGraph } from '@shared/graficas/config/apexchart.type';
 
@@ -19,7 +19,7 @@ export class TutorialComponent {
 
   constructor(private router: Router) {}
 
-  finalizar(){
+  finalizar() {
     this.router.navigate(['/dashboard/home']);
   }
 }

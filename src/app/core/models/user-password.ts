@@ -1,5 +1,4 @@
 export class UserPassword {
-
   public oldPass: string;
   public newPass: string;
 
@@ -7,5 +6,4 @@ export class UserPassword {
     this.oldPass = oldPass;
     this.newPass = newPass;
   }
-
 }

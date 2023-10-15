@@ -1,7 +1,6 @@
 import { Entity } from './entity';
 
 export class Notification extends Entity {
-
   public gatewayId: number;
   public gatewayName: string;
   public userId: number;
@@ -23,17 +22,18 @@ export class Notification extends Entity {
     alive: boolean,
     read: boolean,
     timestamp: Date,
-    message: string) {
-      super();
-      this.id = id;
-      this.userId = userId;
-      this.gatewayId = gatewayId;
-      this.gatewayName = gatewayName;
-      this.processId = processId;
-      this.processName = processName;
-      this.alive = alive;
-      this.read = read;
-      this.timestamp = timestamp;
-      this.message = message;
-    }
+    message: string,
+  ) {
+    super();
+    this.id = id;
+    this.userId = userId;
+    this.gatewayId = gatewayId;
+    this.gatewayName = gatewayName;
+    this.processId = processId;
+    this.processName = processName;
+    this.alive = alive;
+    this.read = read;
+    this.timestamp = timestamp;
+    this.message = message;
+  }
 }

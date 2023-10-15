@@ -5,9 +5,10 @@ export const environment = {
   brokerUrl: '13.82.121.101',
   brokerPort: 61614,
   brokerPath: '', //optional
-  keyCloakConfig: { //configuracion de keycloak
+  keyCloakConfig: {
+    //configuracion de keycloak
     clientId: 'front-smart-campus',
     realm: 'smart-campus-iot',
-    url: 'https://lemur-9.cloud-iam.com/auth'
-  }
+    url: 'https://lemur-9.cloud-iam.com/auth',
+  },
 };

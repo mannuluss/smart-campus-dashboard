@@ -1,5 +1,4 @@
 export class GatewayAssignment {
-
   public gatewayId: number;
   public applicationId: number;
 

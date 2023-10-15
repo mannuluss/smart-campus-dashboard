@@ -1,30 +1,28 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartComponent, ChartType } from 'ng-apexcharts';
-import { ChartOptions, relationTypeGraph } from '../../../shared/graficas/config/apexchart.type';
+import {
+  ChartOptions,
+  relationTypeGraph,
+} from '../../../shared/graficas/config/apexchart.type';
 import { defaultChartConfig } from '../../../shared/graficas/config/default.chart.config';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { TemplateService } from '../../../shared/graficas/services/template.service';
 import { DialogService } from 'src/app/core/dialog/services/dialog.service';
 import { Observable, of } from 'rxjs';
-import { ExampleArray, GenerateExampleArrayData, GenerateExampleSimpleArray } from '../../../shared/graficas/examples/examples.data';
+import {
+  ExampleArray,
+  GenerateExampleArrayData,
+  GenerateExampleSimpleArray,
+} from '../../../shared/graficas/examples/examples.data';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
 import { MatSelectCompleteComponent } from '../../../shared/material/mat-select-complete/mat-select-complete.component';
-import _ from 'underscore';
 
 @Component({
   selector: 'app-template',
@@ -78,7 +76,7 @@ export class TemplateGeneratorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private templateService: TemplateService,
     private modalDialog: DialogService,
-    private modalConfirm: ModalConfirmService
+    private modalConfirm: ModalConfirmService,
   ) {
     this.chartOptions = defaultChartConfig.base;
     // this.chartOptions = {
@@ -112,7 +110,6 @@ export class TemplateGeneratorComponent implements OnInit {
       },
     };
     this.chartOptions.yaxis.title.text = '';
-
   }
 
   ngOnInit(): void {
@@ -202,7 +199,7 @@ export class TemplateGeneratorComponent implements OnInit {
    */
   changeExampleData(typeGraphic: ChartType) {
     let graphSettings = this.listTypeGraphics.find(
-      (item) => item.type == typeGraphic
+      (item) => item.type == typeGraphic,
     );
     console.log('example data', graphSettings, this.isMultiData.value);
     if (graphSettings) {
@@ -215,14 +212,13 @@ export class TemplateGeneratorComponent implements OnInit {
         this.form.controls['series'].setValue(GenerateExampleArrayData());
         return;
       }
-      if(typeGraphic === 'radialBar' && this.isMultiData.value){
+      if (typeGraphic === 'radialBar' && this.isMultiData.value) {
         this.form.controls['series'].setValue(GenerateExampleSimpleArray());
         return;
       }
-      if(graphSettings.example instanceof Function)
+      if (graphSettings.example instanceof Function)
         this.form.controls['series'].setValue(graphSettings.example());
-      else
-        this.form.controls['series'].setValue(graphSettings.example);
+      else this.form.controls['series'].setValue(graphSettings.example);
     } else {
       console.warn('no se encontro el Ejemplo para el tipo de grafico');
     }
@@ -248,7 +244,7 @@ export class TemplateGeneratorComponent implements OnInit {
    * @param template
    */
   selectTemplate(template: TemplateDTO) {
-    console.log('select template', template)
+    console.log('select template', template);
     if (!template) {
       this.formPlantilla.reset();
       console.log('reset');
@@ -275,13 +271,13 @@ export class TemplateGeneratorComponent implements OnInit {
         observer = this.templateService.updateTemplate(
           this.chartOptions,
           this.formPlantilla.controls['id'].value,
-          this.formPlantilla.controls['name'].value
+          this.formPlantilla.controls['name'].value,
         );
       } else {
         //crea la plantilla
         observer = this.templateService.saveTemplate(
           this.chartOptions,
-          this.formPlantilla.controls['name'].value
+          this.formPlantilla.controls['name'].value,
         );
       }
       observer.subscribe((data) => {
@@ -316,12 +312,12 @@ export class TemplateGeneratorComponent implements OnInit {
   changeFormArray(field: string, array: any[]) {
     let count = (this.form.controls[field] as FormArray).length;
 
-    console.log("reset colors");
+    console.log('reset colors');
     (this.form.controls[field] as FormArray).clear();
     array.forEach((color, i) => {
       // if (i >= count) {
-        // console.log('add color', color);
-        (this.form.controls[field] as FormArray).push(new FormControl(color));
+      // console.log('add color', color);
+      (this.form.controls[field] as FormArray).push(new FormControl(color));
       // } else {
       //   (this.form.controls[field] as FormArray).at(i).setValue(color);
       // }

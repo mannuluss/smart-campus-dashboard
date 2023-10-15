@@ -10,13 +10,10 @@ import {
   ApexTitleSubtitle,
   ApexLegend,
   ApexTooltip,
-  ApexOptions,
   ApexNoData,
   ApexTheme,
 } from 'ng-apexcharts';
 import {
-  ExampleArray,
-  ExampleGroupMultidata,
   ExampleSimpleArray,
   generateExampleArray,
   generateExampleRadial,
@@ -54,7 +51,8 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     ico: 'https://cdn-icons-png.flaticon.com/512/9798/9798933.png',
     img: './assets/graph/line-chart.svg',
     example: generateExampleArray,
-    description: 'Muestra datos en una línea, permitiéndote ver cómo cambian con el tiempo. Es como seguir una línea que te muestra cómo algo ha crecido o disminuido.'
+    description:
+      'Muestra datos en una línea, permitiéndote ver cómo cambian con el tiempo. Es como seguir una línea que te muestra cómo algo ha crecido o disminuido.',
   },
   {
     name: 'Área',
@@ -80,7 +78,8 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     ico: 'https://cdn-icons-png.flaticon.com/512/3687/3687086.png',
     img: './assets/graph/circular-chart.svg',
     example: ExampleSimpleArray,
-    description: 'Una gráfica circular que muestra la proporción de cada valor en un conjunto de datos, útil para resaltar partes de un todo.',
+    description:
+      'Una gráfica circular que muestra la proporción de cada valor en un conjunto de datos, útil para resaltar partes de un todo.',
   },
   {
     name: 'Dona',
@@ -88,7 +87,8 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     ico: 'https://cdn-icons-png.flaticon.com/512/5446/5446224.png',
     img: './assets/graph/donut-chart.svg',
     example: ExampleSimpleArray,
-    description: 'Similar al gráfico de pastel, pero con un agujero en el centro.',
+    description:
+      'Similar al gráfico de pastel, pero con un agujero en el centro.',
   },
   {
     name: 'Barra Radial',
@@ -96,7 +96,8 @@ export const relationTypeGraph: TypeGraphConfig[] = [
     ico: 'https://cdn-icons-png.flaticon.com/512/7849/7849266.png',
     img: './assets/graph/radial-chart.svg',
     example: generateExampleRadial(),
-    description: 'Muestra el porcentaje de un valor en relación al 100%, util para valores que van de 0 a 100.',
+    description:
+      'Muestra el porcentaje de un valor en relación al 100%, util para valores que van de 0 a 100.',
   },
   // {
   //   name: 'Dispersión',

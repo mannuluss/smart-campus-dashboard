@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
 import { User } from '../../models/user';
 import { SnackbarService } from '../../snackbar/services/snackbar.service';
-
 
 /**
  * Application glogal service, used to store general information and some utility methods required in a singleton class.
@@ -43,7 +38,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private snackBar: SnackbarService,
-    private keycloak: KeycloakService
+    private keycloak: KeycloakService,
   ) {
     this.user$.subscribe((user) => {
       this.user = user;

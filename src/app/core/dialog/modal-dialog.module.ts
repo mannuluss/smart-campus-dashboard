@@ -6,7 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { AdDirective } from './directives/ad.directive';
 import { MatButtonModule } from '@angular/material/button';
-import { SwiperModule } from "swiper/angular";
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   declarations: [DialogComponent, AdDirective],

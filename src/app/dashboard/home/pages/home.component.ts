@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
-import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 
 @Component({
   templateUrl: './home.component.html',

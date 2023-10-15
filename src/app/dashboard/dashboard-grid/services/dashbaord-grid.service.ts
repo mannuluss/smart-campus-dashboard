@@ -9,7 +9,6 @@ import {
 import { catchError, map, tap } from 'rxjs';
 import { SnackbarService } from 'src/app/core/snackbar/services/snackbar.service';
 import { GridsterItem } from 'angular-gridster2';
-import { TemplateDTO } from 'src/app/core/models/template.dto';
 import { RelationGristerTemplate } from '../models/data-grid-template';
 
 @Injectable({
@@ -19,7 +18,7 @@ export class DashbaordGridService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {}
 
   /**
@@ -46,7 +45,7 @@ export class DashbaordGridService {
             });
           }
           return grid;
-        })
+        }),
       );
   }
 
@@ -54,7 +53,7 @@ export class DashbaordGridService {
     id: number,
     name: string,
     gristerItemArray: Array<GridsterItem>,
-    templates: RelationGristerTemplate
+    templates: RelationGristerTemplate,
   ) {
     let data: DataGridDashboardDTO[] = [];
     gristerItemArray.forEach((gridItem, index) => {
@@ -74,13 +73,12 @@ export class DashbaordGridService {
     return this.http
       .put<GridDasboardDTO>(
         `${environment.adminService}/dashboard/grid`,
-        gristerDashbaord
+        gristerDashbaord,
       )
       .pipe(
         catchError((err) => {
           this.snackbarService.show({
-            mensaje:
-              'No se pudo guardar la configuracion del dashboard',
+            mensaje: 'No se pudo guardar la configuracion del dashboard',
             tipo: 'error',
           });
           throw err;
@@ -94,7 +92,7 @@ export class DashbaordGridService {
             mensaje: 'Plantilla Guardada.',
             tipo: 'success',
           });
-        })
+        }),
       );
   }
 }

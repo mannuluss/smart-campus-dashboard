@@ -10,7 +10,13 @@
     [list]="listTemplates$"
     (selectedChange)="selectTemplate($event)"
   >
-  <img matSuffix width="25" height="25" *ngIf="templateIco" [src]="templateIco">
+    <img
+      matSuffix
+      width="25"
+      height="25"
+      *ngIf="templateIco"
+      [src]="templateIco"
+    />
   </app-mat-select-complete>
 
   <!--DEVICE-->
@@ -25,7 +31,7 @@
     reloadOnTyping="true"
     (selectedChange)="selectDevice($event)"
   >
-  <span hint *ngIf="detailsDevice">{{detailsDevice}}</span>
+    <span hint *ngIf="detailsDevice">{{ detailsDevice }}</span>
   </app-mat-select-complete>
 
   <!--DETALLES DEL DISPOSITIVO-->
@@ -33,7 +39,6 @@
     <mat-label>Descripcion del dispositivo</mat-label>
     <textarea matInput [value]="detailsDevice" disabled="true"></textarea>
   </mat-form-field> -->
-
 
   <form [formGroup]="form" class="form-dates">
     <mat-button-toggle-group

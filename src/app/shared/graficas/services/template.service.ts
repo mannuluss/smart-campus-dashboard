@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ChartOptions } from '../config/apexchart.type';
 import { SnackbarService } from 'src/app/core/snackbar/services/snackbar.service';
-import { Observable, catchError, map, tap } from 'rxjs';
-import { ApexAxisChartSeries, ChartType } from 'ng-apexcharts';
+import { catchError, map, tap } from 'rxjs';
+import { ChartType } from 'ng-apexcharts';
 import { defaultChartConfig } from '../config/default.chart.config';
 import { HttpClient } from '@angular/common/http';
 import { TemplateDTO } from 'src/app/core/models/template.dto';
@@ -19,7 +19,7 @@ export class TemplateService {
   constructor(
     private snackbarService: SnackbarService,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   getAllTamplates(filterText?: string) {
@@ -41,7 +41,7 @@ export class TemplateService {
             template.json = JSON.parse(template.data);
             return template;
           });
-        })
+        }),
       );
   }
 
@@ -51,7 +51,7 @@ export class TemplateService {
       .pipe(
         tap((template) => {
           template.json = JSON.parse(template.data);
-        })
+        }),
       );
   }
 
@@ -74,14 +74,14 @@ export class TemplateService {
             mensaje: 'Plantilla Guardada.',
             tipo: 'success',
           });
-        })
+        }),
       );
   }
 
   updateTemplate(
     chartOptions: ChartOptions,
     idTemplate: number,
-    nameTemplate: string
+    nameTemplate: string,
   ) {
     let template: TemplateDTO = {
       id: idTemplate,
@@ -101,7 +101,7 @@ export class TemplateService {
             mensaje: 'Plantilla Guardada.',
             tipo: 'success',
           });
-        })
+        }),
       );
   }
 
@@ -118,7 +118,7 @@ export class TemplateService {
             mensaje: 'Plantilla Eliminada.',
             tipo: 'success',
           });
-        })
+        }),
       );
   }
 
@@ -209,7 +209,7 @@ export class TemplateService {
   dataToSeries(
     data: DataMessageDTO[],
     chartOptions: ChartOptions,
-    realtime?: boolean
+    realtime?: boolean,
   ) {
     if (data.length == 0) {
       chartOptions.series = [];
@@ -293,7 +293,7 @@ export class TemplateService {
         });
       });
       chartOptions.labels = data.map((item) =>
-        moment(item.timeStamp).format('DD-MM')
+        moment(item.timeStamp).format('DD-MM'),
       );
       console.log('DATOS barra', data, chartOptions.labels);
     } else if (

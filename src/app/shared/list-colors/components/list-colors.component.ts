@@ -1,19 +1,5 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  Optional,
-} from '@angular/core';
-import {
-  AbstractControl,
-  ControlContainer,
-  FormArray,
-  FormControl,
-  FormControlName,
-  FormGroupDirective,
-  UntypedFormControl,
-} from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-list-colors',

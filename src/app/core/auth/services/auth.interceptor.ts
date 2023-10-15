@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     // Se asigna el id del usuario al encabezado de la petición.
     if (!request.headers.has('PUBLIC-REQUEST')) {

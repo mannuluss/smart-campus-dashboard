@@ -8,7 +8,7 @@ describe('MatSelectCompleteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MatSelectCompleteComponent]
+      declarations: [MatSelectCompleteComponent],
     });
     fixture = TestBed.createComponent(MatSelectCompleteComponent);
     component = fixture.componentInstance;

@@ -12,7 +12,7 @@ import {
   GridsterItem,
   GridsterItemComponentInterface,
 } from 'angular-gridster2';
-import { ApexTheme, ChartComponent } from 'ng-apexcharts';
+import { ChartComponent } from 'ng-apexcharts';
 import { DialogService } from 'src/app/core/dialog/services/dialog.service';
 import { ModalConfirmService } from 'src/app/core/modal-confirm/services/modal-confirm.service';
 import { DataService } from 'src/app/core/services/data-device.service';
@@ -27,7 +27,6 @@ import { FormGridTemplate } from '../../models/form-grid-template';
 import { ModalGridTemplateComponent } from '../modal-grid-template/modal-grid-template.component';
 import { forkJoin } from 'rxjs';
 import { BrokerService } from 'src/app/core/services/broker.service';
-import { LayoutService } from 'src/app/shared/layout/services/layout.service';
 
 @Component({
   selector: 'app-dashbaord-grid-item',
@@ -140,7 +139,7 @@ export class DashbaordGridItemComponent implements OnInit {
     clearTimeout(this.resizeTimer); // Limpiar el temporizador previo
     this.resizeTimer = setTimeout(
       () => this.updateHeightForChart(),
-      this.resizeTimeout
+      this.resizeTimeout,
     );
   }
 
@@ -233,11 +232,11 @@ export class DashbaordGridItemComponent implements OnInit {
       this.dataService.getDataByUUID(
         form.idDevice,
         form.initialDate,
-        form.endDate
+        form.endDate,
       ),
     ]).subscribe(([template, dataDevice]) => {
       this.chartOptions = this.templateService.formToChartOptions(
-        template.json
+        template.json,
       );
       //establece el alto de la grafica
       this.chartOptions.chart.height = this.heightChild;

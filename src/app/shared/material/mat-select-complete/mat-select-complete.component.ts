@@ -99,7 +99,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
 
   constructor(
     private pipeFilter: SearchFilterPipe,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   subscritionList: Subscription;
@@ -131,7 +131,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
       clearTimeout(this.typingTimer); // Limpiar el temporizador previo
       this.typingTimer = setTimeout(
         () => this.updateDataList(),
-        this.doneTypingInterval
+        this.doneTypingInterval,
       );
     }
   }
@@ -172,7 +172,9 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
           this.subscritionList?.unsubscribe();
           this.searching = false;
 
-          let current = this.datos.find((x) => x[this.keyValue] == newValueText);
+          let current = this.datos.find(
+            (x) => x[this.keyValue] == newValueText,
+          );
           if (current) {
             this.controlText.setValue(current[this.key], { emitEvent: false });
             this.selectedOption = current;
@@ -181,7 +183,7 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
         },
         (error) => {
           this.searching = false;
-        }
+        },
       );
     } else {
       this.datos = this.list$;

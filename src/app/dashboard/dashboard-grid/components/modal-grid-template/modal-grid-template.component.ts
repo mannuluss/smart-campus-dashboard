@@ -52,7 +52,7 @@ export class ModalGridTemplateComponent implements OnInit, IDialogModal {
     },
     private templateService: TemplateService,
     private deviceService: DeviceService,
-    private AuthService: AuthService
+    private AuthService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +97,7 @@ export class ModalGridTemplateComponent implements OnInit, IDialogModal {
     this.form.controls.idTemplate.setValue(template.id);
     console.log('select template', template);
     this.templateIco = relationTypeGraph.find(
-      (t) => t.type === template.json['chart.type']
+      (t) => t.type === template.json['chart.type'],
     ).ico;
   }
 

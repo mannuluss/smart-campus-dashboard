@@ -33,7 +33,7 @@ const routes: Routes = [
         canActivate: [AuthenticationGuard],
         loadChildren: () =>
           import('./dashboard/dashboard-grid/dashboard-grid.module').then(
-            (m) => m.DashboardGridModule
+            (m) => m.DashboardGridModule,
           ),
       },
       {

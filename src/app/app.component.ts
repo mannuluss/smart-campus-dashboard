@@ -17,7 +17,7 @@ export class AppComponent {
 
   constructor(
     private themeService: LayoutService,
-    private _overlayContainer: OverlayContainer
+    private _overlayContainer: OverlayContainer,
   ) {}
 
   ngOnInit() {

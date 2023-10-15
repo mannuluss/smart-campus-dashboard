@@ -1,17 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import {
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  OnInit,
-} from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { menu } from './models/menu.model';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { LayoutService } from './services/layout.service';
 import { FormControl } from '@angular/forms';
 import { BrokerService } from 'src/app/core/services/broker.service';
-import { filter } from 'rxjs';
 import { User } from '@core/models/user';
 
 @Component({
@@ -89,7 +82,7 @@ export class LayoutComponent implements OnInit {
     private authService: AuthService,
     private layoutService: LayoutService,
     private brokerService: BrokerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {

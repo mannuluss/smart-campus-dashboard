@@ -8,9 +8,7 @@ import { DashbaordGridItemComponent } from './components/dashbaord-grid-item/das
 import { ModalGridTemplateComponent } from './components/modal-grid-template/modal-grid-template.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import {
-  MomentDateModule,
-} from '@angular/material-moment-adapter';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 import { TemplateGeneratorModule } from '../template-generator/template-generator.module';
 
 @NgModule({

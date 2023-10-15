@@ -8,7 +8,7 @@ describe('DashbaordGridItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashbaordGridItemComponent]
+      declarations: [DashbaordGridItemComponent],
     });
     fixture = TestBed.createComponent(DashbaordGridItemComponent);
     component = fixture.componentInstance;
