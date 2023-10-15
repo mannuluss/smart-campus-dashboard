@@ -16,11 +16,12 @@ gridster {
 .status-bar {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 16px;
 }
 
 .gridster-container {
-  height: calc(100% - 40px);
+  height: calc(100% - 66px);
 }
 .gridster-item {
   padding: 4px;
@@ -38,4 +39,8 @@ gridster {
   align-content: center;
   align-items: center;
   justify-content: center;
+}
+
+:host ::ng-deep mat-form-field .mat-form-field-wrapper {
+  padding: 0;
 }

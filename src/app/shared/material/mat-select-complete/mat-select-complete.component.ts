@@ -173,7 +173,6 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
           this.searching = false;
 
           let current = this.datos.find((x) => x[this.keyValue] == newValueText);
-          console.log('current', current, newValueText, this.datos);
           if (current) {
             this.controlText.setValue(current[this.key], { emitEvent: false });
             this.selectedOption = current;
@@ -190,7 +189,6 @@ export class MatSelectCompleteComponent implements OnInit, OnDestroy {
   }
 
   selecItem(option: any) {
-    console.log('MAT Select', option);
     this.selectedOption = option;
     //se selecciono un item segun al input
     if (option[this.key] != this.controlText.value) {

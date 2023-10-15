@@ -4,6 +4,10 @@ import { FormGridTemplate } from './form-grid-template';
 
 export interface GridDasboardDTO {
   id?: number;
+  /**
+   * nombre del dashbaord.
+   */
+  name: string;
   userId: string;
   data: string;
   //informacion llenada por un pipe de service.

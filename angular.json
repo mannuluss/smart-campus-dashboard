@@ -108,11 +108,23 @@
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "88cb3995-91e3-4ba5-90fd-6a2e85bd1f5b"
+    "analytics": "88cb3995-91e3-4ba5-90fd-6a2e85bd1f5b",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

@@ -22,7 +22,6 @@ export class DataService {
     desde?: any,
     hasta?: any
   ): Observable<DataMessageDTO[]> {
-    console.log('getDataByUUID', uuid, desde, hasta);
     let params = {
       uuid: uuid,
       initialDate: moment(desde).format(APP_DATE_TIME_FORMAT),

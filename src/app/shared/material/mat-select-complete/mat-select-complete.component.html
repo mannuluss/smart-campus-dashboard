@@ -1,4 +1,4 @@
-<mat-form-field>
+<mat-form-field [ngClass]="clearButton && selectedOption ? 'compact' : null">
   <mat-label>{{ label }}</mat-label>
   <input
     type="text"
@@ -35,7 +35,6 @@
       *ngFor="let option of datos | searchFilter : controlText.value : key"
       [value]="option[key]"
       (click)="selecItem(option)"
-
     >
       {{ option.name }}
     </mat-option>

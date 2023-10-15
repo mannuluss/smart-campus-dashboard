@@ -6,6 +6,7 @@
 .container-personality-data {
   display: grid;
   grid-template-columns: 0.9fr 1.3fr;
+  height: 100%;
   .container-form {
     display: flex;
     flex-direction: column;

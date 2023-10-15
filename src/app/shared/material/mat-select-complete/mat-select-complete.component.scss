@@ -5,3 +5,7 @@
 :host ::ng-deep .mat-form-field-infix{
   display: flex;
 }
+
+.compact ::ng-deep .mat-form-field-infix{
+  padding: 4px 0;
+}

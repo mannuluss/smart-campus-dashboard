@@ -1,14 +1,9 @@
-name: Deploy bun, SSH, docker
+name: Publish Angular App Server and Docker hub
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      docker-tag:
-        description: 'Docker image tag'
-        required: true
 
 env:
   outputPath: /smart-campus-dashboard
@@ -73,6 +68,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      #Download the artifact from the previous job (angular compile app).
       - name: Download Deployment Artifact
         uses: actions/download-artifact@v2
         with:

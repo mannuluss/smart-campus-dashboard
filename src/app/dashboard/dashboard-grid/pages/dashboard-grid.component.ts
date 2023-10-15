@@ -47,6 +47,16 @@ export class DashboardGridComponent implements OnInit {
   idGrid: number = null;
 
   /**
+   * nombre del grid almacenado en la base de datos.
+   * null es para cuando el usuario no ha guardado una configuracion para el.
+   */
+  dashbaordName: string = 'default';
+
+  formDashboard: FormControl = new FormControl();
+
+  listDashbaordGrid$ = this.dashbaordGridService.getGridsterOptions();
+
+  /**
    * las plantillas de graficas que se han aplicado a cada grid.
    */
   templates: RelationGristerTemplate = {};
@@ -80,58 +90,13 @@ export class DashboardGridComponent implements OnInit {
     private layoutService: LayoutService
   ) {}
 
-  // static itemChange(item, itemComponent) {
-  //   console.info('itemChanged', item, itemComponent);
-  // }
-
-  // static itemResize(item, itemComponent) {
-  //   console.info('itemResized', item, itemComponent);
-  // }
-
-  // static eventStart(
-  //   item: GridsterItem,
-  //   itemComponent: GridsterItemComponentInterface,
-  //   event: MouseEvent
-  // ) {
-  //   console.info('eventStart', item, itemComponent, event);
-  // }
-
-  // static eventStop(
-  //   item: GridsterItem,
-  //   itemComponent: GridsterItemComponentInterface,
-  //   event: MouseEvent
-  // ) {
-  //   console.info('eventStop', item, itemComponent, event);
-  // }
-
-  // static overlapEvent(
-  //   source: GridsterItem,
-  //   target: GridsterItem,
-  //   grid: GridsterComponent
-  // ) {
-  //   console.log('overlap', source, target, grid);
-  // }
-
   ngOnInit() {
     this.options = {
       itemInitCallback: (grid, itemComponent) => {
-        // console.log(
-        //   'itemInitCallback',
-        //   this.dashboard.findIndex((item) => item == itemComponent.item)
-        // );
         let indexChild = this.dashboard.findIndex(
           (item) => item == itemComponent.item
         );
         this.gridItemsComponent[indexChild] = itemComponent;
-      },
-      itemChangeCallback: (grid, itemComponent) => {
-        // console.log('change item on PARENT', grid, itemComponent);
-      },
-      itemResizeCallback: (grid, itemComponent) => {
-        //console.log('itemResizeCallback');
-        // console.log('itemResizeCallback', itemComponent);
-        // let itemIndex = grid.
-        // this.gridItemsComponent[itemIndex] = itemComponent;
       },
       itemRemovedCallback: (grid, itemComponent) => {
         console.log('itemRemovedCallback', itemComponent);
@@ -184,12 +149,13 @@ export class DashboardGridComponent implements OnInit {
       .getGridsterOptions()
       .subscribe((backendDashbaord) => {
         console.log('backendDashbaord', backendDashbaord);
-        if (backendDashbaord) {
+        if (backendDashbaord && backendDashbaord.length > 0) {
+          let fistDashboard = backendDashbaord[0];
           //se carga la grilla ya guarda por el usuario.
-          this.idGrid = backendDashbaord.id;
+          this.idGrid = fistDashboard.id;
           // this.dashboard = backendDashbaord.json.grid;
           this.dashboard = [];
-          backendDashbaord.json.forEach((data, index) => {
+          fistDashboard.json.forEach((data, index) => {
             this.dashboard.push(data.grid);
             if (data.formTemplate) this.templates[index] = data.formTemplate;
           });
@@ -201,8 +167,16 @@ export class DashboardGridComponent implements OnInit {
     this.initialDashboard = _.clone(this.dashboard);
   }
 
-  changedOptions() {
-    this.options.api.optionsChanged();
+  selectDashbaord($event) {
+    console.log('selectDashbaord', $event);
+    //   this.dashboard = [];
+    //   $event.json.forEach((data, index) => {
+    //     this.dashboard.push(data.grid);
+    //     if (data.formTemplate) this.templates[index] = data.formTemplate;
+    //   });
+    //   //se crea una copia de la informacion inicial (backup).
+    //   this.initialDashboard = _.clone(this.dashboard);
+    //   this.initialTemplates = _.clone(this.templates);
   }
 
   /**
@@ -279,9 +253,8 @@ export class DashboardGridComponent implements OnInit {
    * envia la informacion al back y la guarda.
    */
   saveOptions() {
-    console.log('saveOptions', this.dashboard, this.templates);
     this.dashbaordGridService
-      .postGridsterOptions(this.idGrid, this.dashboard, this.templates)
+      .postGridsterOptions(this.idGrid,this.dashbaordName, this.dashboard, this.templates)
       .subscribe((data) => {
         this.idGrid = data.id;
         this.initialDashboard = _.clone(this.dashboard);

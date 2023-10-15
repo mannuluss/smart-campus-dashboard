@@ -1,4 +1,15 @@
 <section class="status-bar">
+  <!-- <app-mat-select-complete
+    label="Panel de control"
+    placeholder="Nombre del panel de control"
+    key="name"
+    keyValue="id"
+    [control]="formDashboard"
+    [clearButton]="true"
+    [list]="listDashbaordGrid$"
+    (selectedChange)="selectDashbaord($event)"
+  >
+  </app-mat-select-complete> -->
   <!--AGREGAR GRILLA-->
   <button
     mat-icon-button
@@ -46,7 +57,7 @@
   </ng-container>
   <div class="no-content-gridster" *ngIf="dashboard?.length == 0">
     <strong>Ups... no hay bloques en donde crear las graficas.</strong>
-    <br>
-    <span>Para los bloques, presione el boton de "+"</span>
+    <br />
+    <span>Para crear los bloques, presione el boton de "+" de arriba.</span>
   </div>
 </gridster>

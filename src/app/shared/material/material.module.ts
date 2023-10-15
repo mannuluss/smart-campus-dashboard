@@ -43,14 +43,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateModule,
-  MAT_MOMENT_DATE_FORMATS,
 } from '@angular/material-moment-adapter';
 import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
   NgxMatDatetimePickerModule,
-  NGX_MAT_DATE_FORMATS,
 } from '@angular-material-components/datetime-picker';
 import { CUSTOM_NGX_DATE_TIME_FORMATS } from './providers/date-time-picker';
 

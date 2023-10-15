@@ -46,7 +46,6 @@ export class AuthService {
     private keycloak: KeycloakService
   ) {
     this.user$.subscribe((user) => {
-      console.log('user', user);
       this.user = user;
     });
     this.initUserInfo();

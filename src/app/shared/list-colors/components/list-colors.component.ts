@@ -40,7 +40,6 @@ export class ListColorsComponent implements OnInit {
   ngOnInit() {
     this.control.valueChanges.subscribe((value) => {
       this.draw = false;
-      console.log('change color', value, this.control.value);
       this.cdr.detectChanges();
       this.draw = true;
     });
@@ -51,7 +50,6 @@ export class ListColorsComponent implements OnInit {
   }
 
   onChangeColor(color, i) {
-    console.log(color, i, this.control.value);
     let colors = this.control.value;
     colors[i] = color;
     this.control.patchValue(colors);

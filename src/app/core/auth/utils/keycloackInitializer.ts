@@ -6,7 +6,7 @@ export function keyCloakInitializer(keycloak: KeycloakService): () => Promise<an
     keycloak.init({
       initOptions: {
         onLoad: 'check-sso',
-        //redirectUri: 'http://feliperojas.live/smart-campus-dashboard/#/dashboard/panel-control'//'window.location.origin',
+        redirectUri: window.location.href,
       },
       config: environment.keyCloakConfig,
     });

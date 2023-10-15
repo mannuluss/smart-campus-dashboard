@@ -21,9 +21,11 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
 
+      #instalando dependencias de angular
       - name: Install Dependencies
         run: yarn install --force
 
+      #compilando el proyecto y comprimiendo los archivos.
       - name: Build Angular App
         run: |
           yarn run build --configuration=production --base-href=/${{ env.baseHref }}/
@@ -73,22 +75,3 @@ jobs:
       - name: build Docker Image
         run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:latest "."
 
-  # deployAltern:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v2
-
-  #     - uses: oven-sh/setup-bun@v1
-  #       with:
-  #         bun-version: latest
-
-  #     - name: Install Dependencies
-  #       run: bun install
-
-  #     - name: Build Angular App
-  #       run: |
-  #         bun run build --configuration=production --base-href=/${{ env.baseHref }}/
-  #         echo "Comprimiendo archivos..."
-  #         tar -czf dist-${{ github.sha }}.tgz dist/

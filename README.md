@@ -45,3 +45,14 @@ Esta aplicacion tambien se dockerizo para futuros integraciones del proyecto en 
 El primero "Dockerfile" es utilizado para compilar la aplicacion angular y proveer la vista utilizando nginx.
 
 El segundo "DockerfilePipeline" es utilizado en el pipeline de Github Actions que se utilizo para desplegar la aplicacion en servidores; este archivo solo copia la carpeta ya generada al compilar angular y crea el servicio de nginx para proveer la aplicacion, esto la hace mas rapido su compilacion. Esto funciona solo si previamente ya se habia compilado la aplicacion angular (lo cual pasa en el pipeline cuando se compila y empaqueta para ser enviada al servidor).
+
+
+# AUTH USER
+
+## keycloak
+guia de como se implemento
+
+https://dev.to/anjnkmr/keycloak-integration-in-angular-application-5a43
+
+
+https://www.adictosaltrabajo.com/2016/09/28/integracion-de-keycloak-con-angularjs-y-spring-boot/

@@ -22,20 +22,28 @@ export class DashbaordGridService {
     private snackbarService: SnackbarService
   ) {}
 
+  /**
+   * Obtiene la configuracion de los dashbaord del usuario.
+   * @returns
+   */
   getGridsterOptions() {
     return this.http
-      .get<GridDasboardDTO>(`${environment.adminService}/dashboard/grid`)
+      .get<GridDasboardDTO[]>(`${environment.adminService}/dashboard/grid`)
       .pipe(
         catchError((err) => {
           this.snackbarService.show({
-            mensaje: 'No se pudo obtener la configuracion del dashboard del usuario.',
+            mensaje:
+              'No se pudo obtener la configuracion del dashboard del usuario.',
             tipo: 'error',
           });
           throw err;
         }),
-        map<GridDasboardDTO, GridDasboardDTO>((grid) => {
-          if (grid?.data) {
-            grid.json = JSON.parse(grid.data);
+        map<GridDasboardDTO[], GridDasboardDTO[]>((grid) => {
+          if (grid) {
+            return grid.map((gridItem) => {
+              gridItem.json = JSON.parse(gridItem.data);
+              return gridItem;
+            });
           }
           return grid;
         })
@@ -44,6 +52,7 @@ export class DashbaordGridService {
 
   postGridsterOptions(
     id: number,
+    name: string,
     gristerItemArray: Array<GridsterItem>,
     templates: RelationGristerTemplate
   ) {
@@ -58,16 +67,24 @@ export class DashbaordGridService {
 
     let gristerDashbaord: GridDasboardDTO = {
       id: id,
+      name: name,
       userId: this.authService.user.id,
       data: JSON.stringify(data),
     };
-    console.log('postGridsterOptions', gristerDashbaord);
     return this.http
       .put<GridDasboardDTO>(
         `${environment.adminService}/dashboard/grid`,
         gristerDashbaord
       )
       .pipe(
+        catchError((err) => {
+          this.snackbarService.show({
+            mensaje:
+              'No se pudo guardar la configuracion del dashboard',
+            tipo: 'error',
+          });
+          throw err;
+        }),
         map((grid) => {
           grid.json = JSON.parse(grid.data);
           return grid;

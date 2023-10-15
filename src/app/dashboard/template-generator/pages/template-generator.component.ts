@@ -130,11 +130,9 @@ export class TemplateGeneratorComponent implements OnInit {
     });
 
     this.form.controls['chart.type'].valueChanges.subscribe((value) => {
-      console.log('change type', value);
       this.chartOptions.chart.type = value;
     });
     this.form.controls['series'].valueChanges.subscribe((value) => {
-      console.log('series', value);
       this.chartOptions.series = value;
     });
     this.form.controls['colors'].valueChanges.subscribe((value) => {
@@ -163,7 +161,6 @@ export class TemplateGeneratorComponent implements OnInit {
       data: new FormControl(''),
     });
     this.formPlantilla.controls['id'].valueChanges.subscribe((value) => {
-      console.log('change id', value);
       if (value) {
         this.plantillaMode = 'edit';
       } else {

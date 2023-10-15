@@ -7,7 +7,8 @@
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^16.1.7",
     "@angular/router": "^16.1.7",
     "@faker-js/faker": "^8.0.2",
+    "@nx/devkit": "16.9.1",
     "angular-gridster2": "^16.0.0",
     "apexcharts": "^3.41.1",
     "chart.js": "^4.3.2",
@@ -42,10 +44,18 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.6",
+    "@angular-eslint/builder": "16.2.0",
+    "@angular-eslint/eslint-plugin": "16.2.0",
+    "@angular-eslint/eslint-plugin-template": "16.2.0",
+    "@angular-eslint/schematics": "16.2.0",
+    "@angular-eslint/template-parser": "16.2.0",
     "@angular/cli": "~16.1.6",
     "@angular/compiler-cli": "^16.1.7",
     "@types/jasmine": "~4.3.5",
     "@types/ws": "^8.5.4",
+    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
+    "eslint": "^8.49.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.2",
     "karma-chrome-launcher": "~3.2.0",

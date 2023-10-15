@@ -93,9 +93,6 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.isAuthenticated().then((isLoggedIn) => {
-      console.log('isLoggedIn', isLoggedIn);
-    });
     //sidebar abierto o cerrado
     let localopenedBar = localStorage.getItem('sideBarOpened');
     if (localopenedBar) {
@@ -109,10 +106,8 @@ export class LayoutComponent implements OnInit {
     this.className = this.darkMode ? 'darkMode' : '';
 
     this.authService.user$.subscribe((user) => {
-      console.log('user layout', user);
       this.user = user;
-    }
-    );
+    });
 
     this.layoutService.getPrevent().subscribe((prevent) => {
       this.preventChange = prevent;
@@ -134,7 +129,6 @@ export class LayoutComponent implements OnInit {
   }
 
   changeMenu(itemMenu: menu) {
-    console.log('changeMenu', itemMenu);
     this.layoutService.changeNav$.next(itemMenu);
     if (this.preventChange) {
       return;
@@ -143,7 +137,7 @@ export class LayoutComponent implements OnInit {
     this.router.navigate([itemMenu.route]);
   }
 
-  login(){
+  login() {
     this.authService.login();
   }
 
