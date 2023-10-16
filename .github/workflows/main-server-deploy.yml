@@ -1,7 +1,9 @@
 name: Deploy by SHH to Server
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 env:
   outputPath: /smart-campus-dashboard
@@ -49,6 +51,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/pages
+            rm -r ${{ env.outputPath }}
             tar -xzf dist-${{ github.sha }}.tgz --strip-components=1
             rm dist-${{ github.sha }}.tgz
 
@@ -60,6 +63,7 @@ jobs:
 
   docker_image:
     needs: deploy
+    environment: docker
     runs-on: ubuntu-latest
 
     steps:
@@ -73,5 +77,11 @@ jobs:
           path: dist
 
       - name: build Docker Image
-        run: docker build -f "DockerfilePipeline" -t smartcampusdashboard:latest "."
+        run: docker build -f "DockerfilePipeline" -t ${{ secrets.DOCKERHUB_USERNAME }}/smartcampusdashboard:${{ vars.DOCKER_TAG }} "."
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/smartcampusdashboard:${{ vars.DOCKER_TAG }}
 
