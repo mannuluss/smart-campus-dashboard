@@ -7,6 +7,7 @@ import { MqttModule } from 'ngx-mqtt';
 import { mqttOptions } from './providers/mqtt-service.provider';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { keyCloakInitializer } from './auth/utils/keycloackInitializer';
+import { AuthService } from './auth/services/auth.service';
 
 @NgModule({
   declarations: [],
@@ -23,7 +24,7 @@ import { keyCloakInitializer } from './auth/utils/keycloackInitializer';
       provide: APP_INITIALIZER,
       useFactory: keyCloakInitializer,
       multi: true,
-      deps: [KeycloakService],
+      deps: [KeycloakService, AuthService],
     },
   ],
   exports: [LoaderModule, ModalDialogModule, ModalConfirmModule],

@@ -43,8 +43,6 @@ export class AuthService {
     this.user$.subscribe((user) => {
       this.user = user;
     });
-    this.initUserInfo();
-    //this.initUserInfo();
   }
 
   async login(): Promise<any> {
@@ -72,7 +70,7 @@ export class AuthService {
   /**
    * carga la informacion del usuario.
    */
-  private initUserInfo() {
+  initUserInfo() {
     if (this.keycloak.getKeycloakInstance().authenticated) {
       this.keycloak.loadUserProfile().then((profile) => {
         //se asigna la informacion del usuario.
@@ -101,18 +99,6 @@ export class AuthService {
         }
       }
     }
-    // let user = JSON.parse(localStorage.getItem('user'));
-    // if (user) {
-    //   return user;
-    // } else if (!environment.production) {
-    //   return {
-    //     id: '1',
-    //     name: 'Felipe Rojas',
-    //     username: 'mannulus',
-    //     email: '',
-    //     rol: 'admin',
-    //   };
-    // }
   }
 
   /**

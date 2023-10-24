@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --port 4500",
+    "start": "ng serve --port 4500",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^16.1.7",
     "@angular/router": "^16.1.7",
     "@faker-js/faker": "^8.0.2",
+    "@ngrx/store": "16.3.0",
     "@nx/devkit": "16.9.1",
     "angular-gridster2": "^16.0.0",
     "apexcharts": "^3.41.1",
@@ -68,6 +69,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng2-charts-schematics": "^0.1.7",
     "prettier": "^3.0.3",
-    "typescript": "~5.1.6"
+    "typescript": "~5.1.6",
+    "@ngrx/eslint-plugin": "^16.3.0"
   }
 }

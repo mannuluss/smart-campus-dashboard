@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SnackbarService } from '@core/snackbar/services/snackbar.service';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
 import { Observable } from 'rxjs';
 
@@ -6,10 +7,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class BrokerService {
-  constructor(private mqttService: MqttService) {}
+  constructor(
+    private mqttService: MqttService,
+    private snackbar: SnackbarService,
+  ) {}
 
   // Conectarse al broker MQTT
   connect() {
+    this.mqttService.onError.subscribe((e) =>
+      this.snackbar.show({
+        mensaje: 'Error al conectar con el broker MQTT',
+        tipo: 'error',
+      }),
+    );
     this.mqttService.connect();
   }
 
