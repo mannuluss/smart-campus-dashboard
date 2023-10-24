@@ -1,9 +1,8 @@
 name: Publish Angular App Server and Docker hub
 
+#en fase de pruebas porque el compilar el angular app no funciona
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 env:
   outputPath: /smart-campus-dashboard
