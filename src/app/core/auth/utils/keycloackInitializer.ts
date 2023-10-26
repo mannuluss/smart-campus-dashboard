@@ -25,7 +25,7 @@ export function keyCloakInitializer(
         }
         resolve(true);
       } catch (error) {
-
+        console.log(error)
         console.error('Error inicializando keycloak', error);
         reject(error);
 
