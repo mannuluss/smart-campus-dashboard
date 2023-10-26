@@ -14,6 +14,7 @@ export function keyCloakInitializer(
           initOptions: {
             onLoad: 'check-sso',
             redirectUri: window.location.href,
+            checkLoginIframe: false,
           },
           loadUserProfileAtStartUp: false,
           config: environment.keyCloakConfig,
@@ -25,10 +26,9 @@ export function keyCloakInitializer(
         }
         resolve(true);
       } catch (error) {
-        console.log(error)
-        console.error('Error inicializando keycloak', error);
+        console.error('Error inicializando keycloak');
+        console.error(error)
         reject(error);
-
       }
     });
 }
