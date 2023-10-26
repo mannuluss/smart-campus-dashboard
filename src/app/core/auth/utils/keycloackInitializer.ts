@@ -15,7 +15,7 @@ export function keyCloakInitializer(
             onLoad: 'check-sso',
             redirectUri: window.location.href,
           },
-          loadUserProfileAtStartUp: true,
+          loadUserProfileAtStartUp: false,
           config: environment.keyCloakConfig,
         });
 
