@@ -13,6 +13,7 @@ export class defaultChartConfig {
           offsetX: -80,
           show: true,
         },
+        events: {},
       },
       title: {
         align: 'left',

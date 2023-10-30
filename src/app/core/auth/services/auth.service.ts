@@ -71,34 +71,39 @@ export class AuthService {
    * carga la informacion del usuario.
    */
   initUserInfo() {
-    if (this.keycloak.getKeycloakInstance().authenticated) {
-      this.keycloak.loadUserProfile().then((profile) => {
-        //se asigna la informacion del usuario.
-        this.userSubject.next({
-          id: profile.id,
-          name: profile.firstName + ' ' + profile.lastName,
-          username: profile.username,
-          rol: this.keycloak.isUserInRole('admin') ? 'admin' : 'visitante',
-          email: profile.email,
+    return new Promise((resolve, reject) => {
+      if (this.keycloak.getKeycloakInstance().authenticated) {
+        this.keycloak.loadUserProfile().then((profile) => {
+          //se asigna la informacion del usuario.
+          this.userSubject.next({
+            id: profile.id,
+            name: profile.firstName + ' ' + profile.lastName,
+            username: profile.username,
+            rol: this.keycloak.isUserInRole('admin') ? 'admin' : 'visitante',
+            email: profile.email,
+          });
+
+          resolve(true);
         });
-      });
-    } else {
-      //para pruebas en local, se utiliza el LocalStorage para almacenar la informacion del usuario.
-      if (!environment.production) {
-        let user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
-          this.userSubject.next(user);
-        } else {
-          // this.userSubject.next({
-          //   id: '1',
-          //   name: 'Felipe Rojas',
-          //   username: 'mannulus',
-          //   email: '',
-          //   rol: 'admin',
-          // });
+      } else {
+        //para pruebas en local, se utiliza el LocalStorage para almacenar la informacion del usuario.
+        if (!environment.production) {
+          let user = JSON.parse(localStorage.getItem('user'));
+          if (user) {
+            this.userSubject.next(user);
+          } else {
+            // this.userSubject.next({
+            //   id: '1',
+            //   name: 'Felipe Rojas',
+            //   username: 'mannulus',
+            //   email: '',
+            //   rol: 'admin',
+            // });
+          }
+          resolve(true);
         }
       }
-    }
+    });
   }
 
   /**

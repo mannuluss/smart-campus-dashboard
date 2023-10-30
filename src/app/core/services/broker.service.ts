@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SnackbarService } from '@core/snackbar/services/snackbar.service';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,15 @@ export class BrokerService {
 
   // Suscribirse a un topic
   subscribe(topic: string): Observable<IMqttMessage> {
-    return this.mqttService.observe(topic);
+    return this.mqttService.observe(topic).pipe(
+      catchError((e) => {
+        this.snackbar.show({
+          mensaje: 'Error al suscribirse al topic ' + topic,
+          tipo: 'error',
+        });
+        return [];
+      }),
+    );
   }
 
   // Publicar un mensaje en un topic

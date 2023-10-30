@@ -25,7 +25,11 @@ import {
 } from '../../models/events.model';
 import { FormGridTemplate } from '../../models/form-grid-template';
 import { ModalGridTemplateComponent } from '../modal-grid-template/modal-grid-template.component';
-import { forkJoin } from 'rxjs';
+import {
+  bufferTime, filter,
+  forkJoin,
+  map
+} from 'rxjs';
 import { BrokerService } from 'src/app/core/services/broker.service';
 
 @Component({
@@ -209,7 +213,6 @@ export class DashbaordGridItemComponent implements OnInit {
         maxWidth: '800px',
       })
       .subscribe((data) => {
-        console.log(data.data);
         if (data.estado) {
           this.save.emit({
             index: this.index,
@@ -256,18 +259,31 @@ export class DashbaordGridItemComponent implements OnInit {
     });
   }
 
+  /**
+   * se suscribe al topic del broker para obtener los datos en tiempo real.
+   */
   getRealtimeData() {
     this.dataService
       .subcribeToDataDevice(this.formTemplate.idDevice)
       .subscribe((data) => {
         console.info(`SUBCRIBE TO TOPIC ${data.topic}`);
-        //se conectar al broker en el topic que le indica el servidor
-        this.brokerService.subscribe(data.topic).subscribe((message) => {
-          let dato = JSON.parse(message.payload.toString());
-          console.log(dato);
-          this.templateService.dataToSeries([dato], this.chartOptions, true);
-          this.chart.updateSeries(this.chartOptions.series, true);
-        });
+        //se conectar al broker en el topic que le indica el servidor, y espera un minuto cada que llega un nuevo dato, antes
+        //de mostrarlo en la grafica.
+        this.brokerService.subscribe(data.topic)
+          .pipe(
+            map((data) => JSON.parse(data.payload.toString())),
+            bufferTime(1000),
+            filter((mensaje) => mensaje && mensaje.length > 0),
+          )
+          .subscribe(async (messageData) => {
+            //TODO: al estar la grafica vacia y cargar datos NO se muestra correctamente el timestep, solo si se recarga la grafica
+            this.templateService.dataToSeries(
+              messageData,
+              this.chartOptions,
+              true,
+            );
+            this.chart.updateSeries(this.chartOptions.series, false);
+          });
       });
   }
 }

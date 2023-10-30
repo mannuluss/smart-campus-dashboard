@@ -211,56 +211,48 @@ export class TemplateService {
     chartOptions: ChartOptions,
     realtime?: boolean,
   ) {
-    if (data.length == 0) {
-      chartOptions.series = [];
-      return;
-    }
-
     //revisa si ya existia la serie
     if (!chartOptions.series) {
       chartOptions.series = [];
-    } else {
-      if (realtime) {
-        //esto ocurre porque las series de "radialBar" son un arreglo de numeros.
-        if (chartOptions.chart.type != 'radialBar') {
-          chartOptions.series.forEach((item) => item.data.shift());
-        }
-      }
+    }
+    //si no hay datos, se sale
+    if (data.length == 0) {
+      return;
     }
     if (!chartOptions.xaxis.categories) {
       chartOptions.xaxis.categories = [];
-    } else {
-      if (realtime) {
-        chartOptions.xaxis.categories.shift();
-      }
     }
 
     if (
       chartOptions.chart.type == 'line' ||
       chartOptions.chart.type == 'area'
     ) {
-      if (!chartOptions.series || chartOptions.series.length == 0) {
+      if (!chartOptions.series) {
         chartOptions.series = [];
       }
+      let tempSeries: any[] = chartOptions.series;
+      //se recorren los nuevos datos para agregarlos en la serie
       data.forEach((item, i) => {
+        //nombre de los datos en las series
         let keys = Object.keys(item.values);
         keys.forEach((key) => {
-          let dato: [number, number] = [
+          let dato: any = [
             new Date(item.timeStamp).getTime(),
             item.values[key],
           ];
-          let serie = chartOptions.series.find((serie) => serie.name == key);
-          if (serie) {
-            serie.data.push(dato as any);
+          let serie = tempSeries.findIndex((serie) => serie.name === key);
+          //busca si la seria ya existe y le agrega el dato nuevo
+          if (serie > -1) {
+            tempSeries[serie].data.push(dato);
           } else {
-            chartOptions.series.push({
+            tempSeries.push({
               name: key,
               data: [dato as any],
             });
           }
         });
       });
-      console.log('DATOS', data, chartOptions.series);
+      chartOptions.series = tempSeries;
       chartOptions.xaxis.type = 'datetime';
       chartOptions.xaxis.labels = {
         //format: 'HH:mm:ss',
@@ -271,7 +263,7 @@ export class TemplateService {
           day: 'dd MMM',
           hour: 'HH:mm',
           minute: 'HH:mm',
-          second: 'mm:ss',
+          second: 'HH:mm:ss',
         },
       };
     } else if (chartOptions.chart.type == 'bar') {
@@ -320,7 +312,7 @@ export class TemplateService {
         let avg = sum / allData[key].length || 0;
         chartOptions.series[i] = avg as any;
       });
-      console.log('allData', allData);
     }
+    return chartOptions;
   }
 }
