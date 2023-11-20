@@ -1,0 +1,18 @@
+name: Compile, Deploy and Build Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  outputPath: /smart-campus-dashboard
+  baseHref: smart-campus-dashboard
+  nodeVersion: 18
+
+jobs:
+  build:
+    uses: projects-mannulus/.github/workflows/angular-compile.yml
+    with:
+      nodeVersion: ${{ env.node-version }}
+      baseHref: ${{ env.baseHref }}
