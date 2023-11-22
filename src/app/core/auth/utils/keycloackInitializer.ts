@@ -8,6 +8,10 @@ export function keyCloakInitializer(
 ): () => Promise<any> {
   return () =>
     new Promise<any>(async (resolve, reject) => {
+      if (!environment.authEnabled) {
+        await auth.initUserInfo();
+        resolve(true);
+      }
       try {
         //inizializa keycloak buscando si el usuario esta autenticado
         await keycloak.init({
@@ -29,7 +33,7 @@ export function keyCloakInitializer(
         resolve(true);
       } catch (error) {
         console.error('Error inicializando keycloak');
-        console.log(error)
+        console.log(error);
         //TODO: por alguna razon, cuando se inicializa keycloak, si el usuario se autentico, se genera un error, asi que se vuele a inicializar.
         await keycloak.init({
           initOptions: {

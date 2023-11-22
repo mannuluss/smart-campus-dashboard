@@ -72,7 +72,7 @@ export class AuthService {
    */
   initUserInfo() {
     return new Promise((resolve, reject) => {
-      if (this.keycloak.getKeycloakInstance().authenticated) {
+      if (environment.authEnabled) {
         this.keycloak.loadUserProfile().then((profile) => {
           //se asigna la informacion del usuario.
           this.userSubject.next({
@@ -87,21 +87,19 @@ export class AuthService {
         });
       } else {
         //para pruebas en local, se utiliza el LocalStorage para almacenar la informacion del usuario.
-        if (!environment.production) {
-          let user = JSON.parse(localStorage.getItem('user'));
-          if (user) {
-            this.userSubject.next(user);
-          } else {
-            // this.userSubject.next({
-            //   id: '1',
-            //   name: 'Felipe Rojas',
-            //   username: 'mannulus',
-            //   email: '',
-            //   rol: 'admin',
-            // });
-          }
-          resolve(true);
+        let user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+          this.userSubject.next(user);
+        } else {
+          this.userSubject.next({
+            id: '1',
+            name: 'Felipe Rojas',
+            username: 'mannulus',
+            email: '',
+            rol: 'admin',
+          });
         }
+        resolve(true);
       }
     });
   }
