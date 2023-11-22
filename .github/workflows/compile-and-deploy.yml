@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
+    uses: mannuluss/projects-mannulus/templates/.github/workflows/angular-compile.yml@main
     with:
       nodeVersion: ${{ env.node-version }}
       baseHref: ${{ env.baseHref }}
