@@ -9,7 +9,6 @@ env:
   outputPath: /smart-campus-dashboard
   baseHref: smart-campus-dashboard
   nodeVersion: 18
-  CUSTOM_DOMAIN: 'smart-campus-dashboard.mannulus.com'
 
 jobs:
   compile:
@@ -45,4 +44,4 @@ jobs:
           repositoryUserName: ${{ github.repository_owner }}
           commitMessage: Deploy ${{ github.sha }}
           enableJekyll: false
-          customDomain: ${{ env.CUSTOM_DOMAIN }}
+#          customDomain: ${{ env.CUSTOM_DOMAIN }}
