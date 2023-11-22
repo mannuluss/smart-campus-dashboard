@@ -11,15 +11,18 @@ env:
   nodeVersion: 18
 
 jobs:
-  build:
+  start:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
       
-      - name: angular compile and compress
-        uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
-        with:
-          nodeVersion: ${{ env.nodeVersion }}
-          baseHref: ${{ env.baseHref }}
+  call-workflow-passing-data:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
+    with:
+      nodeVersion: ${{ env.nodeVersion }}
+      baseHref: ${{ env.baseHref }}
