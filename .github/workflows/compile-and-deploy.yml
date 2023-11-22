@@ -11,22 +11,22 @@ env:
   nodeVersion: 18
 
 jobs:
-  compile:
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
-    with:
-      nodeVersion: '18'
-      baseHref: smart-campus-dashboard
+  # compile:
+  #   permissions:
+  #     contents: read
+  #     pull-requests: write
+  #   uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
+  #   with:
+  #     nodeVersion: '18.x'
+  #     baseHref: smart-campus-dashboard
 
   deploy:
-    needs: compile
+    #needs: compile
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-      
+
     steps:
 
       - name: Checkout Repository
@@ -41,7 +41,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          # branch: gh-pages
+          branch: gh-pages
           # folder: dist
           # clean: true
           token: ${{ secrets.GITHUB_TOKEN }}
