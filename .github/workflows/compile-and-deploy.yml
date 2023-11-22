@@ -7,18 +7,18 @@ on:
 
 env:
   #outputPath: /smart-campus-dashboard
-  baseHref: smart-campus-dashboard
+  #baseHref: smart-campus-dashboard
   node-version: 18
 
 jobs:
-  # compile:
-  #   permissions:
-  #     contents: read
-  #     pull-requests: write
-  #   uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
-  #   with:
-  #     nodeVersion: '18.x'
-  #     baseHref: smart-campus-dashboard
+  compile:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
+    with:
+      nodeVersion: '18.x'
+      baseHref: smart-campus-dashboard
 
   deploy:
     #needs: compile
@@ -28,25 +28,24 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      # - name: Checkout Repository
-      #   uses: actions/checkout@v2
-        
-      # - name: Download Artifact
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: dist
-      #     path: dist
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist
+          folder: ./dist/smart-campus-dashboard
           # clean: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # token: ${{ secrets.GITHUB_TOKEN }}
           # repositoryName: ${{ github.repository }}
           # repositoryUserName: ${{ github.repository_owner }}
-          commitMessage: Deploy ${{ github.sha }}
+          # commitMessage: Deploy ${{ github.sha }}
           # enableJekyll: false
 #          customDomain: ${{ env.CUSTOM_DOMAIN }}
