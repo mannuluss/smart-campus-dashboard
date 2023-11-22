@@ -23,7 +23,12 @@ jobs:
   deploy:
     needs: compile
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v2
         
@@ -36,12 +41,12 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          branch: gh-pages
-          folder: dist
-          clean: true
+          # branch: gh-pages
+          # folder: dist
+          # clean: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          repositoryName: ${{ github.repository }}
-          repositoryUserName: ${{ github.repository_owner }}
+          # repositoryName: ${{ github.repository }}
+          # repositoryUserName: ${{ github.repository_owner }}
           commitMessage: Deploy ${{ github.sha }}
-          enableJekyll: false
+          # enableJekyll: false
 #          customDomain: ${{ env.CUSTOM_DOMAIN }}
