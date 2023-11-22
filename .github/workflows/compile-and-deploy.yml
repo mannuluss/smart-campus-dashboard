@@ -6,9 +6,9 @@ on:
       - main
 
 env:
-  outputPath: /smart-campus-dashboard
+  #outputPath: /smart-campus-dashboard
   baseHref: smart-campus-dashboard
-  nodeVersion: 18
+  node-version: 18
 
 jobs:
   # compile:
