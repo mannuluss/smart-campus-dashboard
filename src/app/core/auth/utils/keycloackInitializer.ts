@@ -8,10 +8,6 @@ export function keyCloakInitializer(
 ): () => Promise<any> {
   return () =>
     new Promise<any>(async (resolve, reject) => {
-      if (!environment.authEnabled) {
-        await auth.initUserInfo();
-        resolve(true);
-      }
       try {
         //inizializa keycloak buscando si el usuario esta autenticado
         await keycloak.init({
@@ -25,6 +21,11 @@ export function keyCloakInitializer(
           config: environment.keyCloakConfig,
         });
         console.log('keycloak inicializado');
+        //si la autenticación esta deshabilitada, se inicializa la información por defecto del usuario
+        if (!environment.authEnabled) {
+          await auth.initUserInfo();
+          resolve(true);
+        }
         //si el usuario esta autenticado, se obtiene su información
         if (await keycloak.isLoggedIn()) {
           console.log('keycloak logueado');
