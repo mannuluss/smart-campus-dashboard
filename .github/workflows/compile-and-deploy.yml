@@ -24,5 +24,5 @@ jobs:
       pull-requests: write
     uses: projects-mannulus/templates/.github/workflows/angular-compile.yml@main
     with:
-      nodeVersion: ${{ env.nodeVersion }}
-      baseHref: ${{ env.baseHref }}
+      nodeVersion: 18
+      baseHref: smart-campus-dashboard
