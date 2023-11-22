@@ -9,16 +9,10 @@ env:
   outputPath: /smart-campus-dashboard
   baseHref: smart-campus-dashboard
   nodeVersion: 18
+  CUSTOM_DOMAIN: 'smart-campus-dashboard.mannulus.com'
 
 jobs:
-  start:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      
-  build:
+  compile:
     permissions:
       contents: read
       pull-requests: write
@@ -26,3 +20,28 @@ jobs:
     with:
       nodeVersion: '18'
       baseHref: smart-campus-dashboard
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repositoryName: ${{ github.repository }}
+          repositoryUserName: ${{ github.repository_owner }}
+          commitMessage: Deploy ${{ github.sha }}
+          enableJekyll: false
+          customDomain: ${{ env.CUSTOM_DOMAIN }}
