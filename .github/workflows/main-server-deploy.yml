@@ -31,29 +31,35 @@ jobs:
       - name: Build Angular App
         run: |
           yarn run build --configuration=production --base-href=/${{ env.baseHref }}/
-          echo "Comprimiendo archivos..."
-          tar -czf dist-${{ github.sha }}.tgz dist/
+          # echo "Comprimiendo archivos..."
+          # tar -czf dist-${{ github.sha }}.tgz dist/
 
-      - name: Load to Server
-        uses: appleboy/scp-action@v0.1.4
+      - name: Deploy to server
+        uses: projects-mannulus/templates/.github/actions/action-deploy-server-scp.yml@main
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: dist-${{ github.sha }}.tgz
-          target: ~/pages
+          folder: 'dist'
+          target: 'pages'
 
-      - name: Deploy on Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ~/pages
-            rm -r ${{ env.outputPath }}
-            tar -xzf dist-${{ github.sha }}.tgz --strip-components=1
-            rm dist-${{ github.sha }}.tgz
+      # - name: Load to Server
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     host: ${{ secrets.SERVER_HOST }}
+      #     username: ${{ secrets.SERVER_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     source: dist-${{ github.sha }}.tgz
+      #     target: ~/pages
+
+      # - name: Deploy on Server
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SERVER_HOST }}
+      #     username: ${{ secrets.SERVER_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     script: |
+      #       cd ~/pages
+      #       rm -r ${{ env.outputPath }}
+      #       tar -xzf dist-${{ github.sha }}.tgz --strip-components=1
+      #       rm dist-${{ github.sha }}.tgz
 
       - name: Archive Deployment
         uses: actions/upload-artifact@v2

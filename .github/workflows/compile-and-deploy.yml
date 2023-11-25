@@ -42,10 +42,3 @@ jobs:
         with:
           branch: gh-pages
           folder: ./dist/smart-campus-dashboard
-          # clean: true
-          # token: ${{ secrets.GITHUB_TOKEN }}
-          # repositoryName: ${{ github.repository }}
-          # repositoryUserName: ${{ github.repository_owner }}
-          # commitMessage: Deploy ${{ github.sha }}
-          # enableJekyll: false
-#          customDomain: ${{ env.CUSTOM_DOMAIN }}
