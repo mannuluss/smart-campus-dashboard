@@ -35,7 +35,7 @@ jobs:
           # tar -czf dist-${{ github.sha }}.tgz dist/
 
       - name: Deploy to server
-        uses: projects-mannulus/templates/.github/actions/action-deploy-server-scp.yml@main
+        uses: projects-mannulus/templates/.github/actions/deploy-server@main
         with:
           folder: 'dist'
           target: 'pages'
