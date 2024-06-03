@@ -11,6 +11,7 @@
     {
       "src": "assets/home/robot-hello.svg",
       "type": "image/png",
+      "sizes": "any",
       "purpose": "maskable any"
     }
   ]
