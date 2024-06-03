@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  output_path: /smart-campus-dashboard
+  output_path: ./smart-campus-dashboard
   baseHref: smart-campus-dashboard
   node-version: 18
 
@@ -39,6 +39,8 @@ jobs:
         with:
           folder: 'dist'
           target: 'pages'
+          output_path: ${{ env.output_path }}
+          pre_command: 'rm -r ${{ env.output_path }}'
 
       # - name: Load to Server
       #   uses: appleboy/scp-action@v0.1.4
