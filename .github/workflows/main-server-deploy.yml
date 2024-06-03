@@ -41,6 +41,9 @@ jobs:
           target: 'pages'
           output_path: ${{ env.output_path }}
           pre_command: 'rm -r ${{ env.output_path }}'
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # - name: Load to Server
       #   uses: appleboy/scp-action@v0.1.4
