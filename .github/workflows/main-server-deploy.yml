@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  outputPath: /smart-campus-dashboard
+  output_path: /smart-campus-dashboard
   baseHref: smart-campus-dashboard
   node-version: 18
 
