@@ -11,7 +11,7 @@ env:
   node-version: 18
 
 jobs:
-  deploy:
+  compile:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,12 +27,32 @@ jobs:
       - name: Install Dependencies
         run: yarn install --force
 
-      #compilando el proyecto y comprimiendo los archivos.
+      #Compilando el proyecto de angular
       - name: Build Angular App
         run: |
           yarn run build --configuration=production --base-href=/${{ env.baseHref }}/
-          # echo "Comprimiendo archivos..."
-          # tar -czf dist-${{ github.sha }}.tgz dist/
+
+      #sube el archivo comprimido a la nube de github para estar como un artefacto
+      - name: Archive Deployment
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+  #Carga el archivo en el servidor de producción
+  deploy_server:
+    needs: compile
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Download Deployment Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
 
       - name: Deploy to server
         uses: projects-mannulus/templates/.github/actions/deploy-server@main
@@ -45,35 +65,8 @@ jobs:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: Load to Server
-      #   uses: appleboy/scp-action@v0.1.4
-      #   with:
-      #     host: ${{ secrets.SERVER_HOST }}
-      #     username: ${{ secrets.SERVER_USERNAME }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     source: dist-${{ github.sha }}.tgz
-      #     target: ~/pages
-
-      # - name: Deploy on Server
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SERVER_HOST }}
-      #     username: ${{ secrets.SERVER_USERNAME }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       cd ~/pages
-      #       rm -r ${{ env.outputPath }}
-      #       tar -xzf dist-${{ github.sha }}.tgz --strip-components=1
-      #       rm dist-${{ github.sha }}.tgz
-
-      - name: Archive Deployment
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist
-
   docker_image:
-    needs: deploy
+    needs: compile
     environment: docker
     runs-on: ubuntu-latest
 
@@ -96,3 +89,25 @@ jobs:
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/smartcampusdashboard:${{ vars.DOCKER_TAG }}
 
+  github_pages:
+    needs: compile
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./dist/smart-campus-dashboard
