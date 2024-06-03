@@ -23,26 +23,6 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
           baseHref: ${{ env.baseHref }}
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: ${{ env.node-version }}
-
-      # #instalando dependencias de angular
-      # - name: Install Dependencies
-      #   run: yarn install --force
-
-      # #Compilando el proyecto de angular
-      # - name: Build Angular App
-      #   run: |
-      #     yarn run build --configuration=production --base-href=/${{ env.baseHref }}/
-
-      # #sube el archivo comprimido a la nube de github para estar como un artefacto
-      # - name: Archive Deployment
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: dist
-      #     path: dist
 
   #Carga el archivo en el servidor de producción
   deploy_server:
